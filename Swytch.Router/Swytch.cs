@@ -13,21 +13,41 @@ public class Swytch
     //registered routes
 
     private List<Route> _registeredRoutes = new List<Route>();
-    private List<Func<HttpListenerContext, Task>> _registeredMiddlewares = new();
+    private Queue<Func<HttpListenerContext, Task>> _registeredMiddlewares = new();
 
 
-    public void NotFound(HttpListenerContext context)
+    public void NotFound(HttpListenerContext requestContext)
     {
-        context.Response.StatusCode = (int)HttpStatusCode.NotFound;
         String responseBody = "NOT FOUND (404)";
-        Utilities.WriteStringToStream(context, responseBody);
+        ResponseWriter.WriteStringToStream(requestContext, responseBody, HttpStatusCode.NotFound);
     }
 
 
-    public void MethodNotAllowed(HttpListenerContext context)
+    public void MethodNotAllowed(HttpListenerContext requestContext)
     {
-        context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
         String responseBody = "METHOD NOT ALLOWED (405)";
-        Utilities.WriteStringToStream(context, responseBody);
+        ResponseWriter.WriteStringToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
+    }
+
+
+    //adds middleware in the order in which they were registered
+    public void UseAsMiddleWare(Func<HttpListenerContext, Task> middleware)
+    {
+        _registeredMiddlewares.Enqueue(middleware);
+    }
+
+
+    //register a url, http methods and a handler method
+    public void MapRoute(string methods, string url, Func<HttpListenerContext, Task> requestHandler)
+    {
+        String[] urlPath = url.Split("/");
+        String[] meths = methods.Split(",");
+
+        Route newRoute = new Route(requestHandler, urlPath);
+        foreach (String method in meths)
+        {
+            newRoute.methods.Add(method);
+        }
+
     }
 }
