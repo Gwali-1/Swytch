@@ -7,7 +7,7 @@ and match inbound http request with this info.
 The router ie `Swytch` will basically work by intercepting  incoming requests , retrieve the url path from the `Http Context` object and match it against the set of registered routes.
 If route is matched , the associated method is called and if not appropriate response is communicated to the client.
 
-**Why**
+**Why?**
 
 Motivations for this project may  vary
 - An http router project is currently my favourite kind of project to undertake in a language.
