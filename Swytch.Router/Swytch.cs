@@ -37,13 +37,14 @@ public class Swytch
         return queryParams;
     }
 
-    private (bool, HttpListenerContext) Matchurl(string url, Route r, HttpListenerContext c)
+    private (bool, RequestContext) MatchUrl(string url, Route r, HttpListenerContext c)
     {
         Dictionary<string, string> pathParams = new();
+        RequestContext nc = new RequestContext(c);
         string[] urlSegements = url.Split("/");
         if (urlSegements.Length != r.urlPath.Length)
         {
-            return (false, c);
+            return (false, nc);
         }
 
         for (int i = 0; i < r.urlPath.Length; i++)
@@ -60,18 +61,23 @@ public class Swytch
 
                 }
 
-                return (false, c);
-            }
-
-            if(r.urlPath[i] ! = urlSegements[i]){
-                return (false, c);
+                return (false, nc);
             }
 
 
+            if (urlSegements[i] != r.urlPath[i])
+            {
+                return (false, nc);
+
+            }
         }
 
-        HttpListenerContext newContext = new  HttpListenerContext(c);
-        newContext.Path = pathParams;
+        RequestContext newContext = new RequestContext(c);
+        Dictionary<string, string> queryParams = GetQueryParams(c);
+
+        newContext.PathParams = pathParams;
+        newContext.QueryParams = queryParams;
+
 
         return (true, newContext);
 
@@ -117,11 +123,15 @@ public class Swytch
 
     }
 
+
+
     private async Task SwytchHandler(HttpListenerContext r)
     {
         //impleentation("router matching logic here")
         await Task.Delay(0);
     }
+
+
 
 
     public Func<HttpListenerContext, Task> GetSwytchHandler()
