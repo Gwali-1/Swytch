@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Specialized;
+using System.Net;
 using Swytch.Structures;
 
 using Swytch.Utilies;
@@ -11,10 +12,29 @@ public class Swytch
 {
 
     //registered routes
-
     private List<Route> _registeredRoutes = new List<Route>();
     private Queue<Func<HttpListenerContext, Task>> _registeredMiddlewares = new();
+    private Func<HttpListenerContext, Task>? _swytchHandler;
 
+    public Swytch() { }
+
+
+
+    private Dictionary<string,string> loadQueryParams (HttpListenerContext r){
+
+        Dictionary<string,string> queryParams = new();
+         NameValueCollection qParams = r.Request.QueryString;
+        if(qParams.Count <= 0){
+            return queryParams;
+        }
+
+        foreach(var key in qParams.AllKeys){
+            queryParams[key] = qParams[key] ?? "";
+        }
+
+        return queryParams;
+
+    }
 
     public void NotFound(HttpListenerContext requestContext)
     {
@@ -48,6 +68,31 @@ public class Swytch
         {
             newRoute.methods.Add(method);
         }
+        _registeredRoutes.Add(newRoute);
 
+    }
+
+    private async Task SwytchHandler(HttpListenerContext r)
+    {
+        //impleentation("router matching logic here")
+        await Task.Delay(0);
+    }
+
+
+    public Func<HttpListenerContext, Task> GetSwytchHandler()
+    {
+        if (_swytchHandler == null)
+        {
+            Swytch swytchInstance = new Swytch();
+            Func<HttpListenerContext, Task> handler = swytchInstance.SwytchHandler;
+
+            foreach (var f in _registeredMiddlewares)
+            {
+                handler = f + handler;
+            }
+            _swytchHandler = handler;
+        }
+
+        return _swytchHandler;
     }
 }
