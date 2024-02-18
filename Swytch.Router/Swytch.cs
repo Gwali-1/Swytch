@@ -20,21 +20,66 @@ public class Swytch
 
 
 
-    private Dictionary<string,string> loadQueryParams (HttpListenerContext r){
+    private Dictionary<string, string> GetQueryParams(HttpListenerContext c)
+    {
 
-        Dictionary<string,string> queryParams = new();
-         NameValueCollection qParams = r.Request.QueryString;
-        if(qParams.Count <= 0){
+        Dictionary<string, string> queryParams = new();
+        NameValueCollection qParams = c.Request.QueryString;
+        if (qParams.Count <= 0)
+        {
             return queryParams;
         }
 
-        foreach(var key in qParams.AllKeys){
+        foreach (var key in qParams.AllKeys)
+        {
             queryParams[key] = qParams[key] ?? "";
         }
-
         return queryParams;
+    }
+
+    private (bool, HttpListenerContext) Matchurl(string url, Route r, HttpListenerContext c)
+    {
+        Dictionary<string, string> pathParams = new();
+        string[] urlSegements = url.Split("/");
+        if (urlSegements.Length != r.urlPath.Length)
+        {
+            return (false, c);
+        }
+
+        for (int i = 0; i < r.urlPath.Length; i++)
+        {
+            if (r.urlPath[i].StartsWith("{") && r.urlPath[i].EndsWith("}"))
+            {
+                if (!(string.IsNullOrWhiteSpace(urlSegements[i])))
+                {
+                    char[] trimChars = { '{', '}' };
+                    string key = r.urlPath[i].Trim(trimChars);
+
+                    pathParams[key] = urlSegements[i];
+                    continue;
+
+                }
+
+                return (false, c);
+            }
+
+            if(r.urlPath[i] ! = urlSegements[i]){
+                return (false, c);
+            }
+
+
+        }
+
+        HttpListenerContext newContext = new  HttpListenerContext(c);
+        newContext.Path = pathParams;
+
+        return (true, newContext);
+
 
     }
+
+
+
 
     public void NotFound(HttpListenerContext requestContext)
     {

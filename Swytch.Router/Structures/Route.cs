@@ -10,8 +10,8 @@ using System.Net;
 
 class Route
 {
-    string[] urlPath;
-    Func<HttpListenerContext, Task> requestHandler;
+    public string[] urlPath;
+    public Func<HttpListenerContext, Task> requestHandler;
     public List<string> methods = new List<string>();
 
    public  Route(Func<HttpListenerContext, Task> handler, string[] path)
