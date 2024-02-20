@@ -8,13 +8,13 @@ using System.Net;
 //The http methods to match and call the requestHandler for
 //And the http Handler which is a Delegate Which  takes in HttpListnerContext as argument and returns Task
 
-class Route
+internal class Route
 {
-    public string[] urlPath;
-    public Func<HttpListenerContext, Task> requestHandler;
-    public List<string> methods = new List<string>();
+    internal string[] urlPath;
+    internal Func<HttpListenerContext, Task> requestHandler;
+    internal List<string> methods = new List<string>();
 
-   public  Route(Func<HttpListenerContext, Task> handler, string[] path)
+    internal Route(Func<HttpListenerContext, Task> handler, string[] path)
     {
         urlPath = path;
         requestHandler = handler;

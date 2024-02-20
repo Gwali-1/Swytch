@@ -3,16 +3,16 @@ using System.Net;
 namespace Swytch.Structures;
 
 
-class RequestContext
+internal class RequestContext
 {
 
-    public HttpListenerRequest Request;
-    public HttpListenerResponse Response;
-    public System.Security.Principal.IPrincipal? User;
-    public Dictionary<string, string>? PathParams ;
-    public Dictionary<string, string>?  QueryParams ;
+    internal HttpListenerRequest Request;
+    internal HttpListenerResponse Response;
+    internal System.Security.Principal.IPrincipal? User;
+    internal Dictionary<string, string>? PathParams;
+    internal Dictionary<string, string>? QueryParams;
 
-    public RequestContext(HttpListenerContext c)
+    internal RequestContext(HttpListenerContext c)
     {
         Request = c.Request;
         Response = c.Response;
