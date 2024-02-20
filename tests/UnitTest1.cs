@@ -1,4 +1,6 @@
 namespace tests;
+using Swytch.Router;
+using Swytch.Structures;
 
 public class UnitTest1
 {
