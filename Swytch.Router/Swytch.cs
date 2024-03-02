@@ -90,14 +90,14 @@ public class Swytch
     public void NotFound(HttpListenerContext requestContext)
     {
         String responseBody = "NOT FOUND (404)";
-        ResponseWriter.WriteStringToStream(requestContext, responseBody, HttpStatusCode.NotFound);
+        Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.NotFound);
     }
 
 
     public void MethodNotAllowed(HttpListenerContext requestContext)
     {
         String responseBody = "METHOD NOT ALLOWED (405)";
-        ResponseWriter.WriteStringToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
+        Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
     }
 
 
@@ -134,12 +134,11 @@ public class Swytch
 
 
 
-    public Func<HttpListenerContext, Task> GetSwytchHandler()
+    private Func<HttpListenerContext, Task> GetSwytchHandler()
     {
         if (_swytchHandler == null)
         {
-            Swytch swytchInstance = new Swytch();
-            Func<HttpListenerContext, Task> handler = swytchInstance.SwytchHandler;
+            Func<HttpListenerContext, Task> handler = this.SwytchHandler;
 
             foreach (var f in _registeredMiddlewares)
             {
@@ -149,5 +148,32 @@ public class Swytch
         }
 
         return _swytchHandler;
+    }
+
+    public async void Listen(string addr)
+    {
+        //server implementation here 
+        try
+        {
+            HttpListener server = new HttpListener();
+            server.Prefixes.Add(addr);
+            server.Start();
+            Console.WriteLine($"Server is live at {addr}");
+
+            while (true)
+            {
+                HttpListenerContext ctx = await server.GetContextAsync();
+                Func<HttpListenerContext, Task> hndler = this.GetSwytchHandler();
+                _ = hndler(ctx);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Server could not be started, Error ocured ");
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.StackTrace);
+
+        }
+
     }
 }

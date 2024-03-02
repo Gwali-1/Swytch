@@ -3,9 +3,9 @@ using System.Net;
 namespace Swytch.Utilies;
 
 
-public class ResponseWriter
+public class Utilities 
 {
-    public ResponseWriter() { }
+    public Utilities() { }
 
     public static void WriteStringToStream(HttpListenerContext context, string payload, HttpStatusCode status)
     {
@@ -14,6 +14,7 @@ public class ResponseWriter
         context.Response.ContentLength64 = responseBuffer.Length;
         using System.IO.Stream writer = context.Response.OutputStream;
         writer.Write(responseBuffer, 0, responseBuffer.Length);
+        writer.Dispose();
     }
 
 }
