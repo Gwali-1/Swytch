@@ -72,17 +72,48 @@ public class Swytch
             }
         }
 
-        RequestContext newContext = new RequestContext(c);
         Dictionary<string, string> queryParams = GetQueryParams(c);
 
-        newContext.PathParams = pathParams;
-        newContext.QueryParams = queryParams;
+        nc.PathParams = pathParams;
+        nc.QueryParams = queryParams;
 
 
-        return (true, newContext);
+        return (true, nc);
 
 
     }
+
+
+
+
+    private async Task SwytchHandler(HttpListenerContext c)
+    {
+
+        string url = c.Request.Url.AbsolutePath;
+
+        foreach (Route r in _registeredRoutes)
+        {
+            var (matched, context) = MatchUrl(url, r, c);
+            if (matched)
+            {
+                if (r.methods.Contains(c.Request.HttpMethod))
+                {
+                    _ = r.requestHandler(context);
+                    return;
+
+                }
+                //return with methof not allowed
+                MethodNotAllowed(c);
+                return;
+            }
+
+        }
+
+        MethodNotAllowed(c);
+
+        await Task.CompletedTask;
+    }
+
 
 
 
@@ -109,7 +140,7 @@ public class Swytch
 
 
     //register a url, http methods and a handler method
-    public void MapRoute(string methods, string url, Func<HttpListenerContext, Task> requestHandler)
+    public void MapRoute(string methods, string url, Func<RequestContext, Task> requestHandler)
     {
         String[] urlPath = url.Split("/");
         String[] meths = methods.Split(",");
@@ -122,17 +153,6 @@ public class Swytch
         _registeredRoutes.Add(newRoute);
 
     }
-
-
-
-    private async Task SwytchHandler(HttpListenerContext r)
-    {
-        //impleentation("router matching logic here")
-        await Task.Delay(0);
-    }
-
-
-
 
     private Func<HttpListenerContext, Task> GetSwytchHandler()
     {

@@ -1,6 +1,5 @@
 namespace Swytch.Structures;
 
-using System.Net;
 
 
 //The represents a Route object which contains
@@ -11,10 +10,10 @@ using System.Net;
 internal class Route
 {
     internal string[] urlPath;
-    internal Func<HttpListenerContext, Task> requestHandler;
+    internal Func<RequestContext, Task> requestHandler;
     internal List<string> methods = new List<string>();
 
-    internal Route(Func<HttpListenerContext, Task> handler, string[] path)
+    internal Route(Func<RequestContext, Task> handler, string[] path)
     {
         urlPath = path;
         requestHandler = handler;
