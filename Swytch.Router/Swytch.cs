@@ -1,7 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Net;
 using Swytch.Structures;
-
 using Swytch.Utilies;
 
 namespace Swytch.Router;
@@ -20,6 +19,70 @@ public class Swytch
 
 
 
+    public async Task NotFound(RequestContext requestContext)
+    {
+        String responseBody = "NOT FOUND (404)";
+        await Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.NotFound);
+    }
+
+
+    public async Task MethodNotAllowed(RequestContext requestContext)
+    {
+        String responseBody = "METHOD NOT ALLOWED (405)";
+        await Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
+    }
+
+
+    //adds middleware in the order in which they were registered
+    public void UseAsMiddleWare(Func<RequestContext, Task> middleware)
+    {
+        _registeredMiddlewares.Enqueue(middleware);
+    }
+
+
+    //register a url, http methods and a handler method
+    public void MapRoute(string methods, string url, Func<RequestContext, Task> requestHandler)
+    {
+        String[] urlPath = url.Split("/");
+        String[] meths = methods.Split(",");
+
+        Route newRoute = new Route(requestHandler, urlPath);
+        foreach (String method in meths)
+        {
+            newRoute.methods.Add(method);
+        }
+        _registeredRoutes.Add(newRoute);
+
+    }
+
+
+    public async Task Listen(string addr)
+    {
+        try
+        {
+            HttpListener server = new HttpListener();
+            server.Prefixes.Add(addr);
+            server.Start();
+            Console.WriteLine($"Server is live at {addr}");
+
+            while (true)
+            {
+                HttpListenerContext ctx = await server.GetContextAsync();
+                Func<HttpListenerContext, Task> hndler = this.GetSwytchHandler();
+                await hndler(ctx);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Server Stopped Unexpectedly ");
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.StackTrace);
+
+        }
+
+    }
+
+
     private Dictionary<string, string> GetQueryParams(HttpListenerContext c)
     {
 
@@ -32,10 +95,15 @@ public class Swytch
 
         foreach (var key in qParams.AllKeys)
         {
-            queryParams[key] = qParams[key] ?? "";
+            if (key is not null)
+            {
+
+                queryParams[key] = qParams[key] ?? "";
+            }
         }
         return queryParams;
     }
+
 
     private (bool, RequestContext) MatchUrl(string url, Route r, HttpListenerContext c)
     {
@@ -85,7 +153,6 @@ public class Swytch
 
 
 
-
     private async Task SwytchHandler(HttpListenerContext c)
     {
 
@@ -98,61 +165,20 @@ public class Swytch
             {
                 if (r.methods.Contains(c.Request.HttpMethod))
                 {
-                    _ = r.requestHandler(context);
+                    await  r.requestHandler(context);
                     return;
-
                 }
                 //return with methof not allowed
-                MethodNotAllowed(c);
+                await MethodNotAllowed(c);
                 return;
             }
 
         }
 
-        MethodNotAllowed(c);
-
-        await Task.CompletedTask;
+        await NotFound(c);
     }
 
 
-
-
-
-    public void NotFound(HttpListenerContext requestContext)
-    {
-        String responseBody = "NOT FOUND (404)";
-        Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.NotFound);
-    }
-
-
-    public void MethodNotAllowed(HttpListenerContext requestContext)
-    {
-        String responseBody = "METHOD NOT ALLOWED (405)";
-        Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
-    }
-
-
-    //adds middleware in the order in which they were registered
-    public void UseAsMiddleWare(Func<HttpListenerContext, Task> middleware)
-    {
-        _registeredMiddlewares.Enqueue(middleware);
-    }
-
-
-    //register a url, http methods and a handler method
-    public void MapRoute(string methods, string url, Func<RequestContext, Task> requestHandler)
-    {
-        String[] urlPath = url.Split("/");
-        String[] meths = methods.Split(",");
-
-        Route newRoute = new Route(requestHandler, urlPath);
-        foreach (String method in meths)
-        {
-            newRoute.methods.Add(method);
-        }
-        _registeredRoutes.Add(newRoute);
-
-    }
 
     private Func<HttpListenerContext, Task> GetSwytchHandler()
     {
@@ -168,32 +194,5 @@ public class Swytch
         }
 
         return _swytchHandler;
-    }
-
-    public async void Listen(string addr)
-    {
-        //server implementation here 
-        try
-        {
-            HttpListener server = new HttpListener();
-            server.Prefixes.Add(addr);
-            server.Start();
-            Console.WriteLine($"Server is live at {addr}");
-
-            while (true)
-            {
-                HttpListenerContext ctx = await server.GetContextAsync();
-                Func<HttpListenerContext, Task> hndler = this.GetSwytchHandler();
-                _ = hndler(ctx);
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Server could not be started, Error ocured ");
-            Console.WriteLine(e.Message);
-            Console.WriteLine(e.StackTrace);
-
-        }
-
     }
 }

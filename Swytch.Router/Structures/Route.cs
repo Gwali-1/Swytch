@@ -2,10 +2,10 @@ namespace Swytch.Structures;
 
 
 
-//The represents a Route object which contains
+//This a Route object which contains
 //Url path as a list of strings
 //The http methods to match and call the requestHandler for
-//And the http Handler which is a Delegate Which  takes in HttpListnerContext as argument and returns Task
+//And the http Handler which is a Delegate Which  takes in RequestContext as argument and returns Task
 
 internal class Route
 {
