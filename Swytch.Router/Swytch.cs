@@ -12,15 +12,14 @@ public class Swytch
 
     //registered routes
     private List<Route> _registeredRoutes = new List<Route>();
-    private Queue<Func<HttpListenerContext, Task>> _registeredMiddlewares = new();
-    private Func<HttpListenerContext, Task>? _swytchHandler;
+    private Queue<Func<RequestContext, Task>> _registeredMiddlewares = new();
+    private Func<RequestContext, Task>? _swytchHandler;
 
     public Swytch() { }
 
 
 
-    public async Task NotFound(RequestContext requestContext)
-    {
+    public async Task NotFound(RequestContext requestContext){
         String responseBody = "NOT FOUND (404)";
         await Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.NotFound);
     }
@@ -68,22 +67,22 @@ public class Swytch
             while (true)
             {
                 HttpListenerContext ctx = await server.GetContextAsync();
-                Func<HttpListenerContext, Task> hndler = this.GetSwytchHandler();
-                await hndler(ctx);
+                Func<RequestContext, Task> hndler = this.GetSwytchHandler();
+                await hndler(new RequestContext(ctx));
             }
         }
         catch (Exception e)
         {
             Console.WriteLine("Server Stopped Unexpectedly ");
             Console.WriteLine(e.Message);
-            Console.WriteLine(e.StackTrace);
+            throw;
 
         }
 
     }
 
 
-    private Dictionary<string, string> GetQueryParams(HttpListenerContext c)
+    private Dictionary<string, string> GetQueryParams(RequestContext c)
     {
 
         Dictionary<string, string> queryParams = new();
@@ -105,14 +104,13 @@ public class Swytch
     }
 
 
-    private (bool, RequestContext) MatchUrl(string url, Route r, HttpListenerContext c)
+    private (bool, RequestContext) MatchUrl(string url, Route r, RequestContext c)
     {
         Dictionary<string, string> pathParams = new();
-        RequestContext nc = new RequestContext(c);
         string[] urlSegements = url.Split("/");
         if (urlSegements.Length != r.urlPath.Length)
         {
-            return (false, nc);
+            return (false, c);
         }
 
         for (int i = 0; i < r.urlPath.Length; i++)
@@ -129,31 +127,31 @@ public class Swytch
 
                 }
 
-                return (false, nc);
+                return (false,c);
             }
 
 
             if (urlSegements[i] != r.urlPath[i])
             {
-                return (false, nc);
+                return (false, c);
 
             }
         }
 
         Dictionary<string, string> queryParams = GetQueryParams(c);
 
-        nc.PathParams = pathParams;
-        nc.QueryParams = queryParams;
+        c.PathParams = pathParams;
+        c.QueryParams = queryParams;
 
 
-        return (true, nc);
+        return (true, c);
 
 
     }
 
 
 
-    private async Task SwytchHandler(HttpListenerContext c)
+    private async Task SwytchHandler(RequestContext c)
     {
 
         string url = c.Request.Url.AbsolutePath;
@@ -180,11 +178,11 @@ public class Swytch
 
 
 
-    private Func<HttpListenerContext, Task> GetSwytchHandler()
+    private Func<RequestContext, Task> GetSwytchHandler()
     {
         if (_swytchHandler == null)
         {
-            Func<HttpListenerContext, Task> handler = this.SwytchHandler;
+            Func<RequestContext, Task> handler = this.SwytchHandler;
 
             foreach (var f in _registeredMiddlewares)
             {

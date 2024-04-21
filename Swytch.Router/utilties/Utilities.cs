@@ -1,5 +1,5 @@
 using System.Net;
-using Swytch.Structues;
+using Swytch.Structures;
 
 namespace Swytch.Utilies;
 
@@ -13,7 +13,7 @@ public class Utilities
         context.Response.StatusCode = (int)status;
         byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(payload);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Respomse.ContentType = "text/html"
+        context.Response.ContentType = "text/html";
         using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer, 0, responseBuffer.Length);
     }
