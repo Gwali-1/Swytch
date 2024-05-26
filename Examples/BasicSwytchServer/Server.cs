@@ -29,11 +29,16 @@ var login = async (RequestContext ctx) =>
 {
     await Utilities.WriteStringToStream(ctx, "<h1>LOGIN</h1>", HttpStatusCode.OK);
 };
+var serve = async (RequestContext ctx) =>
+{
+    await Utilities.ServeFile("NewFile1.html", ctx, HttpStatusCode.OK);
+};
 
 
 server.AddMiddleWare(logger);
 server.AddAction("GET", "/", home);
 server.AddAction("GET", "/profile/", profile);
 server.AddAction("GET", "/login", login);
+server.AddAction("GET", "/serve", serve);
 
 await server.Listen("http://127.0.0.1:8080/");

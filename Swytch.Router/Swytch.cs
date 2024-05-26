@@ -11,6 +11,7 @@ public class Swytch
     private readonly List<Route> _registeredRoutes = new List<Route>();
     private readonly Queue<Func<RequestContext, Task>> _registeredMiddlewares = new();
     private Func<RequestContext, Task>? _swytchHandler;
+    private readonly Dictionary<string, byte[]> _staticFiles = new();
 
 
     //adds middleware in the order in which they were registered
@@ -185,4 +186,6 @@ public class Swytch
 
         return _swytchHandler;
     }
+
+   
 }
