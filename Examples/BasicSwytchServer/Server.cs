@@ -10,7 +10,6 @@ swytch.Swytch server = new swytch.Swytch();
 //middlewares
 var logger = async (RequestContext ctx) =>
 {
-    
     Console.WriteLine($"{ctx.Request.HttpMethod}    {ctx.Request.Url?.AbsolutePath}    {DateTime.UtcNow}");
 };
 
