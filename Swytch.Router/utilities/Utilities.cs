@@ -1,26 +1,22 @@
 using System.Net;
-using Swytch.Structures;
+using Swytch.Router.Structures;
+using Swytch.Router.Structures;
 
-namespace Swytch.Utilies;
+namespace Swytch.Router.utilities;
 
-
-public class Utilities
+public static class Utilities
 {
-    public Utilities() { }
-
     public static async Task WriteStringToStream(RequestContext context, string payload, HttpStatusCode status)
     {
         context.Response.StatusCode = (int)status;
         byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(payload);
         context.Response.ContentLength64 = responseBuffer.Length;
         context.Response.ContentType = "text/html";
-        using System.IO.Stream writer = context.Response.OutputStream;
-        await writer.WriteAsync(responseBuffer, 0, responseBuffer.Length);
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
     }
-
-
-    //method to writem json to output stream
-    //method to return html document 
-
+    
+    
+    
 
 }

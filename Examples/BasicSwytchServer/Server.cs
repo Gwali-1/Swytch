@@ -1,6 +1,7 @@
 ﻿using System.Net;
-using Swytch.Structures;
-using Swytch.Utilies;
+using Swytch.Router.Structures;
+using Swytch.Router.utilities;
+using Swytch.Router.Structures;
 using swytch = Swytch.Router;
 
 swytch.Swytch server = new swytch.Swytch();
@@ -9,8 +10,8 @@ swytch.Swytch server = new swytch.Swytch();
 //middlewares
 var logger = async (RequestContext ctx) =>
 {
+    
     Console.WriteLine($"{ctx.Request.HttpMethod}    {ctx.Request.Url?.AbsolutePath}    {DateTime.UtcNow}");
-
 };
 
 //handlers
@@ -31,9 +32,9 @@ var login = async (RequestContext ctx) =>
 };
 
 
-server.UseAsMiddleWare(logger);
-server.MapRoute("GET", "/", home);
-server.MapRoute("GET", "/profile", profile);
-server.MapRoute("GET", "/login", login);
+server.AddMiddleWare(logger);
+server.AddAction("GET", "/", home);
+server.AddAction("GET", "/profile/", profile);
+server.AddAction("GET", "/login", login);
 
 await server.Listen("http://127.0.0.1:8080/");

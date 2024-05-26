@@ -1,21 +1,22 @@
-namespace Swytch.Structures;
+using Swytch.Router.Structures;
 
+namespace Swytch.Router.Structures;
 
-
-//This a Route object which contains
-//Url path as a list of strings
-//The http methods to match and call the requestHandler for
-//And the http Handler which is a Delegate Which  takes in RequestContext as argument and returns Task
+/*This a Route object. It represents in a sense the route a request should take.
+For this reason it contains all essential information to identify the request which is expected to use it.
+Like the url path of the request that should come through, the Http method and ultimately the request handling method that will be called .
+The Http  request handler is a Delegate which  takes in RequestContext as argument and returns Task. Any method that matches this signature can be registered
+as handler for a route*/
 
 internal class Route
 {
-    internal string[] urlPath;
-    internal Func<RequestContext, Task> requestHandler;
-    internal List<string> methods = new List<string>();
+    internal string[] UrlPath;
+    internal Func<RequestContext, Task> RequestHandler;
+    internal List<string> Methods = new List<string>();
 
     internal Route(Func<RequestContext, Task> handler, string[] path)
     {
-        urlPath = path;
-        requestHandler = handler;
+        UrlPath = path;
+        RequestHandler = handler;
     }
 }
