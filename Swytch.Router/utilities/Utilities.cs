@@ -28,7 +28,7 @@ public static class Utilities
 
     public static async Task WriteJsonToStream<T>(this T @object, RequestContext context, HttpStatusCode status)
     {
-        //check if it is  not an object/ class
+        //check if it is  not an object/ class?
         context.Response.StatusCode = (int)status;
         byte[] responseBuffer =
             @object is null
@@ -44,9 +44,6 @@ public static class Utilities
     public static async Task ServeFile(string filename, RequestContext context, HttpStatusCode status)
     {
         string filePath = Path.Combine(Constant.Wkdir, filename);
-
-        var x = Path.GetExtension(filePath);
-
         string contentType = Path.GetExtension(filePath) switch
         {
             ".html" => "text/html",

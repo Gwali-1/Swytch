@@ -56,7 +56,7 @@ public class Swytch
         }
         catch (ArgumentException)
         {
-            Console.WriteLine("Make sure address provided matches scheme http:// or https://");
+            Console.WriteLine("Make sure address provided matches scheme http:// or https:// or ends with /");
             throw;
         }
         catch (Exception e)

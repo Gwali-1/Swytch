@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Ryu",
+    "fighting_style": "Ansatsuken",
+    "origin_country": "Japan",
+    "health_points": 1000,
+    "special_moves": [
+      "Hadouken",
+      "Shoryuken",
+      "Tatsumaki Senpukyaku"
+    ]
+  },
+  {
+    "name": "Chun-Li",
+    "fighting_style": "Chinese Martial Arts",
+    "origin_country": "China",
+    "health_points": 950,
+    "special_moves": [
+      "Spinning Bird Kick",
+      "Hyakuretsukyaku",
+      "Kikoken"
+    ]
+  },
+  {
+    "name": "Ken",
+    "fighting_style": "Ansatsuken",
+    "origin_country": "USA",
+    "health_points": 1000,
+    "special_moves": [
+      "Hadouken",
+      "Shoryuken",
+      "Tatsumaki Senpukyaku"
+    ]
+  },
+  {
+    "name": "Guile",
+    "fighting_style": "Military Combat",
+    "origin_country": "USA",
+    "health_points": 980,
+    "special_moves": [
+      "Sonic Boom",
+      "Flash Kick"
+    ]
+  },
+  {
+    "name": "M. Bison",
+    "fighting_style": "Psycho Power",
+    "origin_country": "Unknown",
+    "health_points": 1100,
+    "special_moves": [
+      "Psycho Crusher",
+      "Scissor Kick",
+      "Head Press"
+    ]
+  }
+]

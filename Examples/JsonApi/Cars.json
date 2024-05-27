@@ -1,0 +1,37 @@
+[
+  {
+    "make": "Tesla",
+    "model": "Model S",
+    "year": 2022,
+    "isElectric": true,
+    "mileage": 15000
+  },
+  {
+    "make": "Ford",
+    "model": "Mustang",
+    "year": 2020,
+    "isElectric": false,
+    "mileage": 30000
+  },
+  {
+    "make": "Chevrolet",
+    "model": "Bolt EV",
+    "year": 2021,
+    "isElectric": true,
+    "mileage": 12000
+  },
+  {
+    "make": "Toyota",
+    "model": "Camry",
+    "year": 2019,
+    "isElectric": false,
+    "mileage": 45000
+  },
+  {
+    "make": "Nissan",
+    "model": "Leaf",
+    "year": 2023,
+    "isElectric": true,
+    "mileage": 5000
+  }
+]

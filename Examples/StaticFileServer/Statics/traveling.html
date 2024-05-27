@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Booking Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-control {
+            margin-bottom: 10px;
+        }
+        .form-control label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-control input, .form-control select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-control button {
+            background: #333;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-control button:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Travel Booking Site</h1>
+</header>
+
+<div class="container">
+    <form id="booking-form">
+        <div class="form-control">
+            <label for="departure">Departure City:</label>
+            <input type="text" id="departure" name="departure" required>
+        </div>
+        <div class="form-control">
+            <label for="destination">Destination City:</label>
+            <input type="text" id="destination" name="destination" required>
+        </div>
+        <div class="form-control">
+            <label for="departure-date">Departure Date:</label>
+            <input type="date" id="departure-date" name="departure-date" required>
+        </div>
+        <div class="form-control">
+            <label for="return-date">Return Date:</label>
+            <input type="date" id="return-date" name="return-date">
+        </div>
+        <div class="form-control">
+            <label for="passengers">Number of Passengers:</label>
+            <input type="number" id="passengers" name="passengers" min="1" required>
+        </div>
+        <div class="form-control">
+            <button type="submit">Search Flights</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
