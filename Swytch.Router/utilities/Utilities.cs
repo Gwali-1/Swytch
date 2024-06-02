@@ -10,7 +10,8 @@ internal static class Constant
 {
     public static string Text { get; } = "text/html";
     public static string Json { get; } = "application/json";
-    public static string Wkdir { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Statics");
+    public static string StaticsDir { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Statics");
+    public static string NotFound { get; } = "NOT FOUND(404";
 }
 
 public static class Utilities
@@ -28,28 +29,24 @@ public static class Utilities
 
     public static async Task WriteJsonToStream<T>(this T @object, RequestContext context, HttpStatusCode status)
     {
-        //check if it is  not an object/ class?
         context.Response.StatusCode = (int)status;
-        byte[] responseBuffer =
-            @object is null
-                ? System.Text.Encoding.UTF8.GetBytes("{}")
-                : System.Text.Encoding.UTF8.GetBytes(JsonSerializer.Serialize<T>(@object));
         context.Response.ContentType = Constant.Json;
-        context.Response.ContentLength64 = responseBuffer.Length;
         await using Stream writer = context.Response.OutputStream;
-        await writer.WriteAsync(responseBuffer);
+        await JsonSerializer.SerializeAsync(writer,
+            @object); //asynchronously write to the output stream instead(of doing blocking serializing before
+        //writing) 
     }
 
 
     public static async Task ServeFile(string filename, RequestContext context, HttpStatusCode status)
     {
-        string filePath = Path.Combine(Constant.Wkdir, filename);
+        string filePath = Path.Combine(Constant.StaticsDir, filename);
         string contentType = Path.GetExtension(filePath) switch
         {
             ".html" => "text/html",
             _ => "text/plain",
         };
-        int bufferSize = 4096;
+        int bufferSize = 4096; //4kb
         byte[] fileContent = new byte[bufferSize];
         try
         {
@@ -68,7 +65,7 @@ public static class Utilities
         }
         catch (FileNotFoundException)
         {
-            await WriteStringToStream(context, "NOT FOUND(404)", HttpStatusCode.NotFound);
+            await WriteStringToStream(context, Constant.NotFound, HttpStatusCode.NotFound);
         }
     }
 }
