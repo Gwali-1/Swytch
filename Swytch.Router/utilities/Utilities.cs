@@ -14,8 +14,18 @@ internal static class Constant
     public static string NotFound { get; } = "NOT FOUND(404";
 }
 
+
+/// <summary>
+/// The Utilities class is meant to expose a set of helpful static methods that help perform certain tasks for convenience.
+/// </summary>
 public static class Utilities
 {
+    /// <summary>
+    /// Writes a string as an http response setting to response status code to the one provided.
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="payload">The string payload to send</param>
+    /// <param name="status">The response status code to set</param>
     public static async Task WriteStringToStream(RequestContext context, string payload, HttpStatusCode status)
     {
         context.Response.StatusCode = (int)status;
@@ -27,6 +37,13 @@ public static class Utilities
     }
 
 
+    /// <summary>
+    /// Asynchronously serializes and writes an object as http json response
+    /// </summary>
+    /// <param name="object">Object being serialized</param>
+    /// <param name="context">The current request context</param>
+    /// <param name="status">The response status code to set</param>
+    /// <typeparam name="T">Generic type parameter</typeparam>
     public static async Task WriteJsonToStream<T>(this T @object, RequestContext context, HttpStatusCode status)
     {
         context.Response.StatusCode = (int)status;
@@ -37,7 +54,12 @@ public static class Utilities
         //writing) 
     }
 
-
+/// <summary>
+/// Asynchronously reads and serves the contents of static files from the static directory in the base directroy in which the application is running
+/// </summary>
+/// <param name="filename">The name of the file without the extension. eg catnames instead of catnames.txt</param>
+/// <param name="context">The current request context</param>
+/// <param name="status">The response status </param>
     public static async Task ServeFile(string filename, RequestContext context, HttpStatusCode status)
     {
         string filePath = Path.Combine(Constant.StaticsDir, filename);

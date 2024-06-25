@@ -5,6 +5,12 @@ using Swytch.Router.utilities;
 
 namespace Swytch.Router;
 
+/// <summary>
+/// The Swytch class is the entry point to the framework library. An instance of this type exposes public APIs for that allow you
+/// to register your middlewares , request handling methods , start the server etc. There is an internal routing implementation that handles
+/// calling middlewares in the order they were registered and calling the right methods for the right routes and http verbs.
+/// call Listen when done registering your handling logic and middlewares to start accepting and processing requests.
+/// </summary>
 public class Swytch
 {
     //registered routes
@@ -15,13 +21,23 @@ public class Swytch
 
 
     //adds middleware in the order in which they were registered
+    /// <summary>
+    /// Registers a method matching the handler signature as a middleware. The order in which the registration
+    /// is done matters .
+    /// </summary>
+    /// <param name="middleware">The middleware method(any method that takes in RequestContext and returns a task)</param>
     public void AddMiddleWare(Func<RequestContext, Task> middleware)
     {
         _registeredMiddlewares.Enqueue(middleware);
     }
 
 
-    //register a url, http methods and a handler method
+    /// <summary>
+    /// Registers http methods,url and the handler method 
+    /// </summary>
+    /// <param name="methods">The allowed http methods that the handler should be called for</param>
+    /// <param name="path">the url path that the handler should be called for</param>
+    /// <param name="requestHandler">The request handler</param>
     public void AddAction(string methods, string path, Func<RequestContext, Task> requestHandler)
     {
         string[] urlPath = path.Split("/");
@@ -38,6 +54,13 @@ public class Swytch
     }
 
 
+    /// <summary>
+    /// The Listen method starts the server 
+    /// </summary>
+    /// <param name="addr">The address the server should listen for incoming requests.
+    ///The address should be a URI prefix composed of a scheme ,host ,optional port ...
+    /// Prefix must end a forward slash. eg  http://localhost:8080/. read more https://learn.microsoft.com/en-us/dotnet/fundamentals/runtime-libraries/system-net-httplistener
+    /// /// </param>
     public async Task Listen(string addr)
     {
         try
@@ -175,7 +198,7 @@ public class Swytch
                 }
 
                 //return with method not allowed
-                c.Response.Headers.Set(HttpRequestHeader.Allow,string.Join("",r.Methods));
+                c.Response.Headers.Set(HttpRequestHeader.Allow, string.Join("", r.Methods));
                 await MethodNotAllowed(c);
                 return;
             }
@@ -185,6 +208,12 @@ public class Swytch
     }
 
 
+    /// <summary>
+    /// This method returns the the internal implementation of the router used in swytch.
+    /// It essentially returns the method used internally to handle routing and process the request pipeline
+    /// and is provided to aid in testing the routing logic for the library author and contibutors.
+    /// </summary>
+    /// <returns>The Swytch router method</returns>
     public Func<RequestContext, Task> GetSwytchRouter()
     {
         if (_swytchRouter == null)
