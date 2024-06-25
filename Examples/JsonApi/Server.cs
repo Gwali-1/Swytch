@@ -7,7 +7,7 @@ swytch server = new swytch();
 
 
 //logging middleware
-server.AddMiddleWare(async (RequestContext ctx) =>
+server.AddMiddleWare(async ctx =>
 {
     await Task.Delay(0);
     Console.WriteLine($"{ctx.Request.HttpMethod}    {ctx.Request.Url?.AbsolutePath}    {DateTime.UtcNow}");

@@ -4,7 +4,7 @@ namespace Swytch.Router.Structures;
 
 /*RequestContext class is a custom type that essentially wraps desired members of the HttpListenerContext class
 which in this case is the HttpListenerRequest, HttpListenerResponse, the IPrincipal object which  represents the current
-client whose request is being handled. Some additional members include the query abd path params properties which will hold all query and papth parameters supplied
+client whose request is being handled. Some additional members include the query abd path params properties which will hold all query and path parameters supplied
 in the request*/
 public class RequestContext
 {

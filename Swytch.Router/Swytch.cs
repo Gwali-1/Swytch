@@ -10,7 +10,7 @@ public class Swytch
     //registered routes
     private readonly List<Route> _registeredRoutes = new List<Route>();
     private readonly Queue<Func<RequestContext, Task>> _registeredMiddlewares = new();
-    private Func<RequestContext, Task>? _swytchHandler;
+    private Func<RequestContext, Task>? _swytchRouter;
     private readonly Dictionary<string, byte[]> _staticFiles = new();
 
 
@@ -50,8 +50,17 @@ public class Swytch
             while (true)
             {
                 HttpListenerContext ctx = await server.GetContextAsync();
-                Func<RequestContext, Task> hndler = GetSwytchHandler();
-                await hndler(new RequestContext(ctx));
+                Func<RequestContext, Task> hndler = GetSwytchRouter();
+                try
+                {
+                    _ = Task.Run(() => hndler(new RequestContext(ctx)));
+                }
+                catch (Exception e)
+                {
+                    await InternalServerError(new RequestContext(ctx));
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.StackTrace);
+                }
             }
         }
         catch (ArgumentException)
@@ -95,6 +104,11 @@ public class Swytch
         await Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.NotFound);
     }
 
+    private static async Task InternalServerError(RequestContext requestContext)
+    {
+        string responseBody = "INTERNAL SERVER ERROR (500)";
+        await Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.NotFound);
+    }
 
     private static async Task MethodNotAllowed(RequestContext requestContext)
     {
@@ -145,7 +159,7 @@ public class Swytch
     }
 
 
-    private async Task SwytchHandler(RequestContext c)
+    private async Task SwytchRouter(RequestContext c)
     {
         string url = c.Request.Url.AbsolutePath;
 
@@ -161,6 +175,7 @@ public class Swytch
                 }
 
                 //return with method not allowed
+                c.Response.Headers.Set(HttpRequestHeader.Allow,string.Join("",r.Methods));
                 await MethodNotAllowed(c);
                 return;
             }
@@ -170,22 +185,20 @@ public class Swytch
     }
 
 
-    private Func<RequestContext, Task> GetSwytchHandler()
+    public Func<RequestContext, Task> GetSwytchRouter()
     {
-        if (_swytchHandler == null)
+        if (_swytchRouter == null)
         {
-            Func<RequestContext, Task> handler = this.SwytchHandler;
+            Func<RequestContext, Task> handler = this.SwytchRouter;
 
-            foreach (var f in _registeredMiddlewares)
+            foreach (var m in _registeredMiddlewares)
             {
-                handler = f + handler;
+                handler = m + handler;
             }
 
-            _swytchHandler = handler;
+            _swytchRouter = handler;
         }
 
-        return _swytchHandler;
+        return _swytchRouter;
     }
-
-   
 }
