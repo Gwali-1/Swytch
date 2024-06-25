@@ -13,12 +13,12 @@ Motivations for this project may  vary
 - An http router project is currently my favourite kind of project to undertake in a language.
 - This project is to focus on C# as a language and not a gigantic famous framework for building applications for the web or whatever... And hopefully something useable enough to write personal Web projects in comes alive.
 
-    > I personally hate that spinning up a quick, simple and lightweight Api or even a static website using c# has all roads leading to ASP.Net core( or  something else).
-    > That's not what I'm looking for when i want to write a simple web project for myself for the purpose of learning or whatever use case .This is the best i can do in terms of giving a reason, i just want a lighter alternative where 
+    > I personally hate that spinning up a quick, simple and lightweight API or a static website in c# has all roads leading to ASP.Net core( or if something else i have no idea).
+     That's not what I'm looking for when i want to write a simple web project for myself for the purpose of learning or whatever use case .This is the best i can do in terms of giving a reason, i just want a lighter alternative where 
     i do much of the implementing myself. I want to keep `Swytch lighweight` and at they same time equip it with just enough features to get things moving quick.
-    > So yes ,explore i must because c#  seems interesting enough (yes it is ) which unfortunately is buried under the shadow of the amazing framework its composed of/ built with.
-    > I should be able to write a  simple Api which exposes 2 endpoints without going that route. A simple Library or micro framework which gives me just enough to work with is enough
-    > and  also this is mostly how i like to write personal projects. The option to use a feature rich , famous  framework will always be available, but not today!
+     So yes ,explore i must because c#  seems interesting enough (yes it is ) which unfortunately is buried under the shadow of the amazing framework its composed of/ built with.
+     I should be able to write a  simple API which exposes 2 endpoints without going that route. A simple Library or micro framework which gives me just enough to work with is enough
+     and also this is mostly how i like to write personal projects. The option to use a feature rich, famous  framework will always be available, but not today!
 
 - Why Not ?
 
