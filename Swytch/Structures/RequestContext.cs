@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Swytch.Router.Structures;
+namespace Swytch.Structures;
 
 /*RequestContext class is a custom type that essentially wraps desired members of the HttpListenerContext class
 which in this case is the HttpListenerRequest, HttpListenerResponse, the IPrincipal object which  represents the current

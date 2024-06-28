@@ -1,6 +1,6 @@
-using Swytch.Router.Structures;
+using Swytch.Structures;
 
-namespace Swytch.Router.Structures;
+namespace Swytch.Structures;
 
 /*This a Route object. It represents in a sense the route a request should take.
 For this reason it contains all essential information to identify the request which is expected to use it.

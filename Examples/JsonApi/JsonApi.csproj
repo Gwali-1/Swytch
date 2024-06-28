@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Swytch.Router\Swytch.Router.csproj" />
+      <ProjectReference Include="..\..\Swytch\Swytch.csproj" />
     </ItemGroup>
 
 </Project>

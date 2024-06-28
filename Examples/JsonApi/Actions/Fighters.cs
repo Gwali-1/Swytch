@@ -1,14 +1,14 @@
 using System.Net;
 using System.Text.Json;
 using JsonApi.Models;
-using Swytch.Router.Structures;
-using Swytch.Router.utilities;
+using Swytch.Structures;
+using Swytch.utilities;
 
 namespace JsonApi.Actions;
 
 public class Fighters
 {
-    public List<StreetFighterCharacter> Fighter = new();
+    public List<StreetFighterCharacter>? Fighter { get; set; }
 
     public Fighters()
     {
@@ -23,10 +23,10 @@ public class Fighters
 
     public async Task Get(RequestContext context)
     {
-        string name;
+        string? name;
         if (context.PathParams.TryGetValue("name", out name))
         {
-            StreetFighterCharacter? car = Fighter.Find(x => x.Name == name);
+            StreetFighterCharacter? car = Fighter?.Find(x => x.Name == name);
             if (car is null)
             {
                 await car.WriteJsonToStream(context, HttpStatusCode.NotFound);

@@ -1,9 +1,9 @@
 ﻿using System.Net;
-using Swytch.Router.Structures;
-using Swytch.Router.utilities;
-using swytch = Swytch.Router;
+using Swytch;
+using Swytch.Structures;
+using Swytch.utilities;
 
-swytch.Swytch server = new swytch.Swytch();
+SwytchApp server = new SwytchApp();
 
 
 //middlewares

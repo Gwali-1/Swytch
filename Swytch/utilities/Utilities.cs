@@ -1,10 +1,9 @@
 using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
-using Swytch.Router.Structures;
-using Swytch.Router.Structures;
+using Swytch.Structures;
 
-namespace Swytch.Router.utilities;
+namespace Swytch.utilities;
 
 internal static class Constant
 {
@@ -55,7 +54,7 @@ public static class Utilities
     }
 
 /// <summary>
-/// Asynchronously reads and streams the content of static files from the static directory in the base directroy in which the application is running
+/// Asynchronously reads and streams the contents of static files from the static directory in the base directroy in which the application is running
 /// </summary>
 /// <param name="filename">The name of the file without the extension. eg catnames instead of catnames.txt</param>
 /// <param name="context">The current request context</param>

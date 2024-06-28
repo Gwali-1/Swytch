@@ -1,10 +1,9 @@
 ﻿using JsonApi.Actions;
-using Swytch.Router.Structures;
-using swytch = Swytch.Router.Swytch;
+using Swytch;
+using Swytch.Structures;
 
 
-swytch server = new swytch();
-
+SwytchApp server = new SwytchApp();
 
 //logging middleware
 server.AddMiddleWare(async ctx =>

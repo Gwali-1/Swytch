@@ -1,9 +1,9 @@
 ﻿using System.Collections.Specialized;
 using System.Net;
-using Swytch.Router.Structures;
-using Swytch.Router.utilities;
+using Swytch.Structures;
+using Swytch.utilities;
 
-namespace Swytch.Router;
+namespace Swytch;
 
 /// <summary>
 /// The Swytch class is the entry point to the framework library. An instance of this type exposes public APIs for that allow you
@@ -11,7 +11,7 @@ namespace Swytch.Router;
 /// calling middlewares in the order they were registered and calling the right methods for the right routes and http verbs.
 /// call Listen when done registering your handling logic and middlewares to start accepting and processing requests.
 /// </summary>
-public class Swytch
+public class SwytchApp
 {
     //registered routes
     private readonly List<Route> _registeredRoutes = new List<Route>();

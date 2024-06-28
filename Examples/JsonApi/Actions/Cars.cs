@@ -1,8 +1,8 @@
 using System.Net;
 using System.Text.Json;
 using JsonApi.Models;
-using Swytch.Router.Structures;
-using Swytch.Router.utilities;
+using Swytch.Structures;
+using Swytch.utilities;
 
 namespace JsonApi.Actions;
 

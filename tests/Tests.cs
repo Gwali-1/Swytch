@@ -1,5 +1,5 @@
 using System.Net;
-using Swytch.Router.Structures;
+using Swytch.Structures;
 
 namespace tests;
 
