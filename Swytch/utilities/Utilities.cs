@@ -35,7 +35,12 @@ public static class Utilities
         await writer.WriteAsync(responseBuffer);
     }
 
-
+    /// <summary>
+    /// Writes a html content as an http response setting to response status code to the one provided.
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="payload">The html content to send</param>
+    /// <param name="status">The response status code to set</param>
     public static async Task WriteHtmlToStream(RequestContext context, string payload, HttpStatusCode status)
     {
         context.Response.StatusCode = (int)status;

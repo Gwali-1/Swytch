@@ -7,4 +7,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <!--   Directive to include files or folders in your build output-->
+    <ItemGroup>
+        <Content Include="Statics\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\Swytch\Swytch.csproj" />
+    </ItemGroup>
+
 </Project>
