@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Net;
+using RazorLight;
 using Swytch.Structures;
 using Swytch.utilities;
 
@@ -17,7 +18,16 @@ public class SwytchApp
     private readonly List<Route> _registeredRoutes = new List<Route>();
     private readonly Queue<Func<RequestContext, Task>> _registeredMiddlewares = new();
     private Func<RequestContext, Task>? _swytchRouter;
-    private readonly Dictionary<string, byte[]> _staticFiles = new();
+    private readonly RazorLightEngine _engine;
+    public string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
+
+
+    public SwytchApp(string? templateDiretory = null)
+    {
+        TemplateLocation = templateDiretory ?? TemplateLocation;
+        _engine = new RazorLightEngineBuilder().UseFileSystemProject(TemplateLocation).UseMemoryCachingProvider()
+            .Build();
+    }
 
 
     //adds middleware in the order in which they were registered
@@ -74,16 +84,7 @@ public class SwytchApp
             {
                 HttpListenerContext ctx = await server.GetContextAsync();
                 Func<RequestContext, Task> hndler = GetSwytchRouter();
-                try
-                {
-                    _ = Task.Run(() => hndler(new RequestContext(ctx)));
-                }
-                catch (Exception e)
-                {
-                    await InternalServerError(new RequestContext(ctx));
-                    Console.WriteLine(e.Message);
-                    Console.WriteLine(e.StackTrace);
-                }
+                _ = Task.Run(() => hndler(new RequestContext(ctx)));
             }
         }
         catch (ArgumentException)
@@ -124,19 +125,19 @@ public class SwytchApp
     private static async Task NotFound(RequestContext requestContext)
     {
         string responseBody = "NOT FOUND (404)";
-        await Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.NotFound);
+        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.NotFound);
     }
 
     private static async Task InternalServerError(RequestContext requestContext)
     {
         string responseBody = "INTERNAL SERVER ERROR (500)";
-        await Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.NotFound);
+        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.NotFound);
     }
 
     private static async Task MethodNotAllowed(RequestContext requestContext)
     {
         string responseBody = "METHOD NOT ALLOWED (405)";
-        await Utilities.WriteStringToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
+        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
     }
 
 
@@ -193,8 +194,17 @@ public class SwytchApp
             {
                 if (r.Methods.Contains(c.Request.HttpMethod))
                 {
-                    await r.RequestHandler(context);
-                    return;
+                    try
+                    {
+                        await r.RequestHandler(context);
+                        return;
+                    }
+                    catch (Exception e)
+                    {
+                        await InternalServerError(context);
+                        Console.WriteLine(e.Message);
+                        Console.WriteLine(e.StackTrace);
+                    }
                 }
 
                 //return with method not allowed
@@ -229,5 +239,32 @@ public class SwytchApp
         }
 
         return _swytchRouter;
+    }
+
+    /// <summary>
+    /// Compiles and renders the provided template  using the specified model.
+    /// </summary>
+    /// <param name="key">Unique identifier for the template.In this case the filename minus the extension</param>
+    /// <param name="model"> The data model to use when rendering the template</param>
+    /// <typeparam name="T">Type of data model</typeparam>
+    /// <returns></returns>
+    public async Task<string> GenerateTemplate<T>(string key, T model)
+    {
+        string templateName = key + ".cshtml";
+        string compiledResult = await _engine.CompileRenderAsync(templateName, model);
+        return compiledResult;
+    }
+
+    /// <summary>
+    /// Compiles template using specified model and serves it as html response.
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="key">Unique identifier for the template.In this case the filename minus the extension</param>
+    /// <param name="model">The data model to use when rendering the template</param>
+    /// <typeparam name="T">Type of data model</typeparam>
+    public async Task RenderTemplate<T>(RequestContext context, string key, T model)
+    {
+        string result = await GenerateTemplate<T>(key, model);
+        await Utilities.WriteHtmlToStream(context, result, HttpStatusCode.OK);
     }
 }
