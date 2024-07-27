@@ -18,13 +18,16 @@ public class SwytchApp
     private readonly List<Route> _registeredRoutes = new List<Route>();
     private readonly Queue<Func<RequestContext, Task>> _registeredMiddlewares = new();
     private Func<RequestContext, Task>? _swytchRouter;
-    private readonly RazorLightEngine _engine;
+    private readonly RazorLightEngine? _engine;
     public string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
 
 
     public SwytchApp(string? templateDiretory = null)
     {
         TemplateLocation = templateDiretory ?? TemplateLocation;
+
+        if (!Directory.Exists(TemplateLocation)) return;
+        
         _engine = new RazorLightEngineBuilder().UseFileSystemProject(TemplateLocation).UseMemoryCachingProvider()
             .Build();
     }
