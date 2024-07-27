@@ -12,9 +12,11 @@
         <Content Include="Statics\**\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Include="Templates\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\Swytch\Swytch.csproj" />
     </ItemGroup>
-
 </Project>

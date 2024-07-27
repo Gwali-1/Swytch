@@ -75,7 +75,7 @@ public static class Utilities
     /// <param name="filename">The name of the file without the extension. eg catnames instead of catnames.txt</param>
     /// <param name="context">The current request context</param>
     /// <param name="status">The response status </param>
-    public static async Task ServeFile(string filename, RequestContext context, HttpStatusCode status)
+    public static async Task ServeFile(RequestContext context,string filename, HttpStatusCode status)
     {
         string filePath = Path.Combine(Constant.StaticsDir, filename);
         string contentType = Path.GetExtension(filePath) switch

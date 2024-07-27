@@ -4,7 +4,7 @@ using RazorLight;
 using Swytch.Structures;
 using Swytch.utilities;
 
-namespace Swytch;
+namespace Swytch.App;
 
 /// <summary>
 /// The Swytch class is the entry point to the framework library. An instance of this type exposes public APIs for that allow you
@@ -152,7 +152,7 @@ public class SwytchApp
 
         for (int i = 0; i < r.UrlPath.Length; i++)
         {
-            if (r.UrlPath[i].StartsWith("{") && r.UrlPath[i].EndsWith("}"))
+            if (r.UrlPath[i].StartsWith('{') && r.UrlPath[i].EndsWith('}'))
             {
                 if (!(string.IsNullOrWhiteSpace(urlSegements[i])))
                 {
@@ -185,11 +185,11 @@ public class SwytchApp
 
     private async Task SwytchRouter(RequestContext c)
     {
-        string url = c.Request.Url.AbsolutePath;
+        string? url = c.Request.Url?.AbsolutePath;
 
         foreach (Route r in _registeredRoutes)
         {
-            var (matched, context) = MatchUrl(url, r, c);
+            var (matched, context) = MatchUrl(url ?? string.Empty, r, c);
             if (matched)
             {
                 if (r.Methods.Contains(c.Request.HttpMethod))
@@ -264,7 +264,7 @@ public class SwytchApp
     /// <typeparam name="T">Type of data model</typeparam>
     public async Task RenderTemplate<T>(RequestContext context, string key, T model)
     {
-        string result = await GenerateTemplate<T>(key, model);
+        string result = await GenerateTemplate(key, model);
         await Utilities.WriteHtmlToStream(context, result, HttpStatusCode.OK);
     }
 }
