@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Net;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using RazorLight;
 using Swytch.Structures;
@@ -90,15 +91,20 @@ public class SwytchApp
     }
 
 /// <summary>
-/// 
+/// Adds authentication middleware to your pipeline allowing you to determine if a request is authenticated
+/// or not before it hit your handlers. When this method is called , authentication is enabled for the application.
 /// </summary>
-/// <param name="authHandler"></param>
+/// <param name="authHandler">
+/// The authentication handler logic to run on every request.
+/// Supply a method with the delegate signature AuthHandler , which is a method that takes in the RequestContext object and
+/// returns an auth response indicating if authentication passed and a claims principal object representing security context of a user with
+/// a set of claims you registered 
+/// </param>
     public void AddAuthentication(AuthHandler authHandler)
     {
         //enable auth
         _enableAuth = true;
         //call users auth handler by queuing it in middlewares
-
         _registeredMiddlewares.Enqueue(async c =>
         {
             await Task.Delay(0);
@@ -110,6 +116,22 @@ public class SwytchApp
             c.User = authresponse.ClaimsPrincipal;
             c.IsAuthenticated = authresponse.IsAuthenticated;
         });
+    }
+
+/// <summary>
+/// registers a file handler that listens for static file requests with path /swytchserver/static/{filename}  and servers them directly from the
+/// static directory. This handler will run regardless of authentication state. If you want files to be served only
+/// if request is authenticated , register a different handler that listens on a different path
+/// </summary>
+    public void AddStaticServer()
+    {
+        Func<RequestContext, Task> fileServer = async c =>
+        {
+            _ = c.PathParams.TryGetValue("filename", out var filename);
+            await Utilities.ServeFile(c, filename ?? "NoFile", HttpStatusCode.OK);
+        };
+        
+        AddAction("GET","/swytchserver/static/{filename}",fileServer);
     }
 
 
@@ -291,7 +313,7 @@ public class SwytchApp
     private async Task SwytchRouter(RequestContext c)
     {
         //check if user is authenticated if authentication is enabled 
-        if (_enableAuth)
+        if (_enableAuth && !VerifyIfStaticRequest(c))
         {
             bool result = await VerifyAuthentication(c);
             if (!result) return;
@@ -329,10 +351,16 @@ public class SwytchApp
         await NotFound(c);
     }
 
-    private async Task<bool> VerifyAuthentication(RequestContext r)
+    private async Task<bool> VerifyAuthentication(RequestContext c)
     {
-        if (r.IsAuthenticated) return true;
-        await Unauthorized(r);
+        if (c.IsAuthenticated) return true;
+        await Unauthorized(c);
         return false;
+    }
+
+    private bool VerifyIfStaticRequest(RequestContext c)
+    {
+        var(match,_)  = MatchUrl(c.Request.Url.AbsolutePath, _registeredRoutes[0], c);
+        return match;
     }
 }

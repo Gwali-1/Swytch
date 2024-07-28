@@ -7,6 +7,9 @@ using Swytch.utilities;
 var server = new SwytchApp();
 server.AddLogging();  // enable or disable request logging
 
+
+server.AddStaticServer(); //registers handler that servers static files directly from static directory
+
 server.AddAuthentication(async c =>
 {
     
@@ -17,6 +20,7 @@ server.AddAuthentication(async c =>
     return new AuthResponse { IsAuthenticated = false , ClaimsPrincipal = new ClaimsPrincipal()};
 });
 
+
 //action method can be writen like this
 Func<RequestContext, Task> evening = async c =>
 {
@@ -24,15 +28,15 @@ Func<RequestContext, Task> evening = async c =>
 };
 
 
-//file server
-Func<RequestContext, Task> fserver = async c =>
-{
-    string filename;
-    _ = c.PathParams.TryGetValue("name", out filename);
-    await Utilities.ServeFile(c, filename, HttpStatusCode.OK);
-};
+// //file server
+// Func<RequestContext, Task> fserver = async c =>
+// {
+//     string filename;
+//     _ = c.PathParams.TryGetValue("name", out filename);
+//     await Utilities.ServeFile(c, filename, HttpStatusCode.OK);
+// };
 
-server.AddAction("GET", "/file/{name}", fserver);
+// server.AddAction("GET", "/file/{name}", fserver);
 
 server.AddAction("GET", "/", evening);
 
