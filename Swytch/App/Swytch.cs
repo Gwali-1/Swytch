@@ -1,7 +1,5 @@
 ﻿using System.Collections.Specialized;
 using System.Net;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using RazorLight;
 using Swytch.Structures;
@@ -204,8 +202,13 @@ public class SwytchApp
     public async Task<string> GenerateTemplate<T>(string key, T model)
     {
         string templateName = key + ".cshtml";
-        string compiledResult = await _engine.CompileRenderAsync(templateName, model);
-        return compiledResult;
+        if (_engine != null)
+        {
+            string compiledResult = await _engine.CompileRenderAsync(templateName, model);
+            return compiledResult;
+        }
+
+        return "";
     }
 
     /// <summary>
