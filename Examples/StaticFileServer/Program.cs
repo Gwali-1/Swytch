@@ -5,15 +5,7 @@ using Swytch.Structures;
 using Swytch.utilities;
 
 var server = new SwytchApp();
-
-using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
-ILogger logger = factory.CreateLogger<Program>();
-
-server.AddMiddleWare(async c =>
-{
-    logger.LogInformation(" {c.Request.ProtocolVersion} {c.Request.HttpMethod} {c.Request.Url}",
-        c.Request.ProtocolVersion, c.Request.HttpMethod, c.Request.Url.AbsolutePath);
-});
+server.EnableLogging();  // enable or disable request logging
 
 //action method can be writen like this
 Func<RequestContext, Task> evening = async c =>

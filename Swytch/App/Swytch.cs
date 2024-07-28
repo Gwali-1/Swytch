@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Net;
+using Microsoft.Extensions.Logging;
 using RazorLight;
 using Swytch.Structures;
 using Swytch.utilities;
@@ -19,15 +20,19 @@ public class SwytchApp
     private readonly Queue<Func<RequestContext, Task>> _registeredMiddlewares = new();
     private Func<RequestContext, Task>? _swytchRouter;
     private readonly RazorLightEngine? _engine;
+    private ILogger<SwytchApp> _logger;
     public string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
 
 
     public SwytchApp(string? templateDiretory = null)
     {
+        //set up logger 
+        using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
+        _logger = factory.CreateLogger<SwytchApp>();
         TemplateLocation = templateDiretory ?? TemplateLocation;
 
+        //register available templates
         if (!Directory.Exists(TemplateLocation)) return;
-        
         _engine = new RazorLightEngineBuilder().UseFileSystemProject(TemplateLocation).UseMemoryCachingProvider()
             .Build();
     }
@@ -65,6 +70,20 @@ public class SwytchApp
 
         _registeredRoutes.Add(newRoute);
     }
+    
+    /// <summary>
+    /// Enable logging of incoming request to the console. Logged information follows the format
+    /// [Timestamp] - Http Method - Absolute Path - Request Origin 
+    /// </summary>
+    public void EnableLogging()
+    {
+        //format [Timestamp] [http method] [path] [ip address]
+        _registeredMiddlewares.Enqueue(async c =>
+        {
+            _logger.LogInformation("[{Timestamp}] - {HTTP Method} - {URL} - {IP}", DateTime.UtcNow, c.Request.HttpMethod,
+                c.Request.Url.AbsolutePath, c.Request.RemoteEndPoint);
+        });
+    }
 
 
     /// <summary>
@@ -81,7 +100,7 @@ public class SwytchApp
             HttpListener server = new HttpListener();
             server.Prefixes.Add(addr);
             server.Start();
-            Console.WriteLine($"Server is live at {addr}");
+            _logger.LogInformation("Server is live at {addr}", addr);
 
             while (true)
             {
@@ -92,13 +111,13 @@ public class SwytchApp
         }
         catch (ArgumentException)
         {
-            Console.WriteLine("Make sure address provided matches scheme http:// or https:// or ends with /");
+            _logger.LogError("Make sure address provided matches scheme http:// or https:// or ends with /");
             throw;
         }
         catch (Exception e)
         {
-            Console.WriteLine("Server Stopped Unexpectedly");
-            Console.WriteLine(e.Message);
+            _logger.LogError("Server Stopped Unexpectedly");
+            _logger.LogError(e.Message);
             throw;
         }
     }
@@ -205,8 +224,8 @@ public class SwytchApp
                     catch (Exception e)
                     {
                         await InternalServerError(context);
-                        Console.WriteLine(e.Message);
-                        Console.WriteLine(e.StackTrace);
+                        _logger.LogWarning(e.Message);
+                        _logger.LogWarning(e.StackTrace);
                     }
                 }
 
