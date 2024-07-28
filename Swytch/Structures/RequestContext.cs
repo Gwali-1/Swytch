@@ -1,4 +1,5 @@
 using System.Net;
+using System.Security.Claims;
 
 namespace Swytch.Structures;
 
@@ -18,7 +19,7 @@ public class RequestContext
 {
     public HttpListenerRequest Request { get; set; }
     public HttpListenerResponse Response { get; set; }
-    public System.Security.Principal.IPrincipal? User { get; set; }
+    public ClaimsPrincipal? User { get; set; }
     public Dictionary<string, string> PathParams { get; set; }
     public Dictionary<string, string> QueryParams { get; set; }
 
@@ -28,7 +29,6 @@ public class RequestContext
     {
         Request = c.Request;
         Response = c.Response;
-        User = c.User;
         PathParams = new Dictionary<string, string>();
         QueryParams = new Dictionary<string, string>();
         IsAuthenticated = false;

@@ -89,7 +89,10 @@ public class SwytchApp
         });
     }
 
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="authHandler"></param>
     public void AddAuthentication(AuthHandler authHandler)
     {
         //enable auth
