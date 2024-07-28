@@ -19,4 +19,8 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Swytch\Swytch.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    </ItemGroup>
 </Project>
