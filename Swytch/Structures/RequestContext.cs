@@ -22,6 +22,8 @@ public class RequestContext
     public Dictionary<string, string> PathParams { get; set; }
     public Dictionary<string, string> QueryParams { get; set; }
 
+    public Boolean IsAuthenticated { get; set; }
+
     public RequestContext(HttpListenerContext c)
     {
         Request = c.Request;
@@ -29,5 +31,7 @@ public class RequestContext
         User = c.User;
         PathParams = new Dictionary<string, string>();
         QueryParams = new Dictionary<string, string>();
+        IsAuthenticated = false;
     }
 }
+

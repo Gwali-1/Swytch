@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Net;
+using System.Security.Claims;
 using Microsoft.Extensions.Logging;
 using RazorLight;
 using Swytch.Structures;
@@ -20,7 +21,8 @@ public class SwytchApp
     private readonly Queue<Func<RequestContext, Task>> _registeredMiddlewares = new();
     private Func<RequestContext, Task>? _swytchRouter;
     private readonly RazorLightEngine? _engine;
-    private ILogger<SwytchApp> _logger;
+    private readonly ILogger<SwytchApp> _logger;
+    private bool _enableAuth;
     public string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
 
 
@@ -70,18 +72,40 @@ public class SwytchApp
 
         _registeredRoutes.Add(newRoute);
     }
-    
+
     /// <summary>
     /// Enable logging of incoming request to the console. Logged information follows the format
     /// [Timestamp] - Http Method - Absolute Path - Request Origin 
     /// </summary>
-    public void EnableLogging()
+    public void AddLogging()
     {
         //format [Timestamp] [http method] [path] [ip address]
         _registeredMiddlewares.Enqueue(async c =>
         {
-            _logger.LogInformation("[{Timestamp}] - {HTTP Method} - {URL} - {IP}", DateTime.UtcNow, c.Request.HttpMethod,
+            await Task.Delay(0);
+            _logger.LogInformation("[{Timestamp}] - {HTTP Method} - {URL} - {IP}", DateTime.UtcNow,
+                c.Request.HttpMethod,
                 c.Request.Url.AbsolutePath, c.Request.RemoteEndPoint);
+        });
+    }
+
+
+    public void AddAuthentication(AuthHandler authHandler)
+    {
+        //enable auth
+        _enableAuth = true;
+        //call users auth handler by queuing it in middlewares
+
+        _registeredMiddlewares.Enqueue(async c =>
+        {
+            await Task.Delay(0);
+            AuthResponse authresponse = await authHandler(c);
+            if (!authresponse.IsAuthenticated)
+            {
+                return;
+            }
+            c.User = authresponse.ClaimsPrincipal;
+            c.IsAuthenticated = authresponse.IsAuthenticated;
         });
     }
 
@@ -121,124 +145,6 @@ public class SwytchApp
             throw;
         }
     }
-
-
-    private static Dictionary<string, string> GetQueryParams(RequestContext c)
-    {
-        Dictionary<string, string> queryParams = new();
-        NameValueCollection qParams = c.Request.QueryString;
-        if (qParams.Count <= 0)
-        {
-            return queryParams;
-        }
-
-        foreach (var key in qParams.AllKeys)
-        {
-            if (key is not null)
-            {
-                queryParams[key] = qParams[key] ?? "";
-            }
-        }
-
-        return queryParams;
-    }
-
-
-    private static async Task NotFound(RequestContext requestContext)
-    {
-        string responseBody = "NOT FOUND (404)";
-        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.NotFound);
-    }
-
-    private static async Task InternalServerError(RequestContext requestContext)
-    {
-        string responseBody = "INTERNAL SERVER ERROR (500)";
-        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.NotFound);
-    }
-
-    private static async Task MethodNotAllowed(RequestContext requestContext)
-    {
-        string responseBody = "METHOD NOT ALLOWED (405)";
-        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
-    }
-
-
-    private static (bool, RequestContext) MatchUrl(string url, Route r, RequestContext c)
-    {
-        Dictionary<string, string> pathParams = new();
-        string[] urlSegements = url.Split("/");
-        if (urlSegements.Length != r.UrlPath.Length)
-        {
-            return (false, c);
-        }
-
-        for (int i = 0; i < r.UrlPath.Length; i++)
-        {
-            if (r.UrlPath[i].StartsWith('{') && r.UrlPath[i].EndsWith('}'))
-            {
-                if (!(string.IsNullOrWhiteSpace(urlSegements[i])))
-                {
-                    char[] trimChars = { '{', '}' };
-                    string key = r.UrlPath[i].Trim(trimChars);
-
-                    pathParams[key] = urlSegements[i];
-                    continue;
-                }
-
-                return (false, c);
-            }
-
-
-            if (urlSegements[i] != r.UrlPath[i])
-            {
-                return (false, c);
-            }
-        }
-
-        Dictionary<string, string> queryParams = GetQueryParams(c);
-
-        c.PathParams = pathParams;
-        c.QueryParams = queryParams;
-
-
-        return (true, c);
-    }
-
-
-    private async Task SwytchRouter(RequestContext c)
-    {
-        string? url = c.Request.Url?.AbsolutePath;
-
-        foreach (Route r in _registeredRoutes)
-        {
-            var (matched, context) = MatchUrl(url ?? string.Empty, r, c);
-            if (matched)
-            {
-                if (r.Methods.Contains(c.Request.HttpMethod))
-                {
-                    try
-                    {
-                        await r.RequestHandler(context);
-                        return;
-                    }
-                    catch (Exception e)
-                    {
-                        await InternalServerError(context);
-                        _logger.LogWarning(e.Message);
-                        _logger.LogWarning(e.StackTrace);
-                    }
-                }
-
-                //return with method not allowed
-                c.Response.Headers.Set(HttpRequestHeader.Allow, string.Join("", r.Methods));
-                await MethodNotAllowed(c);
-                return;
-            }
-        }
-
-        await NotFound(c);
-    }
-
 
     /// <summary>
     /// This method returns the the internal implementation of the router used in swytch.
@@ -288,5 +194,142 @@ public class SwytchApp
     {
         string result = await GenerateTemplate(key, model);
         await Utilities.WriteHtmlToStream(context, result, HttpStatusCode.OK);
+    }
+
+
+    private static Dictionary<string, string> GetQueryParams(RequestContext c)
+    {
+        Dictionary<string, string> queryParams = new();
+        NameValueCollection qParams = c.Request.QueryString;
+        if (qParams.Count <= 0)
+        {
+            return queryParams;
+        }
+
+        foreach (var key in qParams.AllKeys)
+        {
+            if (key is not null)
+            {
+                queryParams[key] = qParams[key] ?? "";
+            }
+        }
+
+        return queryParams;
+    }
+
+
+    private static async Task NotFound(RequestContext requestContext)
+    {
+        string responseBody = "NOT FOUND (404)";
+        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.NotFound);
+    }
+
+    private static async Task InternalServerError(RequestContext requestContext)
+    {
+        const string responseBody = "INTERNAL SERVER ERROR (500)";
+        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.NotFound);
+    }
+
+    private static async Task MethodNotAllowed(RequestContext requestContext)
+    {
+        const string responseBody = "METHOD NOT ALLOWED (405)";
+        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
+    }
+
+    private static async Task Unauthorized(RequestContext requestContext)
+    {
+        const string responseBody = "UNAUTHORIZED (401)";
+        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.Unauthorized);
+    }
+
+
+    private static (bool, RequestContext) MatchUrl(string url, Route r, RequestContext c)
+    {
+        Dictionary<string, string> pathParams = new();
+        string[] urlSegements = url.Split("/");
+        if (urlSegements.Length != r.UrlPath.Length)
+        {
+            return (false, c);
+        }
+
+        for (int i = 0; i < r.UrlPath.Length; i++)
+        {
+            if (r.UrlPath[i].StartsWith('{') && r.UrlPath[i].EndsWith('}'))
+            {
+                if (!(string.IsNullOrWhiteSpace(urlSegements[i])))
+                {
+                    char[] trimChars = { '{', '}' };
+                    string key = r.UrlPath[i].Trim(trimChars);
+
+                    pathParams[key] = urlSegements[i];
+                    continue;
+                }
+
+                return (false, c);
+            }
+
+
+            if (urlSegements[i] != r.UrlPath[i])
+            {
+                return (false, c);
+            }
+        }
+
+        Dictionary<string, string> queryParams = GetQueryParams(c);
+
+        c.PathParams = pathParams;
+        c.QueryParams = queryParams;
+
+
+        return (true, c);
+    }
+
+
+    private async Task SwytchRouter(RequestContext c)
+    {
+        //check if user is authenticated if authentication is enabled 
+        if (_enableAuth)
+        {
+            bool result = await VerifyAuthentication(c);
+            if (!result) return;
+        }
+
+        string? url = c.Request.Url?.AbsolutePath;
+
+        foreach (Route r in _registeredRoutes)
+        {
+            var (matched, context) = MatchUrl(url ?? string.Empty, r, c);
+            if (matched)
+            {
+                if (r.Methods.Contains(c.Request.HttpMethod))
+                {
+                    try
+                    {
+                        await r.RequestHandler(context);
+                        return;
+                    }
+                    catch (Exception e)
+                    {
+                        await InternalServerError(context);
+                        _logger.LogWarning(e.Message);
+                        _logger.LogWarning(e.StackTrace);
+                    }
+                }
+
+                //return with method not allowed
+                c.Response.Headers.Set(HttpRequestHeader.Allow, string.Join("", r.Methods));
+                await MethodNotAllowed(c);
+                return;
+            }
+        }
+
+        await NotFound(c);
+    }
+
+    private async Task<bool> VerifyAuthentication(RequestContext r)
+    {
+        if (r.IsAuthenticated) return true;
+        await Unauthorized(r);
+        return false;
     }
 }

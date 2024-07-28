@@ -1,11 +1,21 @@
 ﻿using System.Net;
-using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 using Swytch.App;
 using Swytch.Structures;
 using Swytch.utilities;
 
 var server = new SwytchApp();
-server.EnableLogging();  // enable or disable request logging
+server.AddLogging();  // enable or disable request logging
+
+server.AddAuthentication(async c =>
+{
+    
+    // authenticate your user
+    await Task.Delay(0);
+    
+    //return auth response
+    return new AuthResponse { IsAuthenticated = false , ClaimsPrincipal = new ClaimsPrincipal()};
+});
 
 //action method can be writen like this
 Func<RequestContext, Task> evening = async c =>
@@ -15,7 +25,6 @@ Func<RequestContext, Task> evening = async c =>
 
 
 //file server
-
 Func<RequestContext, Task> fserver = async c =>
 {
     string filename;
