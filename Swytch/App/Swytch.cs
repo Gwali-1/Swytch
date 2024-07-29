@@ -1,6 +1,12 @@
 ﻿using System.Collections.Specialized;
+using System.Data;
+using System.Data.SQLite;
 using System.Net;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
+using MySql.Data.MySqlClient;
+using Npgsql;
+using Oracle.ManagedDataAccess.Client;
 using RazorLight;
 using Swytch.Structures;
 using Swytch.utilities;
@@ -22,6 +28,7 @@ public class SwytchApp
     private readonly RazorLightEngine? _engine;
     private readonly ILogger<SwytchApp> _logger;
     private bool _enableAuth;
+    private  Dictionary<DatabaseProviders,string> _dataSources = new ();
     public string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
 
 
@@ -70,6 +77,43 @@ public class SwytchApp
         }
 
         _registeredRoutes.Add(newRoute);
+    }
+
+    /// <summary>
+    /// Registers a new database store to the collection
+    /// </summary>
+    /// <param name="connectionString">The connection string to your datastore</param>
+    /// <param name="provider">The type of datastore</param>
+    public void AddDatastore(string connectionString, DatabaseProviders provider)
+    {
+        _dataSources[provider] = connectionString;
+    }
+
+    /// <summary>
+    /// Returns a connection to the database that can be used to execute commands.
+    /// Make sure to close connection after use
+    /// </summary>
+    /// <param name="provider">The data store type you registered datastore</param>
+    /// <returns></returns>
+    /// <exception cref="KeyNotFoundException"></exception>
+    /// <exception cref="NotSupportedException"></exception>
+    public IDbConnection GetConnection(DatabaseProviders provider)
+    {
+        bool found = _dataSources.TryGetValue(provider, out string? dsn);
+        if (!found)
+        {
+            throw new KeyNotFoundException($"No database provider {provider} was registered");
+        }
+        return provider switch
+        {
+            DatabaseProviders.SqlServer => new SqlConnection(dsn),
+            DatabaseProviders.MySql => new MySqlConnection(dsn),
+            DatabaseProviders.PostgreSql => new NpgsqlConnection(dsn),
+            DatabaseProviders.SQLite => new SQLiteConnection(dsn),
+            DatabaseProviders.Oracle => new OracleConnection(dsn),
+            _ => throw new NotSupportedException("The specified database provider is not supported."),
+        };
+
     }
 
     /// <summary>
