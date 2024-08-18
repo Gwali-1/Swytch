@@ -14,22 +14,24 @@ using Swytch.utilities;
 namespace Swytch.App;
 
 /// <summary>
-/// The Swytch class is the entry point to the framework library. An instance of this type exposes public APIs for that allow you
+/// The SwytchApp class is the entry point to the framework library. An instance of this type exposes public APIs for that allow you
 /// to register your middlewares , request handling methods , start the server etc. There is an internal routing implementation that handles
 /// calling middlewares in the order they were registered and calling the right methods for the right routes and http verbs.
-/// call Listen when done registering your handling logic and middlewares to start accepting and processing requests.
+/// Call Listen when done registering your handling logic and middlewares to start accepting and processing requests.
 /// </summary>
 public class SwytchApp
 {
     //registered routes
     private readonly List<Route> _registeredRoutes = new List<Route>();
+    
     private readonly Queue<Func<RequestContext, Task>> _registeredMiddlewares = new();
     private Func<RequestContext, Task>? _swytchRouter;
     private readonly RazorLightEngine? _engine;
     private readonly ILogger<SwytchApp> _logger;
     private bool _enableAuth;
-    private  Dictionary<DatabaseProviders,string> _dataSources = new ();
-    public string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
+    private bool _enableStatic;
+    private readonly Dictionary<DatabaseProviders,string> _dataSources = new ();
+    private string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
 
 
     public SwytchApp(string? templateDiretory = null)
@@ -48,7 +50,7 @@ public class SwytchApp
 
     //adds middleware in the order in which they were registered
     /// <summary>
-    /// Registers a method matching the handler signature as a middleware. The order in which the registration
+    /// Registers a method matching the handler signature as a middleware.The order in which the registration
     /// is done matters .
     /// </summary>
     /// <param name="middleware">The middleware method(any method that takes in RequestContext and returns a task)</param>
@@ -128,13 +130,13 @@ public class SwytchApp
             await Task.Delay(0);
             _logger.LogInformation("[{Timestamp}] - {HTTP Method} - {URL} - {IP}", DateTime.UtcNow,
                 c.Request.HttpMethod,
-                c.Request.Url.AbsolutePath, c.Request.RemoteEndPoint);
+                c.Request.Url?.AbsolutePath, c.Request.RemoteEndPoint);
         });
     }
 
 /// <summary>
 /// Adds authentication middleware to your pipeline allowing you to determine if a request is authenticated
-/// or not before it hit your handlers. When this method is called , authentication is enabled for the application.
+/// or not before it hit your handlers. When this method is called ,authentication is enabled for the application.
 /// </summary>
 /// <param name="authHandler">
 /// The authentication handler logic to run on every request.
@@ -167,6 +169,7 @@ public class SwytchApp
 /// </summary>
     public void AddStaticServer()
     {
+        _enableStatic = true;
         Func<RequestContext, Task> fileServer = async c =>
         {
             _ = c.PathParams.TryGetValue("filename", out var filename);
@@ -183,6 +186,7 @@ public class SwytchApp
     /// <param name="addr">The address the server should listen for incoming requests.
     ///The address should be a URI prefix composed of a scheme ,host ,optional port ...
     /// Prefix must end a forward slash. eg  http://localhost:8080/. read more https://learn.microsoft.com/en-us/dotnet/fundamentals/runtime-libraries/system-net-httplistener
+    ///
     /// /// </param>
     public async Task Listen(string addr)
     {
@@ -399,7 +403,7 @@ public class SwytchApp
     }
 
     private async Task<bool> VerifyAuthentication(RequestContext c)
-    {
+   {
         if (c.IsAuthenticated) return true;
         await Unauthorized(c);
         return false;
@@ -407,7 +411,11 @@ public class SwytchApp
 
     private bool VerifyIfStaticRequest(RequestContext c)
     {
-        var(match,_)  = MatchUrl(c.Request.Url.AbsolutePath, _registeredRoutes[0], c);
+        if (!_enableStatic) return false;
+
+        var staticRoute = _registeredRoutes.Find(r => r.UrlPath.Contains("swytchserver"));
+        if (staticRoute is null) return false;
+        var(match,_)  = MatchUrl(c.Request.Url.AbsolutePath, staticRoute, c);
         return match;
     }
 }

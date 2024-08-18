@@ -4,8 +4,8 @@ using System.Security.Claims;
 namespace Swytch.Structures;
 
 /*RequestContext class is a custom type that essentially wraps desired members of the HttpListenerContext class
-which in this case is the HttpListenerRequest, HttpListenerResponse, the IPrincipal object which  represents the current
-client whose request is being handled. Some additional members include the query abd path params properties which will hold all query and path parameters supplied
+which in this case is the HttpListenerRequest, HttpListenerResponse, the ClaimsPrincipal object which  represents the current
+client whose request is being handled. Some additional members include the query and path params properties which will hold all query and path parameters supplied
 in the request*/
 
 /// <summary>

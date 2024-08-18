@@ -5,7 +5,7 @@ using Swytch.Structures;
 
 namespace Swytch.utilities;
 
-internal static class Constant
+internal static class Constants
 {
     public static string Text { get; } = "text/plain";
     public static string Html { get; } = "text/html";
@@ -20,7 +20,7 @@ internal static class Constant
 public static class Utilities
 {
     /// <summary>
-    /// Writes a string as an http response setting to response status code to the one provided.
+    /// Writes a string as an http response and set the response status code to the one provided.
     /// </summary>
     /// <param name="context">The current request context</param>
     /// <param name="payload">The string payload to send</param>
@@ -30,13 +30,13 @@ public static class Utilities
         context.Response.StatusCode = (int)status;
         byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(payload);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constant.Text;
+        context.Response.ContentType = Constants.Text;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
 
     /// <summary>
-    /// Writes a html content as an http response setting to response status code to the one provided.
+    /// Writes a html content as an http response and set the response status code to the one provided.
     /// </summary>
     /// <param name="context">The current request context</param>
     /// <param name="payload">The html content to send</param>
@@ -46,7 +46,7 @@ public static class Utilities
         context.Response.StatusCode = (int)status;
         byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(payload);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constant.Html;
+        context.Response.ContentType = Constants.Html;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -62,7 +62,7 @@ public static class Utilities
     public static async Task WriteJsonToStream<T>(this T @object, RequestContext context, HttpStatusCode status)
     {
         context.Response.StatusCode = (int)status;
-        context.Response.ContentType = Constant.Json;
+        context.Response.ContentType = Constants.Json;
         await using Stream writer = context.Response.OutputStream;
         await JsonSerializer.SerializeAsync(writer,
             @object); //asynchronously write to the output stream instead(of doing blocking serializing before
@@ -70,14 +70,14 @@ public static class Utilities
     }
 
     /// <summary>
-    /// Asynchronously reads and streams the contents of static files from the static directory in the base directroy in which the application is running
+    /// Asynchronously reads and streams the contents of static files from the static directory({baseDirectory}/statics) of the application is running
     /// </summary>
     /// <param name="filename">The name of the file without the extension. eg catnames instead of catnames.txt</param>
     /// <param name="context">The current request context</param>
     /// <param name="status">The response status </param>
     public static async Task ServeFile(RequestContext context,string filename, HttpStatusCode status)
     {
-        string filePath = Path.Combine(Constant.StaticsDir, filename);
+        string filePath = Path.Combine(Constants.StaticsDir, filename);
         string contentType = Path.GetExtension(filePath) switch
         {
             ".html" => "text/html",
@@ -102,7 +102,7 @@ public static class Utilities
         }
         catch (FileNotFoundException)
         {
-            await WriteTextToStream(context, Constant.NotFound, HttpStatusCode.NotFound);
+            await WriteTextToStream(context, Constants.NotFound, HttpStatusCode.NotFound);
         }
     }
 }

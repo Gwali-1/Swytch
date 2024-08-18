@@ -5,10 +5,10 @@ using Swytch.Structures;
 using Swytch.utilities;
 
 var server = new SwytchApp();
+
 server.AddLogging();  // enable or disable request logging
 
 
-server.AddStaticServer(); //registers handler that servers static files directly from static directory
 
 server.AddAuthentication(async c =>
 {
@@ -39,7 +39,7 @@ Func<RequestContext, Task> evening = async c =>
 // server.AddAction("GET", "/file/{name}", fserver);
 
 server.AddAction("GET", "/", evening);
-
+server.AddStaticServer(); //registers handler that servers static files directly from static directory
 server.AddAction("GET", "/travelling",
     async c => { await Utilities.ServeFile(c, "traveling.html", HttpStatusCode.OK); });
 
