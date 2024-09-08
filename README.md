@@ -1,7 +1,12 @@
+
 ## The Swytch Architecture, Intro
 > Devlog 26.06.24
 
-![Image](Notes/swytch-arch.svg)
+<div align='left'>
+  <img  src="Notes/swytch-arch.svg" alt="alt text" width="600">
+</div>
+
+
 
 
 *The Swytch architecture is a request processing pipeline made up of **middleware** functions , the
