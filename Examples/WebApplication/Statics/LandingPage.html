@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swytch Server</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .rocket-container {
+            background-color: #ff6b00;
+            display: inline-block;
+            padding: 1rem;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+        }
+
+        .rocket {
+            font-size: 4rem;
+            line-height: 1;
+        }
+
+        .text {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .text span {
+            color: #ff8c00;
+            font-weight: 700;
+        }
+
+        .text .status {
+            color: #4caf50;
+            font-style: italic;
+        }
+
+        @keyframes lift-off {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .rocket-container {
+            animation: lift-off 2s infinite ease-in-out;
+        }
+
+        .less {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #ff8c00;
+        }
+
+        .button img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .button span {
+            margin-left: 5px;
+        }
+
+        .star {
+            display: inline-block;
+        }
+
+        .example {
+
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="rocket-container">
+        <div class="rocket">🚀</div>
+    </div>
+    <div class="text">
+        <span>Swytch</span> <small class="less">server is live</small>
+    </div>
+
+</div>
+
+<div class="star">
+    <a href="https://github.com/Gwali-1/Swytch/tree/main" class="button" target="_blank">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Icon">
+        Star on GitHub
+        <span>⭐</span>
+    </a>
+
+</div>
+
+<div >
+    <a href="http://localhost:8080/example" class="button">
+        <span>Try Example</span>
+    </a>
+
+</div>
+
+</body>
+</html>

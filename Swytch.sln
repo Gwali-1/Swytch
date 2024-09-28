@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApi", "Examples\JsonApi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticFileServer", "Examples\StaticFileServer\StaticFileServer.csproj", "{DE38DA1F-C357-4969-8E36-D476C51277A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "Examples\WebApplication\WebApplication.csproj", "{34BD2D5B-8D6D-49C9-9983-537784817BF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,10 +46,15 @@ Global
 		{DE38DA1F-C357-4969-8E36-D476C51277A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE38DA1F-C357-4969-8E36-D476C51277A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE38DA1F-C357-4969-8E36-D476C51277A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34BD2D5B-8D6D-49C9-9983-537784817BF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34BD2D5B-8D6D-49C9-9983-537784817BF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34BD2D5B-8D6D-49C9-9983-537784817BF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34BD2D5B-8D6D-49C9-9983-537784817BF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AB0FFBBF-2149-4FF5-A720-1A02A5AA3AE1} = {AEB878EC-62BA-490C-B509-6A9F08CFCDEF}
 		{6E46E11B-8288-43DA-8E27-6059D241C1BD} = {AEB878EC-62BA-490C-B509-6A9F08CFCDEF}
 		{DE38DA1F-C357-4969-8E36-D476C51277A3} = {AEB878EC-62BA-490C-B509-6A9F08CFCDEF}
+		{34BD2D5B-8D6D-49C9-9983-537784817BF5} = {AEB878EC-62BA-490C-B509-6A9F08CFCDEF}
 	EndGlobalSection
 EndGlobal

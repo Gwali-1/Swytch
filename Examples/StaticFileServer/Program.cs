@@ -8,8 +8,6 @@ var server = new SwytchApp();
 
 server.AddLogging();  // enable or disable request logging
 
-
-
 server.AddAuthentication(async c =>
 {
     
@@ -20,13 +18,11 @@ server.AddAuthentication(async c =>
     return new AuthResponse { IsAuthenticated = false , ClaimsPrincipal = new ClaimsPrincipal()};
 });
 
-
 //action method can be writen like this
 Func<RequestContext, Task> evening = async c =>
 {
     await Utilities.ServeFile(c, "goodevening.html", HttpStatusCode.OK);
 };
-
 
 // //file server
 // Func<RequestContext, Task> fserver = async c =>
