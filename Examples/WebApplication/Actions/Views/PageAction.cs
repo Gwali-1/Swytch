@@ -2,7 +2,7 @@ using System.Net;
 using Swytch.Structures;
 using Swytch.utilities;
 
-namespace WebApplication.Actions;
+namespace WebApplication.Actions.Views;
 
 public class PageAction
 {

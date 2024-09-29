@@ -23,14 +23,14 @@ public class SwytchApp
 {
     //registered routes
     private readonly List<Route> _registeredRoutes = new List<Route>();
-    
+
     private readonly Queue<Func<RequestContext, Task>> _registeredMiddlewares = new();
     private Func<RequestContext, Task>? _swytchRouter;
     private readonly RazorLightEngine? _engine;
     private readonly ILogger<SwytchApp> _logger;
     private bool _enableAuth;
     private bool _enableStatic;
-    private readonly Dictionary<DatabaseProviders,string> _dataSources = new ();
+    private readonly Dictionary<DatabaseProviders, string> _dataSources = new();
     private string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
 
 
@@ -48,7 +48,6 @@ public class SwytchApp
     }
 
 
-    //adds middleware in the order in which they were registered
     /// <summary>
     /// Registers a method matching the handler signature as a middleware.The order in which the registration
     /// is done matters .
@@ -106,6 +105,7 @@ public class SwytchApp
         {
             throw new KeyNotFoundException($"No database provider {provider} was registered");
         }
+
         return provider switch
         {
             DatabaseProviders.SqlServer => new SqlConnection(dsn),
@@ -115,7 +115,6 @@ public class SwytchApp
             DatabaseProviders.Oracle => new OracleConnection(dsn),
             _ => throw new NotSupportedException("The specified database provider is not supported."),
         };
-
     }
 
     /// <summary>
@@ -134,19 +133,18 @@ public class SwytchApp
         });
     }
 
-/// <summary>
-/// Adds authentication middleware to your pipeline allowing you to determine if a request is authenticated
-/// or not before it hit your handlers. When this method is called ,authentication is enabled for the application.
-/// </summary>
-/// <param name="authHandler">
-/// The authentication handler logic to run on every request.
-/// Supply a method with the delegate signature AuthHandler , which is a method that takes in the RequestContext object and
-/// returns an auth response indicating if authentication passed and a claims principal object representing security context of a user with
-/// a set of claims you registered 
-/// </param>
+    /// <summary>
+    /// Adds authentication middleware to your pipeline allowing you to determine if a request is authenticated
+    /// or not before it hit your handlers. When this method is called ,authentication is enabled for the application.
+    /// </summary>
+    /// <param name="authHandler">
+    /// The authentication handler logic to run on every request.
+    /// Supply a method with the delegate signature AuthHandler , which is a method that takes in the RequestContext object and
+    /// returns an auth response indicating if authentication passed and a claims principal object representing security context of a user with
+    /// a set of claims you registered 
+    /// </param>
     public void AddAuthentication(AuthHandler authHandler)
     {
-        //enable auth
         _enableAuth = true;
         //call users auth handler by queuing it in middlewares
         _registeredMiddlewares.Enqueue(async c =>
@@ -157,26 +155,28 @@ public class SwytchApp
             {
                 return;
             }
+
             c.User = authresponse.ClaimsPrincipal;
             c.IsAuthenticated = authresponse.IsAuthenticated;
         });
     }
 
-/// <summary>
-/// registers a file handler that listens for static file requests with path /swytchserver/static/{filename}  and servers them directly from the
-/// static directory. This handler will run regardless of authentication state. If you want files to be served only
-/// if request is authenticated , register a different handler that listens on a different path
-/// </summary>
+    /// <summary>
+    /// registers a request handler that listens for static file requests with path /swytchserver/static/{filename}  and servers them directly from the
+    /// static directory. This handler will run regardless of authentication state. If you want files to be served only
+    /// if request is authenticated , register a different handler that listens on a different path
+    /// </summary>
     public void AddStaticServer()
     {
         _enableStatic = true;
         Func<RequestContext, Task> fileServer = async c =>
         {
             _ = c.PathParams.TryGetValue("filename", out var filename);
+            // c.Response.Headers.Set(HttpResponseHeader.CacheControl, "max-age=86400");
             await Utilities.ServeFile(c, filename ?? "NoFile", HttpStatusCode.OK);
         };
-        
-        AddAction("GET","/swytchserver/static/{filename}",fileServer);
+
+        AddAction("GET", "/swytchserver/static/{filename}", fileServer);
     }
 
 
@@ -185,9 +185,10 @@ public class SwytchApp
     /// </summary>
     /// <param name="addr">The address the server should listen for incoming requests.
     ///The address should be a URI prefix composed of a scheme ,host ,optional port ...
-    /// Prefix must end a forward slash. eg  http://localhost:8080/. read more https://learn.microsoft.com/en-us/dotnet/fundamentals/runtime-libraries/system-net-httplistener
-    ///
-    /// /// </param>
+    /// Prefix must end a forward slash. eg  "http://localhost:8080/".
+    /// <a href="https://learn.microsoft.com/en-us/dotnet/fundamentals/runtime-libraries/system-net-httplistener">read more</a>
+    /// </param>
+    ///ref/
     public async Task Listen(string addr)
     {
         try
@@ -211,8 +212,7 @@ public class SwytchApp
         }
         catch (Exception e)
         {
-            _logger.LogError("Server Stopped Unexpectedly");
-            _logger.LogError(e.Message);
+            _logger.LogError(e, "Server Stopped Unexpectedly");
             throw;
         }
     }
@@ -241,7 +241,7 @@ public class SwytchApp
     }
 
     /// <summary>
-    /// Compiles and renders the provided template  using the specified model.
+    /// Compiles and renders the provided template  using the specified model and returns the compiled result.
     /// </summary>
     /// <param name="key">Unique identifier for the template.In this case the filename minus the extension</param>
     /// <param name="model"> The data model to use when rendering the template</param>
@@ -266,7 +266,7 @@ public class SwytchApp
     /// <param name="key">Unique identifier for the template.In this case the filename minus the extension</param>
     /// <param name="model">The data model to use when rendering the template</param>
     /// <typeparam name="T">Type of data model</typeparam>
-    public async Task RenderTemplate<T>(RequestContext context, string key, T model)
+    public async Task RenderTemplate<T>(RequestContext context, string key, T? model)
     {
         string result = await GenerateTemplate(key, model);
         await Utilities.WriteHtmlToStream(context, result, HttpStatusCode.OK);
@@ -403,7 +403,7 @@ public class SwytchApp
     }
 
     private async Task<bool> VerifyAuthentication(RequestContext c)
-   {
+    {
         if (c.IsAuthenticated) return true;
         await Unauthorized(c);
         return false;
@@ -415,7 +415,7 @@ public class SwytchApp
 
         var staticRoute = _registeredRoutes.Find(r => r.UrlPath.Contains("swytchserver"));
         if (staticRoute is null) return false;
-        var(match,_)  = MatchUrl(c.Request.Url.AbsolutePath, staticRoute, c);
+        var (match, _) = MatchUrl(c.Request.Url.AbsolutePath, staticRoute, c);
         return match;
     }
 }

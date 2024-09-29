@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Swytch.Structures;
 
-namespace WebApplication.Actions;
+namespace WebApplication.Actions.Auth;
 
 public class AuthenticationAction
 {

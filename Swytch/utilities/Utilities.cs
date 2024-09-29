@@ -81,6 +81,7 @@ public static class Utilities
         string contentType = Path.GetExtension(filePath) switch
         {
             ".html" => "text/html",
+            ".css" => "text/css",
             _ => "text/plain",
         };
         int bufferSize = 4096; //4kb

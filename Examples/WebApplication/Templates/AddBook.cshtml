@@ -1,0 +1,37 @@
+
+@using RazorLight
+
+@{
+    Layout = "Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Add a Book</h2>
+    <form action="/add-book" method="POST">
+        <label for="title">Book Title:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required>
+
+        <label for="genre">Genre:</label>
+        <select id="genre" name="genre" required>
+            <option value="">Select a genre</option>
+            <option value="fiction">Fiction</option>
+            <option value="non-fiction">Non-Fiction</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="science-fiction">Science Fiction</option>
+            <option value="biography">Biography</option>
+            <option value="mystery">Mystery</option>
+            <option value="thriller">Thriller</option>
+        </select>
+
+        <label for="publicationYear">Publication Year:</label>
+        <input type="number" id="publicationYear" name="publicationYear" min="1450" max="2024" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <input type="submit" value="Add Book">
+    </form>
+</div>

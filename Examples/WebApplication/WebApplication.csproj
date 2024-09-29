@@ -5,11 +5,8 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Folder Include="Templates\" />
-    </ItemGroup>
 
     <!--   Directive to include files or folders in your build output-->
     <ItemGroup>
@@ -22,8 +19,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Swytch\Swytch.csproj" />
+        <ProjectReference Include="..\..\Swytch\Swytch.csproj"/>
     </ItemGroup>
-    
+
 
 </Project>
