@@ -189,7 +189,7 @@ public class SwytchApp
     /// <a href="https://learn.microsoft.com/en-us/dotnet/fundamentals/runtime-libraries/system-net-httplistener">read more</a>
     /// </param>
     ///ref/
-    public async Task Listen(string addr)
+    public async Task Listen(string addr = "http://127.0.0.1:8080/")
     {
         try
         {
@@ -202,7 +202,7 @@ public class SwytchApp
             {
                 HttpListenerContext ctx = await server.GetContextAsync();
                 Func<RequestContext, Task> hndler = GetSwytchRouter();
-                _ = Task.Run(() => hndler(new RequestContext(ctx)));
+                _ = Task.Run(() => hndler(new RequestContext(_logger,ctx)));
             }
         }
         catch (ArgumentException)
