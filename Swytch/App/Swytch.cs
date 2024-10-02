@@ -175,7 +175,6 @@ public class SwytchApp
             // c.Response.Headers.Set(HttpResponseHeader.CacheControl, "max-age=86400");
             await Utilities.ServeFile(c, filename ?? "NoFile", HttpStatusCode.OK);
         };
-
         AddAction("GET", "/swytchserver/static/{filename}", fileServer);
     }
 
@@ -202,7 +201,7 @@ public class SwytchApp
             {
                 HttpListenerContext ctx = await server.GetContextAsync();
                 Func<RequestContext, Task> hndler = GetSwytchRouter();
-                _ = Task.Run(() => hndler(new RequestContext(_logger,ctx)));
+                _ = Task.Run(() => hndler(new RequestContext(_logger, ctx)));
             }
         }
         catch (ArgumentException)

@@ -26,10 +26,7 @@ public class RequestContext : IRequestContext
     public ClaimsPrincipal? User { get; set; }
     public Dictionary<string, string> PathParams { get; set; }
     public Dictionary<string, string> QueryParams { get; set; }
-
     public Boolean IsAuthenticated { get; set; }
-
-
     private readonly ILogger<SwytchApp> _logger;
 
     public RequestContext(ILogger<SwytchApp> logger, HttpListenerContext c)
@@ -39,7 +36,6 @@ public class RequestContext : IRequestContext
         PathParams = new Dictionary<string, string>();
         QueryParams = new Dictionary<string, string>();
         IsAuthenticated = false;
-
         _logger = logger;
     }
 
@@ -61,7 +57,6 @@ public class RequestContext : IRequestContext
         {
             using StreamReader reader = new StreamReader(Request.InputStream);
             string jsonBody = reader.ReadToEnd();
-
             return jsonBody;
         }
         catch (Exception e)
@@ -89,9 +84,7 @@ public class RequestContext : IRequestContext
         {
             using StreamReader reader = new StreamReader(Request.InputStream);
             string formBody = reader.ReadToEnd();
-
             NameValueCollection parsedBody = HttpUtility.ParseQueryString(formBody);
-
             return parsedBody;
         }
         catch (Exception e)
