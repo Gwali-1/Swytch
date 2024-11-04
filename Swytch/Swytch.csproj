@@ -21,10 +21,5 @@
     <PackageReference Include="RazorLight" Version="2.3.1" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
   </ItemGroup>
-<!--  <ItemGroup>-->
-<!--    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">-->
-<!--      <_Parameter1>TestProject</_Parameter1>-->
-<!--    </AssemblyAttribute>-->
-<!--  </ItemGroup>-->
 
 </Project>
