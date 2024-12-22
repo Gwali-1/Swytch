@@ -1,6 +1,7 @@
 using System.Collections.Specialized;
 using System.Net;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Web;
 using Microsoft.Extensions.Logging;
 using Swytch.App;
@@ -41,7 +42,7 @@ public class RequestContext : IRequestContext
 
 
     /// <summary>
-    /// Read the json formatted request body.
+    /// Reads the json formatted request body and returns as a string .
     /// ContentType header must be set to application/json or InvalidDataException is thrown
     /// </summary>
     /// <returns>json request string sent as a post request</returns>
@@ -64,6 +65,50 @@ public class RequestContext : IRequestContext
             _logger.LogWarning(e.Message);
             throw;
         }
+    }
+
+    public string ReadRawBody()
+    {
+        try
+        {
+            using StreamReader reader = new StreamReader(Request.InputStream);
+            string rawBody = reader.ReadToEnd();
+            return rawBody;
+        }
+        catch (Exception e)
+        {
+            _logger.LogWarning(e.Message);
+            throw;
+        }
+    }
+
+
+    /// <summary>
+    /// Reads the json formatted request body and returns deserialization to type T.
+    /// ContentType header must be set to application/json or InvalidDataException is thrown
+    /// </summary>
+    /// <returns>json request string sent as a post request</returns>
+    /// <exception cref="InvalidDataException"></exception>
+    public T? ReadJsonBody<T>()
+    {
+        if (Request.ContentType != null && !Request.ContentType.Equals("application/json"))
+        {
+            throw new InvalidDataException("ContentType not application/json");
+        }
+        try
+        {
+            using StreamReader reader = new StreamReader(Request.InputStream);
+            string jsonBody = reader.ReadToEnd();
+
+            var result = JsonSerializer.Deserialize<T>(jsonBody);
+            return result;
+        }
+        catch (Exception e)
+        {
+            _logger.LogWarning(e.Message);
+            throw;
+        }
+
     }
 
 
@@ -96,6 +141,11 @@ public class RequestContext : IRequestContext
 
     public async Task Redirect(string path)
     {
+        //implement redirecting 
+        
+        //set the statys code to redirect and include the redirect url in the response 
+        
+        //add option to include query params in redirect 
         await Task.Delay(0);
     }
 }

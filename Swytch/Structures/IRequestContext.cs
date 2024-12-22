@@ -14,6 +14,9 @@ public interface IRequestContext
     Boolean IsAuthenticated { get; set; }
 
     public string ReadJsonBody();
+    public string ReadRawBody();
+    public T? ReadJsonBody<T>();
+
     public NameValueCollection ReadFormBody();
 
 }
