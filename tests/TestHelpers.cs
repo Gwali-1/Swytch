@@ -12,6 +12,7 @@ public static class TestHelpers
 {
     public async static Task StartTestServer(string uri, SwytchApp testServer)
     {
-        Task.Run(async () => { await testServer.Listen("http://localhost:6081/"); });
+        await Task.Delay(0);
+        _ = Task.Run(async () => { await testServer.Listen("http://localhost:6081/"); });
     }
 }

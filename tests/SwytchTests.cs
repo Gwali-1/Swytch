@@ -11,16 +11,15 @@ namespace tests;
 
 public class SwytchTests
 {
-    private static SwytchApp testServer = new();
+    private static readonly SwytchApp TestServer = new();
     private static int _counter = 0;
     private readonly ILogger<SwytchTests> _logger;
-    private static HttpClient _httpClient;
+    private static readonly HttpClient HttpClient = new HttpClient();
 
     public SwytchTests()
     {
         using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
         _logger = factory.CreateLogger<SwytchTests>();
-        _httpClient = new HttpClient();
     }
 
 
@@ -45,12 +44,10 @@ public class SwytchTests
     [InlineData("/fish/uiijjr/87774/", HttpStatusCode.OK, "fresh and blessed ")]
     [InlineData("/fish/34566//445", HttpStatusCode.OK, "believe")]
     [InlineData("/fish/sjjhdh/", HttpStatusCode.OK, "true")]
-    public async Task TestRequestUrlPathMatchingForGetMethod(string path, HttpStatusCode httpStatusCode, string body)
+    public async Task Test_Request_Url_Path_Should_Match_Registered_Path(string path, HttpStatusCode httpStatusCode, string body)
     {
-        using (HttpListener listener = new HttpListener())
-        {
             //Arrange
-            testServer.AddAction("GET", path,
+            TestServer.AddAction("GET", path,
                 async c => { await Utilities.WriteTextToStream(c, body, httpStatusCode); });
 
             //start the server on a different thread 
@@ -58,20 +55,19 @@ public class SwytchTests
             {
                 try
                 {
-                    await TestHelpers.StartTestServer("http://localhost:6081/", testServer);
+                    await TestHelpers.StartTestServer("http://localhost:6081/", TestServer);
                 }
                 catch (Exception e)
                 {
                     _logger.LogError(e, "Exception thrown when starting test server");
                 }
             }
-        }
 
         _counter++;
 
         //Act 
         var requestUri = "http://localhost:6081" + path;
-        var response = await _httpClient.GetAsync(requestUri);
+        var response = await HttpClient.GetAsync(requestUri);
         var resoonseBody = await response.Content.ReadAsStringAsync();
 
         //Assert
@@ -82,11 +78,20 @@ public class SwytchTests
 
     [Theory]
     [InlineData("/home", "/home/", "GET", HttpStatusCode.NotFound)]
-    private async Task TestRequestUrlPathAndRegisteredUrlPathMatching(string requestPath, string requestMethod,
-        string registeredPath,
+    [InlineData("/home/", "/home/'", "GET", HttpStatusCode.NotFound)]
+    [InlineData("/home/.band", "/home/band", "GET", HttpStatusCode.NotFound)]
+    [InlineData("/home/band", "/home/band/", "GET", HttpStatusCode.NotFound)]
+    [InlineData("/home/crook", "/home/crook/brand", "GET", HttpStatusCode.NotFound)]
+    [InlineData("/home/manona/cro", "/home/manona/cro", "GET", HttpStatusCode.NotFound)]
+    [InlineData("/home/", "/home/.", "GET", HttpStatusCode.NotFound)]
+    [InlineData("/home/ ", "/home/  ", "GET", HttpStatusCode.NotFound)]
+    [InlineData("/home/", "/home/    ", "GET", HttpStatusCode.NotFound)]
+    [InlineData("/home / ", "/home/", "GET", HttpStatusCode.NotFound)]
+    private async Task Test_Request_Should_Return_NotFound_ResponseCode_For_Unmatched_Paths(string requestPath, string registeredPath,
+        string requestMethod ,
         HttpStatusCode responseCode)
     {
-        testServer.AddAction(requestMethod, registeredPath,
+        TestServer.AddAction(requestMethod, registeredPath,
             async c => { await Utilities.WriteTextToStream(c, "Hello test", responseCode); });
 
 
@@ -95,7 +100,7 @@ public class SwytchTests
         {
             try
             {
-                await TestHelpers.StartTestServer("http://localhost:6081/", testServer);
+                await TestHelpers.StartTestServer("http://localhost:6081/", TestServer);
             }
             catch (Exception e)
             {
@@ -107,8 +112,7 @@ public class SwytchTests
 
         //Act 
         var requestUri = "http://localhost:6081" + requestPath;
-        var response = await _httpClient.GetAsync(requestUri);
-        var resoonseBody = await response.Content.ReadAsStringAsync();
+        var response = await HttpClient.GetAsync(requestUri);
 
         //Assert
         Assert.Equal(responseCode, response.StatusCode);
