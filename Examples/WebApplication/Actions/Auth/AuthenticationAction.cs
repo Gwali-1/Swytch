@@ -17,10 +17,23 @@ public class AuthenticationAction
     {
         _logger.LogInformation("Request to authenticate user");
         
-        await Task.Delay(0);
-        //authenticate ueser 
+        //authenticate user
 
-        //retuen auth state and claims 
+        var header = context.Request.Headers["x-api-key"];
+        if (string.IsNullOrEmpty(header))
+        {
+            return new AuthResponse { IsAuthenticated = false, ClaimsPrincipal = new ClaimsPrincipal() };
+        }
+
+        if (!header.Equals("ya mom"))
+        {
+            return new AuthResponse { IsAuthenticated = false, ClaimsPrincipal = new ClaimsPrincipal() };
+        }
+        
+        
+        await Task.Delay(0);
+
+        //return auth state and claims 
         return new AuthResponse { IsAuthenticated = true, ClaimsPrincipal = new ClaimsPrincipal() };
     }
 }

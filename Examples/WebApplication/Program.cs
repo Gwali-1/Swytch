@@ -14,7 +14,7 @@ AuthenticationAction authenticationAction = new (loggerFactory);
 
 
 //swytchApp.AddLogging();
-swytchApp.AddAuthentication(authenticationAction.AuthenticateUser);
+// swytchApp.AddAuthentication(authenticationAction.AuthenticateUser);
 swytchApp.AddStaticServer();
 
 

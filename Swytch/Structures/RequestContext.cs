@@ -56,7 +56,7 @@ public class RequestContext : IRequestContext
 
         try
         {
-            using StreamReader reader = new StreamReader(Request.InputStream);
+            using StreamReader reader = new StreamReader(Request.InputStream, Request.ContentEncoding);
             string jsonBody = reader.ReadToEnd();
             return jsonBody;
         }
@@ -71,7 +71,7 @@ public class RequestContext : IRequestContext
     {
         try
         {
-            using StreamReader reader = new StreamReader(Request.InputStream);
+            using StreamReader reader = new StreamReader(Request.InputStream, Request.ContentEncoding);
             string rawBody = reader.ReadToEnd();
             return rawBody;
         }
@@ -97,7 +97,7 @@ public class RequestContext : IRequestContext
         }
         try
         {
-            using StreamReader reader = new StreamReader(Request.InputStream);
+            using StreamReader reader = new StreamReader(Request.InputStream, Request.ContentEncoding);
             string jsonBody = reader.ReadToEnd();
 
             var result = JsonSerializer.Deserialize<T>(jsonBody);
@@ -127,7 +127,7 @@ public class RequestContext : IRequestContext
 
         try
         {
-            using StreamReader reader = new StreamReader(Request.InputStream);
+            using StreamReader reader = new StreamReader(Request.InputStream,Request.ContentEncoding);
             string formBody = reader.ReadToEnd();
             NameValueCollection parsedBody = HttpUtility.ParseQueryString(formBody);
             return parsedBody;
@@ -142,9 +142,7 @@ public class RequestContext : IRequestContext
     public async Task Redirect(string path)
     {
         //implement redirecting 
-        
         //set the statys code to redirect and include the redirect url in the response 
-        
         //add option to include query params in redirect 
         await Task.Delay(0);
     }
