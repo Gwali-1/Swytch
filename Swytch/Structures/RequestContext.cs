@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Web;
 using Microsoft.Extensions.Logging;
 using Swytch.App;
+using Swytch.utilities;
 
 namespace Swytch.Structures;
 
@@ -95,6 +96,7 @@ public class RequestContext : IRequestContext
         {
             throw new InvalidDataException("ContentType not application/json");
         }
+
         try
         {
             using StreamReader reader = new StreamReader(Request.InputStream, Request.ContentEncoding);
@@ -108,7 +110,6 @@ public class RequestContext : IRequestContext
             _logger.LogWarning(e.Message);
             throw;
         }
-
     }
 
 
@@ -127,7 +128,7 @@ public class RequestContext : IRequestContext
 
         try
         {
-            using StreamReader reader = new StreamReader(Request.InputStream,Request.ContentEncoding);
+            using StreamReader reader = new StreamReader(Request.InputStream, Request.ContentEncoding);
             string formBody = reader.ReadToEnd();
             NameValueCollection parsedBody = HttpUtility.ParseQueryString(formBody);
             return parsedBody;
@@ -139,11 +140,29 @@ public class RequestContext : IRequestContext
         }
     }
 
-    public async Task Redirect(string path)
+    public async Task Redirect(string path, List<string>? queryParams = null)
     {
-        //implement redirecting 
-        //set the statys code to redirect and include the redirect url in the response 
-        //add option to include query params in redirect 
+        var qParams = string.Empty;
+        var hostName = Request.UserHostName;
+        string redirectionLocation = hostName + path;
+        if (queryParams is not null && queryParams.Count > 0)
+        {
+            for (var i = 1; i < queryParams.Count; i++)
+            {
+                if (i == queryParams.Count)
+                {
+                    qParams += qParams[i];
+                    break;
+                }
+                qParams += qParams[i] + "&";
+
+            }
+            redirectionLocation += "?" + qParams;
+        }
+
+        Response.StatusCode = (int)HttpStatusCode.Found;
+        Response.RedirectLocation =  path;
+        Response.Close();
         await Task.Delay(0);
     }
 }

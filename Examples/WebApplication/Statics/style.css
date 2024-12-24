@@ -26,9 +26,9 @@ h1 {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 250px;
+    width: 350px;
     text-align: center;
-    padding: 20px;
+    padding: 5px;
     transition: transform 0.3s ease;
 }
 
@@ -37,7 +37,7 @@ h1 {
 }
 
 .book-card img {
-    width: 150px;
+    width: 250px;
     height: 200px;
     object-fit: cover;
     margin-bottom: 15px;

@@ -21,7 +21,9 @@ public class BookCollectionActions
 
     public async Task ShowBookCollection(RequestContext context)
     {
-        await _app.RenderTemplate<object>(context, "BooksView", null);
+        var p = context.QueryParams;
+        Console.WriteLine(p.ToString());
+        await _app.RenderTemplate(context, "BooksView", Books);
     }
 
     public async Task AddBook(RequestContext context)
@@ -45,11 +47,13 @@ public class BookCollectionActions
                 // var newBooK = context.ReadJsonBody<BookModel>();
                 _logger.LogInformation("body:{body}", JsonSerializer.Serialize(newBooK));
                 Books.Add(newBooK);
-                await _app.RenderTemplate(context, "BooksView", Books);
+
+                await context.Redirect("/books",["name=malone"]);
+                return;
             }
             catch (Exception e)
             {
-                _logger.LogError(e,"Exception occured while adding new book");
+                _logger.LogError(e, "Exception occured while adding new book");
                 await _app.RenderTemplate<object>(context, "AddBook", null);
             }
         }
