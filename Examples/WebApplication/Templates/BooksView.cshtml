@@ -1,51 +1,39 @@
 @using RazorLight
-
+@model  List<WebApplication.Models.BookModel>
 @{
     Layout = "Layout.cshtml";
 }
 
 <h1>Favorite Books</h1>
 <div class="book-collection">
-
-    <!-- Book 1 -->
-    <div class="book-card">
-        <img src="https://example.com/book1.jpg" alt="Book 1 Image">
-        <h2>The Great Gatsby</h2>
-        <p>Year: 1925</p>
-        <p class="rating">Rating: ★★★★★</p>
-        <button class="btn edit-btn" onclick="editBook(1)">Edit</button>
-        <button class="btn delete-btn" onclick="deleteBook(1)">Delete</button>
-    </div>
-
-    <!-- Book 2 -->
-    <div class="book-card">
-        <img src="https://example.com/book2.jpg" alt="Book 2 Image">
-        <h2>To Kill a Mockingbird</h2>
-        <p>Year: 1960</p>
-        <p class="rating">Rating: ★★★★★</p>
-        <button class="btn edit-btn" onclick="editBook(1)">Edit</button>
-        <button class="btn delete-btn" onclick="deleteBook(1)">Delete</button>
-    </div>
-
-    <!-- Book 3 -->
-    <div class="book-card">
-        <img src="https://example.com/book3.jpg" alt="Book 3 Image">
-        <h2>1984</h2>
-        <p>Year: 1949</p>
-        <p class="rating">Rating: ★★★★☆</p>
-        <button class="btn edit-btn" onclick="editBook(1)">Edit</button>
-        <button class="btn delete-btn" onclick="deleteBook(1)">Delete</button>
-    </div>
-
-    <!-- Book 4 -->
-    <div class="book-card">
-        <img src="https://example.com/book4.jpg" alt="Book 4 Image">
-        <h2>Brave New World</h2>
-        <p>Year: 1932</p>
-        <p class="rating">Rating: ★★★★☆</p>
-        <button class="btn edit-btn" onclick="editBook(1)">Edit</button>
-        <button class="btn delete-btn" onclick="deleteBook(1)">Delete</button>
-    </div>
+    
+    @if (@Model is not null)
+    {
+        @foreach (var book in @Model)
+        {
+            <div class="book-card">
+                <img src="https://example.com/book1.jpg" alt="Book 1 Image">
+                <h2>@book.Title</h2>
+                <p>Year: @book.PublicationYear</p>
+                <p class="rating">Rating:
+                    @for (var i = 0; i < @book.Rating; i++)
+                    {
+                        <span>★</span>
+                    }
+                </p>
+                
+                <p>Description: @book.Description</p>
+                <button class="btn edit-btn" onclick="editBook(1)">Edit</button>
+                <button class="btn delete-btn" onclick="deleteBook(1)">Delete</button>
+            </div>
+        }
+        
+    }
+    else
+    {
+        <p>No books available</p>
+    }
+    
 
 </div>
 

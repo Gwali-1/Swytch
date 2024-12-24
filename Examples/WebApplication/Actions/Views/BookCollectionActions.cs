@@ -11,6 +11,7 @@ public class BookCollectionActions
 {
     private readonly SwytchApp _app;
     private readonly ILogger<BookCollectionActions> _logger;
+    private List<BookModel> Books = [];
 
     public BookCollectionActions(ILoggerFactory loggerFactory, SwytchApp app)
     {
@@ -27,19 +28,32 @@ public class BookCollectionActions
     {
         if (context.Request.HttpMethod.Equals("POST"))
         {
-            _logger.LogInformation("recieved post request on addbokk endpoint");
-            // _logger.LogDebug("request bod => {body}", context.Request.ContentType);
-            // var formBody = context.ReadFormBody();
-            var body = context.ReadJsonBody<AddBookModel>();
-            _logger.LogInformation("body:{body}",JsonSerializer.Serialize(body));
-
-            // _logger.LogInformation("Book Title:{title}" +
-            //                        "\nAuthor:{author}" +
-            //                        "\nGenre:{genre}" +
-            //                        "\nDescription:{des}", formBody["title"], formBody["author"], formBody["genre"],
-            //     formBody["description"]);
+            try
+            {
+                _logger.LogInformation("received post request to add a new book");
+                // _logger.LogDebug("request bod => {body}", context.Request.ContentType);
+                var formBody = context.ReadFormBody();
+                var newBooK = new BookModel
+                {
+                    Title = formBody["title"],
+                    Author = formBody["author"],
+                    Genre = formBody["genre"],
+                    PublicationYear = Int32.Parse(formBody["publicationYear"]),
+                    Description = formBody["Description"],
+                    Rating = Int32.Parse(formBody["rating"])
+                };
+                // var newBooK = context.ReadJsonBody<BookModel>();
+                _logger.LogInformation("body:{body}", JsonSerializer.Serialize(newBooK));
+                Books.Add(newBooK);
+                await _app.RenderTemplate(context, "BooksView", Books);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e,"Exception occured while adding new book");
+                await _app.RenderTemplate<object>(context, "AddBook", null);
+            }
         }
 
-        await _app.RenderTemplate<object>(context, "AddBook", null);
+        await _app.RenderTemplate(context, "AddBook", Books);
     }
 }

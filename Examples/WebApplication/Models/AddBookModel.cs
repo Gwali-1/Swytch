@@ -11,7 +11,9 @@ public class AddBookModel
     [JsonPropertyName("genre")]
     public string Genre { get; set; } = string.Empty;
     [JsonPropertyName("publicationYear")]
-    public int PublicationYear { get; set; } 
+    public int PublicationYear { get; set; }
+
+    [JsonPropertyName("rating")] public int Rating { get; set; } = 1;
     [JsonPropertyName("description")]
     public string Description { get; set; } = string.Empty;
 }
