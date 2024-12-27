@@ -68,26 +68,13 @@ public class RequestContext : IRequestContext
         }
     }
 
-    public string ReadRawBody()
-    {
-        try
-        {
-            using StreamReader reader = new StreamReader(Request.InputStream, Request.ContentEncoding);
-            string rawBody = reader.ReadToEnd();
-            return rawBody;
-        }
-        catch (Exception e)
-        {
-            _logger.LogWarning(e.Message);
-            throw;
-        }
-    }
-
 
     /// <summary>
     /// Reads the json formatted request body and returns deserialization to type T.
     /// ContentType header must be set to application/json or InvalidDataException is thrown
     /// </summary>
+    /// <typeparam name="T">Represent the type to deserialize the body to</typeparam>
+
     /// <returns>json request string sent as a post request</returns>
     /// <exception cref="InvalidDataException"></exception>
     public T? ReadJsonBody<T>()
@@ -104,6 +91,26 @@ public class RequestContext : IRequestContext
 
             var result = JsonSerializer.Deserialize<T>(jsonBody);
             return result;
+        }
+        catch (Exception e)
+        {
+            _logger.LogWarning(e.Message);
+            throw;
+        }
+    }
+    
+    /// <summary>
+    /// Reads and returns the request body content and returns it as it is.
+    /// </summary>
+    /// <returns>Raw request body content</returns>
+
+    public string ReadRawBody()
+    {
+        try
+        {
+            using StreamReader reader = new StreamReader(Request.InputStream, Request.ContentEncoding);
+            string rawBody = reader.ReadToEnd();
+            return rawBody;
         }
         catch (Exception e)
         {
@@ -140,11 +147,15 @@ public class RequestContext : IRequestContext
         }
     }
 
+
+    /// <summary>
+    /// Redirect the user to another page of the same host by specifying the path.
+    /// </summary>
+    /// <param name="path">The path to redirect to</param>
+    /// <param name="queryParams">Query parameters to add to redirect path if available</param>
     public async Task Redirect(string path, List<string>? queryParams = null)
     {
         var qParams = string.Empty;
-        var hostName = Request.UserHostName;
-        string redirectionLocation = hostName + path;
         if (queryParams is not null && queryParams.Count > 0)
         {
             for (var i = 1; i < queryParams.Count; i++)
@@ -154,14 +165,15 @@ public class RequestContext : IRequestContext
                     qParams += qParams[i];
                     break;
                 }
-                qParams += qParams[i] + "&";
 
+                qParams += qParams[i] + "&";
             }
-            redirectionLocation += "?" + qParams;
+
+            path += "?" + qParams;
         }
 
         Response.StatusCode = (int)HttpStatusCode.Found;
-        Response.RedirectLocation =  path;
+        Response.RedirectLocation = path;
         Response.Close();
         await Task.Delay(0);
     }

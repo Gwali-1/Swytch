@@ -6,6 +6,7 @@ namespace Swytch.Structures;
 
 public interface IRequestContext
 {
+    //props
     HttpListenerRequest Request { get; set; }
     HttpListenerResponse Response { get; set; }
     ClaimsPrincipal? User { get; set; }
@@ -13,10 +14,10 @@ public interface IRequestContext
     Dictionary<string, string> QueryParams { get; set; }
     Boolean IsAuthenticated { get; set; }
 
+
+    //methods
     public string ReadJsonBody();
-    public string ReadRawBody();
     public T? ReadJsonBody<T>();
-
+    public string ReadRawBody();
     public NameValueCollection ReadFormBody();
-
 }

@@ -1,31 +1,20 @@
-using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
 using Swytch.Structures;
+using Swytch.utilities;
 
-namespace Swytch.utilities;
+namespace Swytch.Extensions;
 
-internal static class Constants
+public static class RequestContextExtensions
 {
-    public static string Text { get; } = "text/plain";
-    public static string Html { get; } = "text/html";
-    public static string Json { get; } = "application/json";
-    public static string StaticsDir { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Statics");
-    public static string NotFound { get; } = "NOT FOUND(404";
-}
-
-/// <summary>
-/// The Utilities class is meant to expose a set of helpful static methods that help perform certain tasks for convenience.
-/// </summary>
-public static class Utilities
-{
-    /// <summary>
+    
+      /// <summary>
     /// Writes a string as an http response and set the response status code to the one provided.
     /// </summary>
     /// <param name="context">The current request context</param>
     /// <param name="payload">The string payload to send</param>
     /// <param name="status">The response status code to set</param>
-    public static async Task WriteTextToStream(RequestContext context, string payload, HttpStatusCode status)
+    public static async Task WriteTextToStream(this RequestContext context, string payload, HttpStatusCode status)
     {
         context.Response.StatusCode = (int)status;
         byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(payload);
@@ -41,7 +30,7 @@ public static class Utilities
     /// <param name="context">The current request context</param>
     /// <param name="payload">The html content to send</param>
     /// <param name="status">The response status code to set</param>
-    public static async Task WriteHtmlToStream(RequestContext context, string payload, HttpStatusCode status)
+    public static async Task WriteHtmlToStream(this RequestContext context, string payload, HttpStatusCode status)
     {
         context.Response.StatusCode = (int)status;
         byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(payload);
@@ -75,7 +64,7 @@ public static class Utilities
     /// <param name="filename">The name of the file without the extension. eg catnames instead of catnames.txt</param>
     /// <param name="context">The current request context</param>
     /// <param name="status">The response status </param>
-    public static async Task ServeFile(RequestContext context,string filename, HttpStatusCode status)
+    public static async Task ServeFile( this RequestContext context,string filename, HttpStatusCode status)
     {
         string filePath = Path.Combine(Constants.StaticsDir, filename);
         string contentType = Path.GetExtension(filePath) switch
@@ -106,4 +95,5 @@ public static class Utilities
             await WriteTextToStream(context, Constants.NotFound, HttpStatusCode.NotFound);
         }
     }
+    
 }

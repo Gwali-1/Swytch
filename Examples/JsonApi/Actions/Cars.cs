@@ -37,6 +37,6 @@ public class Cars
             return;
         }
 
-        await Utilities.WriteTextToStream(context, "SOMETHING WENT WRONG", HttpStatusCode.ServiceUnavailable);
+        await ResponseUtility.WriteTextToStream(context, "SOMETHING WENT WRONG", HttpStatusCode.ServiceUnavailable);
     }
 }

@@ -48,7 +48,7 @@ public class SwytchTests
     {
             //Arrange
             TestServer.AddAction("GET", path,
-                async c => { await Utilities.WriteTextToStream(c, body, httpStatusCode); });
+                async c => { await ResponseUtility.WriteTextToStream(c, body, httpStatusCode); });
 
             //start the server on a different thread 
             if (_counter == 0)
@@ -92,7 +92,7 @@ public class SwytchTests
         HttpStatusCode responseCode)
     {
         TestServer.AddAction(requestMethod, registeredPath,
-            async c => { await Utilities.WriteTextToStream(c, "Hello test", responseCode); });
+            async c => { await ResponseUtility.WriteTextToStream(c, "Hello test", responseCode); });
 
 
         //start the server on a different thread 

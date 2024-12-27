@@ -17,13 +17,12 @@ namespace Swytch.App;
 /// The SwytchApp class is the entry point to the framework library. An instance of this type exposes public APIs for that allow you
 /// to register your middlewares , request handling methods , start the server etc. There is an internal routing implementation that handles
 /// calling middlewares in the order they were registered and calling the right methods for the right routes and http verbs.
-/// Call Listen when done registering your handling logic and middlewares to start accepting and processing requests.
+/// Call Listen when done registering your handling logic and middlewares to start listening, accepting and processing requests.
 /// </summary>
 public class SwytchApp
 {
     //registered routes
     private readonly List<Route> _registeredRoutes = new List<Route>();
-
     private readonly Queue<Func<RequestContext, Task>> _registeredMiddlewares = new();
     private Func<RequestContext, Task>? _swytchRouter;
     private readonly RazorLightEngine? _engine;
@@ -94,7 +93,7 @@ public class SwytchApp
     /// Returns a connection to the database that can be used to execute commands.
     /// Make sure to close connection after use
     /// </summary>
-    /// <param name="provider">The data store type you registered datastore</param>
+    /// <param name="provider">The data store type you registered in the datastore collection</param>
     /// <returns></returns>
     /// <exception cref="KeyNotFoundException"></exception>
     /// <exception cref="NotSupportedException"></exception>
@@ -162,7 +161,7 @@ public class SwytchApp
     }
 
     /// <summary>
-    /// registers a request handler that listens for static file requests with path /swytchserver/static/{filename}  and servers them directly from the
+    /// registers a request handler that listens for static file requests to path /swytchserver/static/{filename}  and servers them directly from the
     /// static directory. This handler will run regardless of authentication state. If you want files to be served only
     /// if request is authenticated , register a different handler that listens on a different path
     /// </summary>
@@ -173,7 +172,7 @@ public class SwytchApp
         {
             _ = c.PathParams.TryGetValue("filename", out var filename);
             // c.Response.Headers.Set(HttpResponseHeader.CacheControl, "max-age=86400");
-            await Utilities.ServeFile(c, filename ?? "NoFile", HttpStatusCode.OK);
+            await ResponseUtility.ServeFile(c, filename ?? "NoFile", HttpStatusCode.OK);
         };
         AddAction("GET", "/swytchserver/static/{filename}", fileServer);
     }
@@ -268,7 +267,7 @@ public class SwytchApp
     public async Task RenderTemplate<T>(RequestContext context, string key, T? model)
     {
         string result = await GenerateTemplate(key, model);
-        await Utilities.WriteHtmlToStream(context, result, HttpStatusCode.OK);
+        await ResponseUtility.WriteHtmlToStream(context, result, HttpStatusCode.OK);
     }
 
 
@@ -296,25 +295,25 @@ public class SwytchApp
     private static async Task NotFound(RequestContext requestContext)
     {
         string responseBody = "NOT FOUND (404)";
-        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.NotFound);
+        await ResponseUtility.WriteTextToStream(requestContext, responseBody, HttpStatusCode.NotFound);
     }
 
     private static async Task InternalServerError(RequestContext requestContext)
     {
         const string responseBody = "INTERNAL SERVER ERROR (500)";
-        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.NotFound);
+        await ResponseUtility.WriteTextToStream(requestContext, responseBody, HttpStatusCode.NotFound);
     }
 
     private static async Task MethodNotAllowed(RequestContext requestContext)
     {
         const string responseBody = "METHOD NOT ALLOWED (405)";
-        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
+        await ResponseUtility.WriteTextToStream(requestContext, responseBody, HttpStatusCode.MethodNotAllowed);
     }
 
     private static async Task Unauthorized(RequestContext requestContext)
     {
         const string responseBody = "UNAUTHORIZED (401)";
-        await Utilities.WriteTextToStream(requestContext, responseBody, HttpStatusCode.Unauthorized);
+        await ResponseUtility.WriteTextToStream(requestContext, responseBody, HttpStatusCode.Unauthorized);
     }
 
 

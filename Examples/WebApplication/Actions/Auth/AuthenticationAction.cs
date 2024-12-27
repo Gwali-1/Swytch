@@ -17,6 +17,7 @@ public class AuthenticationAction
     {
         _logger.LogInformation("Request to authenticate user");
         
+        
         //authenticate user
 
         var header = context.Request.Headers["x-api-key"];

@@ -16,17 +16,17 @@ var logger = async (RequestContext ctx) =>
 
 var home = async (RequestContext ctx) =>
 {
-    await Utilities.WriteTextToStream(ctx, "<h1>HOME</h1>", HttpStatusCode.OK);
+    await ResponseUtility.WriteTextToStream(ctx, "<h1>HOME</h1>", HttpStatusCode.OK);
 };
 
 var profile = async (RequestContext ctx) =>
 {
-    await Utilities.WriteTextToStream(ctx, "<h1>PROFILE</h1>", HttpStatusCode.OK);
+    await ResponseUtility.WriteTextToStream(ctx, "<h1>PROFILE</h1>", HttpStatusCode.OK);
 };
 
 var login = async (RequestContext ctx) =>
 {
-    await Utilities.WriteTextToStream(ctx, "<h1>LOGIN</h1>", HttpStatusCode.OK);
+    await ResponseUtility.WriteTextToStream(ctx, "<h1>LOGIN</h1>", HttpStatusCode.OK);
 };
 
 

@@ -1,5 +1,3 @@
-using Swytch.Structures;
-
 namespace Swytch.Structures;
 
 /*This a Route class. It represents in a sense the route a request should take.

@@ -21,7 +21,7 @@ server.AddAuthentication(async c =>
 //action method can be writen like this
 Func<RequestContext, Task> evening = async c =>
 {
-    await Utilities.ServeFile(c, "goodevening.html", HttpStatusCode.OK);
+    await ResponseUtility.ServeFile(c, "goodevening.html", HttpStatusCode.OK);
 };
 
 // //file server
@@ -37,7 +37,7 @@ Func<RequestContext, Task> evening = async c =>
 server.AddAction("GET", "/", evening);
 server.AddStaticServer(); //registers handler that servers static files directly from static directory
 server.AddAction("GET", "/travelling",
-    async c => { await Utilities.ServeFile(c, "traveling.html", HttpStatusCode.OK); });
+    async c => { await ResponseUtility.ServeFile(c, "traveling.html", HttpStatusCode.OK); });
 
 
 await server.Listen("http://localhost:8080/");
