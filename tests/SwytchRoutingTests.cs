@@ -9,17 +9,17 @@ using Xunit;
 
 namespace tests;
 
-public class SwytchTests
+public class SwytchRoutingTests
 {
     private static readonly SwytchApp TestServer = new();
     private static int _counter = 0;
-    private readonly ILogger<SwytchTests> _logger;
+    private readonly ILogger<SwytchRoutingTests> _logger;
     private static readonly HttpClient HttpClient = new HttpClient();
 
-    public SwytchTests()
+    public SwytchRoutingTests()
     {
         using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
-        _logger = factory.CreateLogger<SwytchTests>();
+        _logger = factory.CreateLogger<SwytchRoutingTests>();
     }
 
 
