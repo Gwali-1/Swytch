@@ -87,6 +87,8 @@ public class SwytchTests
     [InlineData("/home/ ", "/home/  ", "GET", HttpStatusCode.NotFound)]
     [InlineData("/home/", "/home/    ", "GET", HttpStatusCode.NotFound)]
     [InlineData("/home / ", "/home/", "GET", HttpStatusCode.NotFound)]
+    [InlineData("/home/meaning", "/home/meaning/", "GET", HttpStatusCode.NotFound)]
+    [InlineData("/branded/ ", "/ḅranded/", "GET", HttpStatusCode.NotFound)]
     private async Task Test_Request_Should_Return_NotFound_ResponseCode_For_Unmatched_Paths(string requestPath, string registeredPath,
         string requestMethod ,
         HttpStatusCode responseCode)
