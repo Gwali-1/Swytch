@@ -29,6 +29,7 @@ public class SwytchApp
     private readonly ILogger<SwytchApp> _logger;
     private bool _enableAuth;
     private bool _enableStatic;
+    private HttpListener server;
     private readonly Dictionary<DatabaseProviders, string> _dataSources = new();
     private string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
 
@@ -192,6 +193,7 @@ public class SwytchApp
         try
         {
             HttpListener server = new HttpListener();
+            this.server = server;
             server.Prefixes.Add(addr);
             server.Start();
             _logger.LogInformation("Server is live at {addr}", addr);
@@ -268,6 +270,11 @@ public class SwytchApp
     {
         string result = await GenerateTemplate(key, model);
         await ResponseUtility.WriteHtmlToStream(context, result, HttpStatusCode.OK);
+    }
+
+    public void StopServer()
+    {
+        this.server.Close();
     }
 
 

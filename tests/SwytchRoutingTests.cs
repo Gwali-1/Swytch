@@ -11,7 +11,7 @@ namespace tests;
 
 public class SwytchRoutingTests
 {
-    private static readonly SwytchApp TestServer = new();
+    private  static readonly SwytchApp TestServer = new();
     private static int _counter = 0;
     private readonly ILogger<SwytchRoutingTests> _logger;
     private static readonly HttpClient HttpClient = new HttpClient();
@@ -21,6 +21,7 @@ public class SwytchRoutingTests
         using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
         _logger = factory.CreateLogger<SwytchRoutingTests>();
     }
+
 
 
     [Theory]
@@ -55,6 +56,7 @@ public class SwytchRoutingTests
             {
                 try
                 {
+                    Console.WriteLine("starting server");
                     await TestHelpers.StartTestServer("http://localhost:6081/", TestServer);
                 }
                 catch (Exception e)
@@ -68,10 +70,10 @@ public class SwytchRoutingTests
         //Act 
         var requestUri = "http://localhost:6081" + path;
         var response = await HttpClient.GetAsync(requestUri);
-        var resoonseBody = await response.Content.ReadAsStringAsync();
+        var responseBody = await response.Content.ReadAsStringAsync();
 
         //Assert
-        Assert.Equal(body, resoonseBody);
+        Assert.Equal(body, responseBody);
         Assert.Equal(httpStatusCode, response.StatusCode);
     }
 
@@ -89,7 +91,7 @@ public class SwytchRoutingTests
     [InlineData("/home / ", "/home/", "GET", HttpStatusCode.NotFound)]
     [InlineData("/home/meaning", "/home/meaning/", "GET", HttpStatusCode.NotFound)]
     [InlineData("/branded/ ", "/ḅranded/", "GET", HttpStatusCode.NotFound)]
-    private async Task Test_Request_Should_Return_NotFound_ResponseCode_For_Unmatched_Paths(string requestPath, string registeredPath,
+    public async Task Test_Request_Should_Return_NotFound_ResponseCode_For_Unmatched_Paths(string requestPath, string registeredPath,
         string requestMethod ,
         HttpStatusCode responseCode)
     {
@@ -102,6 +104,7 @@ public class SwytchRoutingTests
         {
             try
             {
+                Console.WriteLine("starting server");
                 await TestHelpers.StartTestServer("http://localhost:6081/", TestServer);
             }
             catch (Exception e)

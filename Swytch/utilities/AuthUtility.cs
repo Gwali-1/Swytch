@@ -32,11 +32,22 @@ public static class AuthUtility
         }
 
         byte[] base64CredentialsBytes = Convert.FromBase64String(authParts[1]);
-        string[] basic = Encoding.UTF8.GetString(base64CredentialsBytes).Split(" ");
+        string[] basic = Encoding.UTF8.GetString(base64CredentialsBytes).Split(":");
+        
+        if (basic.Length < 2)
+        {
+            return new AuthResponse { IsAuthenticated = false, ClaimsPrincipal = new ClaimsPrincipal() };
+        }
+        
         string username = basic[0];
         string password = basic[1];
 
         string[] validCredentials = credentials.Split(":");
+        if (validCredentials.Length < 2)
+        {
+            return new AuthResponse { IsAuthenticated = false, ClaimsPrincipal = new ClaimsPrincipal() };
+        }
+        
         if (validCredentials[0] == username && validCredentials[1] == password)
         {
             var claims = new List<Claim>
@@ -82,10 +93,10 @@ public static class AuthUtility
     /// your secrete key for the token signature, when the token expires in seconds and a list of claims to be associated with this token
     /// </summary>
     /// <param name="secretKey">Secrete key</param>
-    /// <param name="expireSeconds">Token expiration in seconds</param>
+    /// <param name="lifeExpireSeconds">Token expiration in seconds</param>
     /// <param name="claims"> a list of claims to be associated with token</param>
     /// <returns></returns>
-    public static string CreateBearerToken(string secretKey, int expireSeconds, List<Claim> claims)
+    public static string CreateBearerToken(string secretKey, int lifeExpireSeconds, List<Claim> claims)
     {
         var key = Encoding.UTF8.GetBytes(secretKey);
         var descriptor = new SecurityTokenDescriptor
@@ -93,7 +104,7 @@ public static class AuthUtility
             Subject = new ClaimsIdentity(claims),
             Issuer = claims.Find(c => c.Type == "iss")?.Value,
             Audience = claims.Find(c => c.Type == "aud")?.Value,
-            Expires = DateTime.UtcNow.AddSeconds(expireSeconds),
+            Expires = DateTime.UtcNow.AddSeconds(lifeExpireSeconds),
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
         };
