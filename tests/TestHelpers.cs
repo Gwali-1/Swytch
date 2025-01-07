@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 using Swytch.App;
 using Swytch.utilities;
@@ -13,21 +14,32 @@ public static class TestHelpers
         _ = Task.Run(async () => { await testServer.Listen(uri); });
     }
 
-    public static string CreateSampleTokenToken(string secrete, int expires)
+    public static string CreateSampleTokenToken(string secrete, int expires,string customeClaim)
     {
         var claims = new List<Claim>
         {
             new Claim("iss", "testProject"),
             new Claim("aud", "testProjectMethod"),
-            new Claim("name", "squareCoinz"),
+            new Claim("customeClaim", customeClaim),
         };
 
         var token = AuthUtility.CreateBearerToken(secrete, expires, claims);
         return token;
     }
 
-    public static TokenValidationParameters GeTokenValidationParameters(bool validIss, bool validAud,
-        bool validLifetime)
+    public static string GenerateSampleSecreteKey()
+    {
+        byte[] key = new byte[64]; // 64 bytes = 512 bits
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(key);
+        }
+        return Convert.ToBase64String(key);
+        
+    }
+
+    public static TokenValidationParameters GeTokenValidationParameters(bool validIss=true, bool validAud= true,
+        bool validLifetime =true)
     {
         return new TokenValidationParameters
         {

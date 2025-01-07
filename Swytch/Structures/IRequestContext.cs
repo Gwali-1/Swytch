@@ -11,7 +11,7 @@ public interface IRequestContext
     HttpListenerResponse Response { get; set; }
     ClaimsPrincipal? User { get; set; }
     Dictionary<string, string> PathParams { get; set; }
-    Dictionary<string, string> QueryParams { get; set; }
+    Dictionary<string, string?> QueryParams { get; set; }
     Boolean IsAuthenticated { get; set; }
 
 

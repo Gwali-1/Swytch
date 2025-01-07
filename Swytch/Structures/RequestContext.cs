@@ -27,7 +27,7 @@ public class RequestContext : IRequestContext
     public HttpListenerResponse Response { get; set; }
     public ClaimsPrincipal? User { get; set; }
     public Dictionary<string, string> PathParams { get; set; }
-    public Dictionary<string, string> QueryParams { get; set; }
+    public Dictionary<string, string?> QueryParams { get; set; }
     public Boolean IsAuthenticated { get; set; }
     private readonly ILogger<SwytchApp> _logger;
 
@@ -36,7 +36,7 @@ public class RequestContext : IRequestContext
         Request = c.Request;
         Response = c.Response;
         PathParams = new Dictionary<string, string>();
-        QueryParams = new Dictionary<string, string>();
+        QueryParams = new Dictionary<string, string?>();
         IsAuthenticated = false;
         _logger = logger;
     }

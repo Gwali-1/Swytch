@@ -28,5 +28,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Swytch\Swytch.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Statics\gitgit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>

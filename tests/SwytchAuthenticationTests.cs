@@ -10,12 +10,12 @@ using Xunit;
 
 namespace tests;
 
-public class SwytchAuthenticationTests
+public class SwytchAuthenticationTests : IDisposable
 {
     private readonly SwytchApp _testServer = new();
     private static int _counter = 0;
     private readonly ILogger<SwytchAuthenticationTests> _logger;
-    private  readonly HttpClient _httpClient = new HttpClient();
+    private readonly HttpClient _httpClient = new();
 
     public SwytchAuthenticationTests()
     {
@@ -33,7 +33,7 @@ public class SwytchAuthenticationTests
         var clientCredentials = "wrongId:wrongPassword";
         var expectedResponse = "Hello from handler";
         var responseCode = HttpStatusCode.OK;
-        
+
 
         _testServer.AddAction("GET", path,
             async c => { await c.WriteTextToStream(responseBody, responseCode); });
@@ -56,7 +56,7 @@ public class SwytchAuthenticationTests
 
         //act
         var requestUri = "http://localhost:6083" + path;
-       await Task.Delay(100);
+        await Task.Delay(10);
         var response = await _httpClient.GetAsync(requestUri);
         var actualResponseBody = await response.Content.ReadAsStringAsync();
 
@@ -65,9 +65,50 @@ public class SwytchAuthenticationTests
         Assert.Equal(expectedResponse, actualResponseBody);
         Assert.Equal(responseCode, response.StatusCode);
     }
+    
+    
+    
+    [Fact]
+    public async Task Test_Request_Should_Return_Response_For_Request_To_Static_Server_Regardless_Of_Auth_Status()
+    {
+        // ARRANGE
+        var correctByteLength = 732;
+        var requestPath ="/swytchserver/static/gitgit.png"; 
+        var responseCode = HttpStatusCode.OK;
+
+        _testServer.AddAuthentication(async c =>
+        {
+            await Task.Delay(0);
+            return AuthUtility.ValidateBasicAuthScheme(c, "name:password");
+
+        });
+        _testServer.AddStaticServer();
+
+        //start the server on a different thread 
+        try
+        {
+            await TestHelpers.StartTestServer("http://localhost:6084/", _testServer);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Exception thrown when starting test server");
+        }
+
+        //ACT
+        
+        var requestUri = "http://localhost:6084" + requestPath;
+        await Task.Delay(10);
+        var response = await _httpClient.GetAsync(requestUri);
+        var bytesStatic = await response.Content.ReadAsByteArrayAsync();
 
 
-    //test auth handler correct
+        //ASSERT
+        
+        Assert.Equal(correctByteLength, bytesStatic.Length);
+        Assert.Equal(responseCode, response.StatusCode);
+    }
+
+
     [Theory]
     [InlineData("wrongId:wrongPassword", HttpStatusCode.Unauthorized,
         "UNAUTHORIZED (401)")]
@@ -98,10 +139,11 @@ public class SwytchAuthenticationTests
     [InlineData("   correctMan124: Correxpassword12", HttpStatusCode.Unauthorized,
         "UNAUTHORIZED (401)")]
     public async Task
-        Test_Request_Should_Return_Unauthorized_Or_OK_Depending_On_Credential_Validation_When_Auth_Is_Enabled(
+        Test_Request_Should_Return_Unauthorized_Or_OK_Depending_On_Credential_Validation_When_Basic_Auth_Is_Enabled(
             string clientCredentials, HttpStatusCode expectedResponseCode, string expectedResponseBody)
     {
-        //arrange
+        //ARRANGE
+
         var path = "/protected/resource";
         var correctBasic = "correctMan124:Correxpassword12";
         var responseBody = "Hello from handler";
@@ -114,34 +156,128 @@ public class SwytchAuthenticationTests
         _testServer.AddAction("GET", path,
             async c => { await c.WriteTextToStream(responseBody, HttpStatusCode.OK); });
 
-        //start the server on a different thread 
-        if (_counter == 0)
+
+        //start server instance
+        try
         {
-            try
-            {
-                await TestHelpers.StartTestServer("http://localhost:6082/", _testServer);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception thrown when starting test server");
-            }
+            await TestHelpers.StartTestServer("http://localhost:6082/", _testServer);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Exception thrown when starting test server");
         }
 
-        _counter++;
 
         //add auth header
         var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes(clientCredentials));
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);
 
 
-        //act
+        //ACT
+
         var requestUri = "http://localhost:6082" + path;
+        await Task.Delay(10);
         var response = await _httpClient.GetAsync(requestUri);
         var actualResponseBody = await response.Content.ReadAsStringAsync();
 
 
-        //assert
+        //ASSERT
+
         Assert.Equal(expectedResponseBody, actualResponseBody);
         Assert.Equal(expectedResponseCode, response.StatusCode);
+    }
+
+
+    [Theory]
+    [InlineData(true, "Malaman",
+        HttpStatusCode.OK, "Malaman")]
+    [InlineData(true, "Justice",
+        HttpStatusCode.OK, "Justice")]
+    [InlineData(true, "Mangossssssss",
+        HttpStatusCode.OK, "Mangossssssss")]
+    [InlineData(true, "Reader man is here for sure",
+        HttpStatusCode.OK, "Reader man is here for sure")]
+    [InlineData(true, "Chamber of things",
+        HttpStatusCode.OK, "Chamber of things")]
+    [InlineData(false, "claim1",
+        HttpStatusCode.Unauthorized, "UNAUTHORIZED (401)")]
+    [InlineData(false, "claim2",
+        HttpStatusCode.Unauthorized, "UNAUTHORIZED (401)")]
+    [InlineData(false, "claim3",
+        HttpStatusCode.Unauthorized, "UNAUTHORIZED (401)")]
+    [InlineData(false, "claim4",
+        HttpStatusCode.Unauthorized, "UNAUTHORIZED (401)")]
+    public async Task
+        Test_Request_Should_Return_Unauthorized_Or_OK_Depending_On_Credential_Validation_When_Bearer_Auth_Is_Enabled(
+            bool correctBearer, string customClaim, HttpStatusCode expectedResponseCode, string expectedResponseBody)
+    {
+        //ARRANGE
+        var path = "/protected/resource";
+        var validIssuer = "testProject";
+        var validAudience = "testProjectMethod";
+        var secreteKey = TestHelpers.GenerateSampleSecreteKey();
+        var correctToken = TestHelpers.CreateSampleTokenToken(secreteKey, 6300, customClaim);
+        var tokenValidationParameters = TestHelpers.GeTokenValidationParameters();
+
+
+        _testServer.AddAction("GET", path,
+            async c =>
+            {
+                var claim = c.User.Claims.First(c => c.Type.Equals("customeClaim"));
+                await c.WriteTextToStream(claim.Value, HttpStatusCode.OK);
+            });
+
+        //set up validation parameters
+        tokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secreteKey));
+        tokenValidationParameters.ValidIssuer = validIssuer;
+        tokenValidationParameters.ValidAudience = validAudience;
+
+        //start server instance
+        try
+        {
+            await TestHelpers.StartTestServer("http://localhost:6084/", _testServer);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Exception thrown when starting test server");
+        }
+
+
+        _testServer.AddAuthentication(async c =>
+        {
+            await Task.Delay(0);
+            return AuthUtility.ValidateTokenAuthScheme(c,  tokenValidationParameters);
+        });
+
+
+        //ACT
+
+        //create auth token
+        var token = correctToken;
+        if (!correctBearer)
+        {
+            token = TestHelpers.CreateSampleTokenToken(TestHelpers.GenerateSampleSecreteKey(), 3600, "wrongClaim");
+        }
+
+        //add auth header
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var requestUri = "http://localhost:6084" + path;
+        await Task.Delay(10);
+        var response = await _httpClient.GetAsync(requestUri);
+        var actualResponseBody = await response.Content.ReadAsStringAsync();
+
+
+        //ASSERT
+
+        Assert.Equal(expectedResponseBody, actualResponseBody);
+        Assert.Equal(expectedResponseCode, response.StatusCode);
+    }
+
+    public void Dispose()
+    {
+        _testServer.Stop();
+        _testServer.Close();
+        _httpClient.Dispose();
     }
 }

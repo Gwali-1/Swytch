@@ -271,16 +271,26 @@ public class SwytchApp
         string result = await GenerateTemplate(key, model);
         await ResponseUtility.WriteHtmlToStream(context, result, HttpStatusCode.OK);
     }
-
-    public void StopServer()
+/// <summary>
+/// Shuts down the Swytch server
+/// </summary>
+    public void Close()
     {
         this.server.Close();
     }
 
-
-    private static Dictionary<string, string> GetQueryParams(RequestContext c)
+    /// <summary>
+    /// Causes this instance to stop receiving new incoming requests and terminates processing of all ongoing requests
+    /// </summary>
+    public void Stop()
     {
-        Dictionary<string, string> queryParams = new();
+        this.server.Stop();
+    }
+
+
+    private static Dictionary<string, string?> GetQueryParams(RequestContext c)
+    {
+        Dictionary<string, string?> queryParams = new();
         NameValueCollection qParams = c.Request.QueryString;
         if (qParams.Count <= 0)
         {
@@ -356,7 +366,7 @@ public class SwytchApp
             }
         }
 
-        Dictionary<string, string> queryParams = GetQueryParams(c);
+        Dictionary<string, string?> queryParams = GetQueryParams(c);
 
         c.PathParams = pathParams;
         c.QueryParams = queryParams;

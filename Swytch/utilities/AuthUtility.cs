@@ -71,11 +71,26 @@ public static class AuthUtility
     /// <param name="token">The token to validate</param>
     /// <param name="tokenValidationParameters">An instance of TokenValidationParameters </param>
     /// <returns></returns>
-    public static AuthResponse ValidateTokenAuthScheme(RequestContext context,string  token, TokenValidationParameters tokenValidationParameters )
+    public static AuthResponse ValidateTokenAuthScheme(RequestContext context, TokenValidationParameters tokenValidationParameters )
     {
+        
+        string? authHeaderValue = context.Request.Headers["Authorization"];
+        if (string.IsNullOrEmpty(authHeaderValue))
+        {
+            return new AuthResponse { IsAuthenticated = false, ClaimsPrincipal = new ClaimsPrincipal() };
+        }
+
+        string[] authParts = authHeaderValue.Split(" ");
+        if (authParts.Length < 2)
+        {
+            return new AuthResponse { IsAuthenticated = false, ClaimsPrincipal = new ClaimsPrincipal() };
+        }
+
+        var clientToken = authParts[1];
+
 
         JsonWebTokenHandler jsonWebTokenHandler = new JsonWebTokenHandler();
-        var tokenValidationResult = jsonWebTokenHandler.ValidateToken(token, tokenValidationParameters);
+        var tokenValidationResult = jsonWebTokenHandler.ValidateToken(clientToken, tokenValidationParameters);
         if(!tokenValidationResult.IsValid)
         {
             return new AuthResponse { IsAuthenticated = false, ClaimsPrincipal = new ClaimsPrincipal() };

@@ -1,27 +1,25 @@
 using System.Net;
-using Castle.Components.DictionaryAdapter.Xml;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Swytch.App;
-using Swytch.Structures;
 using Swytch.utilities;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace tests;
 
-public class SwytchRoutingTests
+public class SwytchRoutingTests : IDisposable
 {
-    private  static readonly SwytchApp TestServer = new();
-    private static int _counter = 0;
+    private readonly ITestOutputHelper _testOutputHelper;
+    private readonly SwytchApp _testServer = new();
     private readonly ILogger<SwytchRoutingTests> _logger;
-    private static readonly HttpClient HttpClient = new HttpClient();
+    private readonly HttpClient _httpClient = new HttpClient();
 
-    public SwytchRoutingTests()
+    public SwytchRoutingTests(ITestOutputHelper testOutputHelper)
     {
+        _testOutputHelper = testOutputHelper;
         using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
         _logger = factory.CreateLogger<SwytchRoutingTests>();
     }
-
 
 
     [Theory]
@@ -45,34 +43,32 @@ public class SwytchRoutingTests
     [InlineData("/fish/uiijjr/87774/", HttpStatusCode.OK, "fresh and blessed ")]
     [InlineData("/fish/34566//445", HttpStatusCode.OK, "believe")]
     [InlineData("/fish/sjjhdh/", HttpStatusCode.OK, "true")]
-    public async Task Test_Request_Url_Path_Should_Match_Registered_Path(string path, HttpStatusCode httpStatusCode, string body)
+    public async Task Test_Request_Url_Path_Should_Match_Registered_Path(string path, HttpStatusCode httpStatusCode,
+        string body)
     {
-            //Arrange
-            TestServer.AddAction("GET", path,
-                async c => { await ResponseUtility.WriteTextToStream(c, body, httpStatusCode); });
+        //ARRANGE
+        _testServer.AddAction("GET", path,
+            async c => { await ResponseUtility.WriteTextToStream(c, body, httpStatusCode); });
 
-            //start the server on a different thread 
-            if (_counter == 0)
-            {
-                try
-                {
-                    Console.WriteLine("starting server");
-                    await TestHelpers.StartTestServer("http://localhost:6081/", TestServer);
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, "Exception thrown when starting test server");
-                }
-            }
+        //start the server instance on a different thread 
+        try
+        {
+            _testOutputHelper.WriteLine("starting server");
+            await TestHelpers.StartTestServer("http://localhost:6081/", _testServer);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Exception thrown when starting test server");
+        }
 
-        _counter++;
 
-        //Act 
+        //ACT
+        await Task.Delay(20);
         var requestUri = "http://localhost:6081" + path;
-        var response = await HttpClient.GetAsync(requestUri);
+        var response = await _httpClient.GetAsync(requestUri);
         var responseBody = await response.Content.ReadAsStringAsync();
 
-        //Assert
+        //ASSERT
         Assert.Equal(body, responseBody);
         Assert.Equal(httpStatusCode, response.StatusCode);
     }
@@ -91,35 +87,51 @@ public class SwytchRoutingTests
     [InlineData("/home / ", "/home/", "GET", HttpStatusCode.NotFound)]
     [InlineData("/home/meaning", "/home/meaning/", "GET", HttpStatusCode.NotFound)]
     [InlineData("/branded/ ", "/ḅranded/", "GET", HttpStatusCode.NotFound)]
-    public async Task Test_Request_Should_Return_NotFound_ResponseCode_For_Unmatched_Paths(string requestPath, string registeredPath,
-        string requestMethod ,
+    public async Task Test_Request_Should_Return_NotFound_ResponseCode_For_Unmatched_Paths(string requestPath,
+        string registeredPath,
+        string requestMethod,
         HttpStatusCode responseCode)
     {
-        TestServer.AddAction(requestMethod, registeredPath,
+        //ARRANGE
+        
+        _testServer.AddAction(requestMethod, registeredPath,
             async c => { await ResponseUtility.WriteTextToStream(c, "Hello test", responseCode); });
 
 
         //start the server on a different thread 
-        if (_counter == 0)
+        try
         {
-            try
-            {
-                Console.WriteLine("starting server");
-                await TestHelpers.StartTestServer("http://localhost:6081/", TestServer);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception thrown when starting test server");
-            }
+            _testOutputHelper.WriteLine("starting server");
+            await TestHelpers.StartTestServer("http://localhost:6081/", _testServer);
         }
-        _counter++;
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Exception thrown when starting test server");
+        }
 
 
-        //Act 
+        
+        
+        //ACT 
+        
+        await Task.Delay(10);
         var requestUri = "http://localhost:6081" + requestPath;
-        var response = await HttpClient.GetAsync(requestUri);
+        var response = await _httpClient.GetAsync(requestUri);
+        
+        
 
-        //Assert
+        //ASSERT
+        
         Assert.Equal(responseCode, response.StatusCode);
     }
+    
+    public void Dispose()
+    {
+        _testServer.Stop();
+        _testServer.Close();
+        _httpClient.Dispose();
+    }
+    
+    
+    
 }
