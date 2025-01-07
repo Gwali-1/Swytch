@@ -1,6 +1,6 @@
-
+[![.NET](https://github.com/Gwali-1/Swytch/actions/workflows/dotnet_build.yml/badge.svg)](https://github.com/Gwali-1/Swytch/actions/workflows/dotnet_build.yml)
+<br>
 ## The Swytch Architecture, Intro
-> Devlog 26.06.24
 
 <div align='left'>
   <img  src="Notes/swytch-arch.svg" alt="alt text" width="600">
