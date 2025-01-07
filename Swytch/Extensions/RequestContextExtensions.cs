@@ -7,8 +7,7 @@ namespace Swytch.Extensions;
 
 public static class RequestContextExtensions
 {
-    
-      /// <summary>
+    /// <summary>
     /// Writes a string as an http response and set the response status code to the one provided.
     /// </summary>
     /// <param name="context">The current request context</param>
@@ -64,7 +63,7 @@ public static class RequestContextExtensions
     /// <param name="filename">The name of the file without the extension. eg catnames instead of catnames.txt</param>
     /// <param name="context">The current request context</param>
     /// <param name="status">The response status </param>
-    public static async Task ServeFile( this RequestContext context,string filename, HttpStatusCode status)
+    public static async Task ServeFile(this RequestContext context, string filename, HttpStatusCode status)
     {
         string filePath = Path.Combine(Constants.StaticsDir, filename);
         string contentType = Path.GetExtension(filePath) switch
@@ -95,5 +94,270 @@ public static class RequestContextExtensions
             await WriteTextToStream(context, Constants.NotFound, HttpStatusCode.NotFound);
         }
     }
-    
+
+
+    /// <summary>
+    /// Respond to HTTP request with status code 200 and payload
+    /// </summary>
+    /// <param name="context"> The current request context</param>
+    /// <param name="payload">The response data,
+    /// Acts as the wrapper for any data returned by the API call.</param>
+    /// <typeparam name="T">Type of payload</typeparam>
+    public static async Task ToOk<T>(this RequestContext context, T payload)
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.OK;
+
+        var responseModel = new ResponseStructureModel<T>("success", payload);
+        var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
+        context.Response.ContentLength64 = responseBuffer.Length;
+        context.Response.ContentType = Constants.Text;
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
+    }
+
+    /// <summary>
+    /// Respond to HTTP request with status code 201 and payload
+    /// 
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="payload">The response data.
+    /// Acts as the wrapper for any data returned by the API call.</param>
+    /// <typeparam name="T">Type of payload</typeparam>
+    public static async Task ToCreated<T>(this RequestContext context, T payload)
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.Created;
+
+        var responseModel = new ResponseStructureModel<T>("success", payload);
+        var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
+        context.Response.ContentLength64 = responseBuffer.Length;
+        context.Response.ContentType = Constants.Text;
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
+    }
+
+    /// <summary>
+    /// Respond to HTTP request with status code 202 and payload
+    /// 
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="payload">The response data.
+    /// Acts as the wrapper for any data returned by the API call.</param>
+    /// <typeparam name="T">Type of payload</typeparam>
+    public static async Task ToAccepted<T>(this RequestContext context, T payload)
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.Accepted;
+
+        var responseModel = new ResponseStructureModel<T>("success", payload);
+        var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
+        context.Response.ContentLength64 = responseBuffer.Length;
+        context.Response.ContentType = Constants.Text;
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
+    }
+
+
+    /// <summary>
+    /// Redirect the user to another page by specifying the path.
+    /// For For 302 Found.
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="path">The response data.
+    /// Acts as the wrapper for any data returned by the API call.</param>
+    /// <param name="queryParams">Query parameters to add to redirect path if available. eg ["name="malone",age=34]</param>
+    public static async Task ToRedirect(this RequestContext context, string path, List<string>? queryParams = null)
+    {
+        var qParams = string.Empty;
+        if (queryParams is not null && queryParams.Count > 0)
+        {
+            for (var i = 1; i < queryParams.Count; i++)
+            {
+                if (i == queryParams.Count)
+                {
+                    qParams += qParams[i];
+                    break;
+                }
+
+                qParams += qParams[i] + "&";
+            }
+
+            path += "?" + qParams;
+        }
+
+        context.Response.StatusCode = (int)HttpStatusCode.Found;
+        context.Response.RedirectLocation = path;
+        context.Response.Close();
+        await Task.Delay(0);
+    }
+
+    /// <summary>
+    /// Redirect the user to another page of by specifying the path.
+    /// For 301 Moved Permanently.
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="path">The response data.
+    /// Acts as the wrapper for any data returned by the API call.</param>
+    /// <param name="queryParams">Query parameters to add to redirect path if available</param>
+    public static async Task ToPermanentRedirect(this RequestContext context, string path,
+        List<string>? queryParams = null)
+    {
+        var qParams = string.Empty;
+        if (queryParams is not null && queryParams.Count > 0)
+        {
+            for (var i = 1; i < queryParams.Count; i++)
+            {
+                if (i == queryParams.Count)
+                {
+                    qParams += qParams[i];
+                    break;
+                }
+
+                qParams += qParams[i] + "&";
+            }
+
+            path += "?" + qParams;
+        }
+
+        context.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
+        context.Response.RedirectLocation = path;
+        context.Response.Close();
+        await Task.Delay(0);
+    }
+
+
+    /// <summary>
+    /// Respond to HTTP request with status code 400 and payload
+    /// 
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="payload">The response data.
+    /// Acts as the wrapper for any data returned by the API call.</param>
+    /// <typeparam name="T">Type of payload</typeparam>
+    public static async Task ToBadRequest<T>(this RequestContext context, T payload)
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+        var responseModel = new ResponseStructureModel<T>("fail", payload);
+        var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
+        context.Response.ContentLength64 = responseBuffer.Length;
+        context.Response.ContentType = Constants.Text;
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
+    }
+
+
+    /// <summary>
+    /// Respond to HTTP request with status code 401 and payload
+    /// 
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="payload">The response data.
+    /// Acts as the wrapper for any data returned by the API call.</param>
+    /// <typeparam name="T">Type of payload</typeparam>
+    public static async Task ToUnauthorized<T>(this RequestContext context, T payload)
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+
+        var responseModel = new ResponseStructureModel<T>("fail", payload);
+        var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
+        context.Response.ContentLength64 = responseBuffer.Length;
+        context.Response.ContentType = Constants.Text;
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
+    }
+
+    /// <summary>
+    /// Respond to HTTP request with status code 403 and payload
+    /// 
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="payload">The response data.
+    /// Acts as the wrapper for any data returned by the API call.</param>
+    /// <typeparam name="T">Type of payload</typeparam>
+    public static async Task ToForbidden<T>(this RequestContext context, T payload)
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+
+        var responseModel = new ResponseStructureModel<T>("fail", payload);
+        var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
+        context.Response.ContentLength64 = responseBuffer.Length;
+        context.Response.ContentType = Constants.Text;
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
+    }
+
+
+    /// <summary>
+    /// Respond to HTTP request with status code 404 and payload
+    /// 
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="payload">The response data.
+    /// Acts as the wrapper for any data returned by the API call.</param>
+    /// <typeparam name="T">Type of payload</typeparam>
+    public static async Task ToNotFound<T>(this RequestContext context, T payload)
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+
+        var responseModel = new ResponseStructureModel<T>("fail", payload);
+        var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
+        context.Response.ContentLength64 = responseBuffer.Length;
+        context.Response.ContentType = Constants.Text;
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
+    }
+
+    /// <summary>
+    /// Respond to HTTP request with status code 500 and payload
+    /// 
+    /// </summary>
+    /// <param name="context">The current request context.</param>
+    /// <param name="message">A meaningful, end-user-readable (or at the least log-worthy) message, explaining what went wrong</param>
+    public static async Task ToInternalError(this RequestContext context, string message)
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+        var responseModel = new InternalErrortResponseModel("fail", message);
+        var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
+        context.Response.ContentLength64 = responseBuffer.Length;
+        context.Response.ContentType = Constants.Text;
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
+    }
+
+
+    /// <summary>
+    /// Respond to HTTP request with status code 501 and payload
+    /// 
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="message">A meaningful, end-user-readable (or at the least log-worthy) message, explaining what went wrong</param>
+    public static async Task ToNotImplemented(this RequestContext context, string message)
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.NotImplemented;
+
+        var responseModel = new InternalErrortResponseModel("fail", message);
+        var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
+        context.Response.ContentLength64 = responseBuffer.Length;
+        context.Response.ContentType = Constants.Text;
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
+    }
+
+
+    /// <summary>
+    /// Respond to HTTP request manually specifying status code and response datat 
+    /// </summary>
+    /// <param name="context">The current request context</param>
+    /// <param name="payload">The response data</param>
+    /// <param name="statusCode"></param>
+    public static async Task ToResponse<T>(this RequestContext context, HttpStatusCode statusCode, T payload)
+    {
+        context.Response.StatusCode = (int)statusCode;
+
+        var responseModel = new ResponseStructureModel<T>(statusCode.ToString(), payload);
+        var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
+        context.Response.ContentLength64 = responseBuffer.Length;
+        context.Response.ContentType = Constants.Text;
+        await using System.IO.Stream writer = context.Response.OutputStream;
+        await writer.WriteAsync(responseBuffer);
+    }
 }

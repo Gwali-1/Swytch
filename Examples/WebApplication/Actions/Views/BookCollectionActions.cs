@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Swytch.App;
+using Swytch.Extensions;
 using Swytch.Structures;
 using WebApplication.Models;
 
@@ -48,7 +49,7 @@ public class BookCollectionActions
                 _logger.LogInformation("body:{body}", JsonSerializer.Serialize(newBooK));
                 Books.Add(newBooK);
 
-                await context.Redirect("/books",["name=malone"]);
+                await context.ToRedirect("/books", ["name=malone"]);
                 return;
             }
             catch (Exception e)

@@ -148,33 +148,4 @@ public class RequestContext : IRequestContext
     }
 
 
-    /// <summary>
-    /// Redirect the user to another page of the same host by specifying the path.
-    /// </summary>
-    /// <param name="path">The path to redirect to</param>
-    /// <param name="queryParams">Query parameters to add to redirect path if available</param>
-    public async Task Redirect(string path, List<string>? queryParams = null)
-    {
-        var qParams = string.Empty;
-        if (queryParams is not null && queryParams.Count > 0)
-        {
-            for (var i = 1; i < queryParams.Count; i++)
-            {
-                if (i == queryParams.Count)
-                {
-                    qParams += qParams[i];
-                    break;
-                }
-
-                qParams += qParams[i] + "&";
-            }
-
-            path += "?" + qParams;
-        }
-
-        Response.StatusCode = (int)HttpStatusCode.Found;
-        Response.RedirectLocation = path;
-        Response.Close();
-        await Task.Delay(0);
-    }
 }
