@@ -18,7 +18,7 @@ public static class RequestContextExtensions
         context.Response.StatusCode = (int)status;
         byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(payload);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -110,7 +110,7 @@ public static class RequestContextExtensions
         var responseModel = new ResponseStructureModel<T>("success", payload);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -130,7 +130,7 @@ public static class RequestContextExtensions
         var responseModel = new ResponseStructureModel<T>("success", payload);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -150,7 +150,7 @@ public static class RequestContextExtensions
         var responseModel = new ResponseStructureModel<T>("success", payload);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -238,7 +238,7 @@ public static class RequestContextExtensions
         var responseModel = new ResponseStructureModel<T>("fail", payload);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -259,7 +259,7 @@ public static class RequestContextExtensions
         var responseModel = new ResponseStructureModel<T>("fail", payload);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -279,7 +279,7 @@ public static class RequestContextExtensions
         var responseModel = new ResponseStructureModel<T>("fail", payload);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -300,7 +300,7 @@ public static class RequestContextExtensions
         var responseModel = new ResponseStructureModel<T>("fail", payload);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -318,7 +318,7 @@ public static class RequestContextExtensions
         var responseModel = new InternalErrortResponseModel("fail", message);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -337,7 +337,7 @@ public static class RequestContextExtensions
         var responseModel = new InternalErrortResponseModel("fail", message);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
@@ -356,7 +356,7 @@ public static class RequestContextExtensions
         var responseModel = new ResponseStructureModel<T>(statusCode.ToString(), payload);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
-        context.Response.ContentType = Constants.Text;
+        context.Response.ContentType = Constants.Json;
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
