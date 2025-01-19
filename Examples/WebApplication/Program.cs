@@ -1,16 +1,28 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Swytch.App;
 using WebApplication.Actions.Auth;
 using WebApplication.Actions.Views;
 
 
 SwytchApp swytchApp = new SwytchApp();
-ILoggerFactory loggerFactory = LoggerFactory.Create(b => b.AddConsole());
+IServiceCollection container = new ServiceCollection();
+container.AddLogging(c =>
+{
+    c.AddConsole();
+    c.SetMinimumLevel(LogLevel.Information);
+});
+container.AddSingleton<ISwytchApp>(swytchApp);
+
+IServiceProvider serviceProvider = container.BuildServiceProvider();
 
 //actions
-PageAction pageAction = new(loggerFactory);
-BookCollectionActions bookCollectionActions = new(loggerFactory,swytchApp);
-AuthenticationAction authenticationAction = new (loggerFactory);
+PageAction pageAction = new(serviceProvider);
+BookCollectionActions bookCollectionActions = new(serviceProvider);
+AuthenticationAction authenticationAction = new (serviceProvider);
+
+
+
 
 
 //swytchApp.AddLogging();

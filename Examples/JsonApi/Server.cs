@@ -11,6 +11,7 @@ server.AddMiddleWare(async ctx =>
     Console.WriteLine($"{ctx.Request.HttpMethod}    {ctx.Request.Url?.AbsolutePath}    {DateTime.UtcNow}");
 });
 
+
 Cars cars = new Cars();
 Fighters fighters = new Fighters();
 

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swytch.App;
 using Swytch.Extensions;
@@ -10,14 +11,14 @@ namespace WebApplication.Actions.Views;
 public class BookCollectionActions
 
 {
-    private readonly SwytchApp _app;
+    private readonly ISwytchApp _app;
     private readonly ILogger<BookCollectionActions> _logger;
     private List<BookModel> Books = [];
 
-    public BookCollectionActions(ILoggerFactory loggerFactory, SwytchApp app)
+    public BookCollectionActions(IServiceProvider serviceProvider)
     {
-        _app = app;
-        _logger = loggerFactory.CreateLogger<BookCollectionActions>();
+        _app = serviceProvider.GetRequiredService<ISwytchApp>();
+        _logger = serviceProvider.GetRequiredService<ILogger<BookCollectionActions>>();
     }
 
     public async Task ShowBookCollection(RequestContext context)

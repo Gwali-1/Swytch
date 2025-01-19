@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swytch.Structures;
 
@@ -8,9 +9,9 @@ public class AuthenticationAction
 {
     private readonly ILogger<AuthenticationAction> _logger;
 
-    public AuthenticationAction(ILoggerFactory loggerFactory)
+    public AuthenticationAction( IServiceProvider serviceProvider)
     {
-        _logger = loggerFactory.CreateLogger<AuthenticationAction>();
+        _logger = serviceProvider.GetRequiredService<ILogger<AuthenticationAction>>();
     }
 
     public async Task<AuthResponse> AuthenticateUser(RequestContext context)

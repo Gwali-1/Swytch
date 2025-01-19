@@ -19,7 +19,7 @@ namespace Swytch.App;
 /// calling middlewares in the order they were registered and calling the right methods for the right routes and http verbs.
 /// Call Listen when done registering your handling logic and middlewares to start listening, accepting and processing requests.
 /// </summary>
-public class SwytchApp
+public class SwytchApp : ISwytchApp
 {
     //registered routes
     private readonly List<Route> _registeredRoutes = new List<Route>();
