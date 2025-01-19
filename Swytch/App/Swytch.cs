@@ -29,24 +29,51 @@ public class SwytchApp : ISwytchApp
     private readonly ILogger<SwytchApp> _logger;
     private bool _enableAuth;
     private bool _enableStatic;
-    private HttpListener server;
+    private string _staticCacheMaxAge = "3600";
+    private HttpListener _server;
     private readonly Dictionary<DatabaseProviders, string> _dataSources = new();
     private string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
 
 
-    public SwytchApp(string? templateDiretory = null)
+    public SwytchApp( SwytchConfig? config = null)
     {
         //set up logger 
         using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
         _logger = factory.CreateLogger<SwytchApp>();
-        TemplateLocation = templateDiretory ?? TemplateLocation;
 
-        //register available templates
-        if (!Directory.Exists(TemplateLocation)) return;
-        _engine = new RazorLightEngineBuilder().UseFileSystemProject(TemplateLocation).UseMemoryCachingProvider()
-            .Build();
+
+        //config section
+        if (config is not null)
+        {
+            //template location
+            TemplateLocation = config.TemplateLocation ?? TemplateLocation;
+            //register available templates
+            if (!Directory.Exists(TemplateLocation)) return;
+            _engine = new RazorLightEngineBuilder().UseFileSystemProject(TemplateLocation).UseMemoryCachingProvider()
+                .Build();
+
+            //precompile templates
+            if (config.PrecompileTemplates)
+            {
+                //read all templates 
+                foreach (var template in Directory.EnumerateFiles(TemplateLocation))
+                {
+                    //get file name 
+                    var templateName = Path.GetFileName(template);
+                    _ = _engine.CompileTemplateAsync(templateName).GetAwaiter().GetResult();
+                }
+            }
+
+            //max-age directive
+            _staticCacheMaxAge = config.StaticCacheMaxAge?.Trim() ?? _staticCacheMaxAge;
+
+            //static file server
+            if (config.EnableStaticFileServer)
+            {
+                this.AddStaticServer();
+            }
+        }
     }
-
 
     /// <summary>
     /// Registers a method matching the handler signature as a middleware.The order in which the registration
@@ -172,7 +199,7 @@ public class SwytchApp : ISwytchApp
         Func<RequestContext, Task> fileServer = async c =>
         {
             _ = c.PathParams.TryGetValue("filename", out var filename);
-            // c.Response.Headers.Set(HttpResponseHeader.CacheControl, "max-age=86400");
+            c.Response.Headers.Set(HttpResponseHeader.CacheControl, $"max-age={_staticCacheMaxAge}");
             await ResponseUtility.ServeFile(c, filename ?? "NoFile", HttpStatusCode.OK);
         };
         AddAction("GET", "/swytchserver/static/{filename}", fileServer);
@@ -193,7 +220,7 @@ public class SwytchApp : ISwytchApp
         try
         {
             HttpListener server = new HttpListener();
-            this.server = server;
+            this._server = server;
             server.Prefixes.Add(addr);
             server.Start();
             _logger.LogInformation("Server is live at {addr}", addr);
@@ -271,12 +298,13 @@ public class SwytchApp : ISwytchApp
         string result = await GenerateTemplate(key, model);
         await ResponseUtility.WriteHtmlToStream(context, result, HttpStatusCode.OK);
     }
-/// <summary>
-/// Shuts down the Swytch server
-/// </summary>
+
+    /// <summary>
+    /// Shuts down the Swytch server
+    /// </summary>
     public void Close()
     {
-        this.server.Close();
+        this._server.Close();
     }
 
     /// <summary>
@@ -284,7 +312,7 @@ public class SwytchApp : ISwytchApp
     /// </summary>
     public void Stop()
     {
-        this.server.Stop();
+        this._server.Stop();
     }
 
 

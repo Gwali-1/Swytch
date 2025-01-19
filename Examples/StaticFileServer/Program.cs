@@ -35,7 +35,6 @@ Func<RequestContext, Task> evening = async c =>
 // server.AddAction("GET", "/file/{name}", fserver);
 
 server.AddAction("GET", "/", evening);
-server.AddStaticServer(); //registers handler that servers static files directly from static directory
 server.AddAction("GET", "/travelling",
     async c => { await ResponseUtility.ServeFile(c, "traveling.html", HttpStatusCode.OK); });
 
