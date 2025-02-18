@@ -2,6 +2,7 @@
 // GitHub Repository:https://github.com/Gwali-1/Swytch.git 
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Swytch_Api_Template.Actions;
 using Swytch_Api_Template.Helpers;
 using Swytch_Api_Template.Services.Implementations;
@@ -18,7 +19,8 @@ swytchApp.AddDatastore("Data Source=playlist.db; foreign keys=true", DatabasePro
 ServiceCollection serviceContainer = new ServiceCollection();
 //Register services here
 serviceContainer.AddSingleton<ISwytchApp>(swytchApp);
-serviceContainer.AddScoped<IPlaylistService, PlaylistService>(c => new PlaylistService(c));
+serviceContainer.AddScoped<IPlaylistService, PlaylistService>();
+serviceContainer.AddLogging(builder => builder.AddConsole());
 
 
 //build service provider and use
@@ -35,7 +37,6 @@ swytchApp.AddAction("POST", "/playlist", playlistAction.CreatePlaylist);
 swytchApp.AddAction("POST", "/song/{playlistId}", playlistAction.AddSong);
 swytchApp.AddAction("GET", "/songs/{playlistId}", playlistAction.GetPlaylistSongs);
 swytchApp.AddAction("DELETE", "/playlist/delete/{playlistId}", playlistAction.DeletePlaylist);
-
 
 
 //migrate data

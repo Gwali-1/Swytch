@@ -12,4 +12,8 @@
     <ProjectReference Include="..\..\Swytch\Swytch.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include=".template.config\template.json" />
+  </ItemGroup>
+
 </Project>

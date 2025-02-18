@@ -1,8 +1,6 @@
-using System;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Swytch_Api_Template.DTOs;
 using Swytch_Api_Template.Services.Interfaces;
 using Swytch.Extensions;
@@ -13,17 +11,19 @@ namespace Swytch_Api_Template.Actions;
 public class PlaylistAction
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly ILogger<PlaylistAction> _logger;
 
     public PlaylistAction(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
+        _logger = serviceProvider.GetRequiredService<ILogger<PlaylistAction>>();
     }
 
 
     //Returns all playlists
     public async Task AllPlaylists(RequestContext context)
     {
-        //get all playlist service
+        _logger.LogInformation("Getting all playlist");
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
 
@@ -35,6 +35,7 @@ public class PlaylistAction
     //Creates a new playlist
     public async Task CreatePlaylist(RequestContext context)
     {
+        _logger.LogInformation("Creating new playlist");
         using var scope = _serviceProvider.CreateScope();
         var playlistService = _serviceProvider.GetRequiredService<IPlaylistService>();
         var newPlayListJson = context.ReadJsonBody();
@@ -47,6 +48,7 @@ public class PlaylistAction
     //Add a song to a playlist
     public async Task AddSong(RequestContext context)
     {
+        _logger.LogInformation("Adding a new song");
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
@@ -56,9 +58,10 @@ public class PlaylistAction
         await playlistService.AddSongToPlaylist(newSong, int.Parse(playListId));
         await context.ToOk("Song added");
     }
-    
+
     public async Task GetPlaylistSongs(RequestContext context)
     {
+        _logger.LogInformation("Getting playlist songs");
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
@@ -71,6 +74,7 @@ public class PlaylistAction
     //Gets a particular playlist
     public async Task GetPlaylist(RequestContext context)
     {
+        _logger.LogInformation("Getting a playlist");
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
@@ -82,6 +86,7 @@ public class PlaylistAction
     //Deletes a playlist
     public async Task DeletePlaylist(RequestContext context)
     {
+        _logger.LogInformation("Deleting  a playlist");
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;

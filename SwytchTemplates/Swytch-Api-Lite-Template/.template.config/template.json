@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Gwalisam",
+  "classifications": [ "Web", "API", "API project" ],
+  "identity": "Auth0.NET.Mvc",
+  "name": "Swytch API Application",
+  "shortName": "swytch-api-lite",
+  "sourceName": "Swytch_Api_Template",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}

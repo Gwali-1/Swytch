@@ -1,19 +1,20 @@
 using Dapper;
-using Swytch_Api_Template.DTOs;
-using Swytch_Api_Template.Models;
-using Swytch_Api_Template.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Swytch_Api_Lite_Template.DTOs;
+using Swytch_Api_Lite_Template.Models;
+using Swytch_Api_Lite_Template.Services.Interfaces;
 using Swytch.App;
 using Swytch.Structures;
 
-namespace Swytch_Api_Template.Services.Implementations;
+namespace Swytch_Api_Lite_Template.Services.Implementations;
 
 public class PlaylistService : IPlaylistService
 {
     private readonly ISwytchApp _app;
 
-    public PlaylistService(ISwytchApp swytchApp)
+    public PlaylistService(IServiceProvider serviceProvider)
     {
-        _app = swytchApp;
+        _app = serviceProvider.GetRequiredService<ISwytchApp>();
     }
 
 
@@ -55,7 +56,7 @@ public class PlaylistService : IPlaylistService
         return Task.FromResult(playlists);
     }
 
-    public Task AddSongToPlaylist(AddSong newSong, int playlistId)
+    public Task AddSongToPlaylist(AddSong newSong, int playListId)
     {
         using var dbContext = _app.GetConnection(DatabaseProviders.SQLite);
         string query = "INSERT INTO Song (Title, Artist, PlaylistId) VALUES (@Title, @Artist, @PlaylistId)";
@@ -64,7 +65,7 @@ public class PlaylistService : IPlaylistService
         {
             Title = newSong.Title,
             Artist = newSong.Artist,
-            PlaylistId = playlistId
+            PlaylistId = playListId
         };
 
         dbContext.Execute(query, song);

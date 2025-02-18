@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swytch-Api-Template", "Swyt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swytch-Web-Template", "SwytchTemplates\Swytch-Web-Template\Swytch-Web-Template.csproj", "{EB5A03EA-520C-4F00-B23D-3001A11761F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swytch-Api-Lite-Template", "SwytchTemplates\Swytch-Api-Lite-Template\Swytch-Api-Lite-Template.csproj", "{7097CE33-3B40-4D8E-AF0A-0E588E8465C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{EB5A03EA-520C-4F00-B23D-3001A11761F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB5A03EA-520C-4F00-B23D-3001A11761F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB5A03EA-520C-4F00-B23D-3001A11761F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7097CE33-3B40-4D8E-AF0A-0E588E8465C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7097CE33-3B40-4D8E-AF0A-0E588E8465C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7097CE33-3B40-4D8E-AF0A-0E588E8465C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7097CE33-3B40-4D8E-AF0A-0E588E8465C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AB0FFBBF-2149-4FF5-A720-1A02A5AA3AE1} = {AEB878EC-62BA-490C-B509-6A9F08CFCDEF}
@@ -72,5 +78,6 @@ Global
 		{34BD2D5B-8D6D-49C9-9983-537784817BF5} = {AEB878EC-62BA-490C-B509-6A9F08CFCDEF}
 		{C6F98623-39FA-4AFC-B206-528538C69049} = {D37C6728-953A-4095-B17B-073F95A91F49}
 		{EB5A03EA-520C-4F00-B23D-3001A11761F3} = {D37C6728-953A-4095-B17B-073F95A91F49}
+		{7097CE33-3B40-4D8E-AF0A-0E588E8465C5} = {D37C6728-953A-4095-B17B-073F95A91F49}
 	EndGlobalSection
 EndGlobal
