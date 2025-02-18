@@ -1,6 +1,5 @@
 ﻿// This template file is auto-generated.
 // GitHub Repository:https://github.com/Gwali-1/Swytch.git 
-// See <template url> for more information
 using Microsoft.Extensions.DependencyInjection;
 using Swytch_Api_Template.Actions;
 using Swytch_Api_Template.Helpers;

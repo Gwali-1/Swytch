@@ -22,7 +22,8 @@ public class PlaylistAction
     public async Task AllPlaylists(RequestContext context)
     {
         //get all playlist service
-        var playlistService = _serviceProvider.GetRequiredService<IPlaylistService>();
+        using var scope = _serviceProvider.CreateScope();
+        var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
 
         var playlists = await playlistService.GetAllPlaylists();
         await context.ToOk(playlists);
@@ -32,6 +33,7 @@ public class PlaylistAction
     //Creates a new playlist
     public async Task CreatePlaylist(RequestContext context)
     {
+        using var scope = _serviceProvider.CreateScope();
         var playlistService = _serviceProvider.GetRequiredService<IPlaylistService>();
         var newPlayListJson = context.ReadJsonBody();
         var newPlayList = JsonSerializer.Deserialize<AddPlaylist>(newPlayListJson);
@@ -43,7 +45,8 @@ public class PlaylistAction
     //Add a song to a playlist
     public async Task AddSong(RequestContext context)
     {
-        var playlistService = _serviceProvider.GetRequiredService<IPlaylistService>();
+        using var scope = _serviceProvider.CreateScope();
+        var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
         _ = context.PathParams.TryGetValue("playlistId", out playListId);
         var newSongJson = context.ReadJsonBody();
@@ -56,7 +59,8 @@ public class PlaylistAction
     //Gets a particular playlist
     public async Task GetPlaylist(RequestContext context)
     {
-        var playlistService = _serviceProvider.GetRequiredService<IPlaylistService>();
+        using var scope = _serviceProvider.CreateScope();
+        var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
         _ = context.PathParams.TryGetValue("playlistId", out playListId);
         var playList = await playlistService.GetPlaylist(int.Parse(playListId));
@@ -66,7 +70,8 @@ public class PlaylistAction
     //Deletes a playlist
     public async Task DeletePlaylist(RequestContext context)
     {
-        var playlistService = _serviceProvider.GetRequiredService<IPlaylistService>();
+        using var scope = _serviceProvider.CreateScope();
+        var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
         _ = context.PathParams.TryGetValue("playlistId", out playListId);
         await playlistService.DeletePlaylist(int.Parse(playListId));
