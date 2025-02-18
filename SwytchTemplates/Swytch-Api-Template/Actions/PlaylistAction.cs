@@ -1,5 +1,7 @@
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Swytch_Api_Template.DTOs;
 using Swytch_Api_Template.Services.Interfaces;
@@ -53,6 +55,16 @@ public class PlaylistAction
         var newSong = JsonSerializer.Deserialize<AddSong>(newSongJson);
         await playlistService.AddSongToPlaylist(newSong, int.Parse(playListId));
         await context.ToOk("Song added");
+    }
+    
+    public async Task GetPlaylistSongs(RequestContext context)
+    {
+        using var scope = _serviceProvider.CreateScope();
+        var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
+        string playListId;
+        _ = context.PathParams.TryGetValue("playlistId", out playListId);
+        var songs = await playlistService.GetSongs(int.Parse(playListId));
+        await context.ToOk(songs);
     }
 
 

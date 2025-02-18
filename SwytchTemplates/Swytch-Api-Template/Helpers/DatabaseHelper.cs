@@ -80,7 +80,7 @@ public static class DatabaseHelper
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,   -- INTEGER for auto-incrementing ID
                     Name TEXT NOT NULL,                     -- TEXT for playlist name
                     Description TEXT,                       -- TEXT for description (nullable)
-                    CreatedDate REAL DEFAULT (strftime('%s', 'now'))  -- REAL for datetime (storing Unix timestamp)
+                    CreatedDate TEXT DEFAULT (CURRENT_TIMESTAMP)  --  datetime 
                 );
 
                 -- Create Song table if it doesn't exist
@@ -91,6 +91,7 @@ public static class DatabaseHelper
                     PlaylistId INTEGER NOT NULL,            -- FOREIGN KEY referencing Playlist
                     FOREIGN KEY (PlaylistId) REFERENCES Playlist(Id) ON DELETE CASCADE  -- Foreign key with cascading delete
                 );
+
             ";
 
         dbConnection.Execute(createTablesSql);

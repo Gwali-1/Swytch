@@ -1,5 +1,6 @@
 ﻿// This template file is auto-generated.
 // GitHub Repository:https://github.com/Gwali-1/Swytch.git 
+
 using Microsoft.Extensions.DependencyInjection;
 using Swytch_Api_Template.Actions;
 using Swytch_Api_Template.Helpers;
@@ -12,7 +13,7 @@ using Swytch.Structures;
 ISwytchApp swytchApp = new SwytchApp();
 
 //Add datastore
-swytchApp.AddDatastore("Data Source=playlist.db", DatabaseProviders.SQLite);
+swytchApp.AddDatastore("Data Source=playlist.db; foreign keys=true", DatabaseProviders.SQLite);
 
 ServiceCollection serviceContainer = new ServiceCollection();
 //Register services here
@@ -31,8 +32,9 @@ PlaylistAction playlistAction = new PlaylistAction(serviceProvider);
 swytchApp.AddAction("GET", "/playlists", playlistAction.AllPlaylists);
 swytchApp.AddAction("GET", "/playlist/{playlistId}", playlistAction.GetPlaylist);
 swytchApp.AddAction("POST", "/playlist", playlistAction.CreatePlaylist);
-swytchApp.AddAction("POST", "/Song/{playlistId}", playlistAction.AddSong);
-swytchApp.AddAction("DELETE", "/playlist/{playlistId}", playlistAction.DeletePlaylist);
+swytchApp.AddAction("POST", "/song/{playlistId}", playlistAction.AddSong);
+swytchApp.AddAction("GET", "/songs/{playlistId}", playlistAction.GetPlaylistSongs);
+swytchApp.AddAction("DELETE", "/playlist/delete/{playlistId}", playlistAction.DeletePlaylist);
 
 
 

@@ -1,4 +1,3 @@
-using System.Data;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;
 using Swytch_Api_Template.DTOs;
@@ -27,12 +26,16 @@ public class PlaylistService : IPlaylistService
         return Task.CompletedTask;
     }
 
-    public Task<Playlist> GetPlaylist(int playlistId)
+    public Task<Playlist?> GetPlaylist(int playlistId)
     {
         using var dbContext = _app.GetConnection(DatabaseProviders.SQLite);
-        string query = "SELECT Id, Name, Description, datetime(CreatedDate, 'unixepoch') AS CreatedAt FROM Playlist WHERE Id = @PlaylistId";
+        string query = "SELECT Id, Name, Description, CreatedDate FROM Playlist WHERE Id = @PlaylistId";
 
-        var playList = dbContext.Query<Playlist>(query, new { playlistId });
+        var playList = dbContext.Query<Playlist>(query, new { PlaylistId = playlistId });
+        if (!playList.Any())
+        {
+            return Task.FromResult(default(Playlist));
+        }
         return Task.FromResult(playList.First());
     }
 
@@ -47,7 +50,7 @@ public class PlaylistService : IPlaylistService
     public Task<List<Playlist>> GetAllPlaylists()
     {
         using var dbContext = _app.GetConnection(DatabaseProviders.SQLite);
-        string query = "SELECT Id, Name, Description, datetime(CreatedDate, 'unixepoch') AS CreatedAt FROM Playlist";
+        string query = "SELECT Id, Name, Description, CreatedDate FROM Playlist";
 
         var playlists = dbContext.Query<Playlist>(query).ToList();
         return Task.FromResult(playlists);
@@ -67,5 +70,13 @@ public class PlaylistService : IPlaylistService
 
         dbContext.Execute(query, song);
         return Task.CompletedTask;
+    }
+
+    public Task<List<Song>> GetSongs(int playListId)
+    {
+        using var dbContext = _app.GetConnection(DatabaseProviders.SQLite);
+        string query = "SELECT Id ,Title, Artist FROM Song  WHERE PlaylistId = @PlaylistId";
+        var songs = dbContext.Query<Song>(query, new {PlaylistId=playListId}).ToList();
+        return Task.FromResult(songs);
     }
 }
