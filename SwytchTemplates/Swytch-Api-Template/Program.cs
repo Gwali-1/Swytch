@@ -20,7 +20,11 @@ ServiceCollection serviceContainer = new ServiceCollection();
 //Register services here
 serviceContainer.AddSingleton<ISwytchApp>(swytchApp);
 serviceContainer.AddScoped<IPlaylistService, PlaylistService>();
-serviceContainer.AddLogging(builder => builder.AddConsole());
+serviceContainer.AddLogging(builder =>
+{
+    builder.AddConsole();
+    builder.SetMinimumLevel(LogLevel.Information);
+});
 
 
 //build service provider and use

@@ -5,9 +5,6 @@ using Swytch.Structures;
 using WebApplication.Actions.Auth;
 using WebApplication.Actions.Views;
 
-
-
-
 SwytchApp swytchApp = new SwytchApp(new SwytchConfig
 {
     StaticCacheMaxAge = "5",

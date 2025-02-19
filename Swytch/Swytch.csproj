@@ -20,6 +20,8 @@
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.5.0" />
     <PackageReference Include="RazorLight" Version="2.3.1" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
+    <PackageReference Include="Akka" Version="1.5.38" />
+    <PackageReference Include="Akka.DependencyInjection" Version="1.5.38" />
   </ItemGroup>
 
 </Project>
