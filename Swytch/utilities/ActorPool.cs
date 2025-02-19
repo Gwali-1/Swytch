@@ -8,6 +8,7 @@ namespace Swytch.utilities;
 public static class ActorPool
 {
     private static ActorSystem? _actorSystemPool;
+    private  const   string ActorPoolName = "SWYTCHACTORSYSTEMPOOL";
     private static readonly ConcurrentDictionary<string, IActorRef> Actors = new();
 
     //register
@@ -18,7 +19,8 @@ public static class ActorPool
             throw new InvalidOperationException("Actor system pool not initialized");
         }
 
-        var actorName = nameof(T);
+
+        var actorName = typeof(T).ToString();
         var routeeInstances = intances == 0 ? Environment.ProcessorCount : intances;
         if (Actors.ContainsKey(actorName))
         {
@@ -26,10 +28,11 @@ public static class ActorPool
                 $"Actor with name {actorName} has already been registered in the actor pool");
         }
 
-        Props props = Props.Create<T>()
+        var resolver = DependencyResolver.For(_actorSystemPool);
+        Props props = resolver.Props<T>()
             .WithRouter(new RoundRobinPool(routeeInstances, new DefaultResizer(routeeInstances, 10000)))
             .WithSupervisorStrategy(new OneForOneStrategy(maxNrOfRetries: 5, withinTimeRange: TimeSpan.FromSeconds(10),
-                localOnlyDecider: exception => Directive.Restart));
+                localOnlyDecider: _ => Directive.Restart));
         var actorRef = _actorSystemPool.ActorOf(props, actorName);
         Actors[actorName] = actorRef;
     }
@@ -37,7 +40,7 @@ public static class ActorPool
     //tell
     public static void Tell<T, TM>(TM message)
     {
-        var actorName = nameof(T);
+        var actorName = typeof(T).ToString();
         if (Actors.TryGetValue(actorName, out var actorRef))
         {
             actorRef.Tell(message);
@@ -54,13 +57,13 @@ public static class ActorPool
         if (_actorSystemPool is null)
         {
             var actorSystemSetup = BootstrapSetup.Create().And(DependencyResolverSetup.Create(serviceProvider));
-            _actorSystemPool = ActorSystem.Create("SwytchActorSystemPool", actorSystemSetup);
+            _actorSystemPool = ActorSystem.Create(ActorPoolName, actorSystemSetup);
         }
     }
 
     //shutdown
     public static void ShutDown()
     {
-        _actorSystemPool.Terminate().Wait();
+        _actorSystemPool?.Terminate().Wait();
     }
 }

@@ -2,8 +2,9 @@
 using Microsoft.Extensions.Logging;
 using Swytch.App;
 using Swytch.Structures;
-using WebApplication.Actions.Auth;
+using Swytch.utilities;
 using WebApplication.Actions.Views;
+using WebApplication.Actors;
 
 SwytchApp swytchApp = new SwytchApp(new SwytchConfig
 {
@@ -11,6 +12,7 @@ SwytchApp swytchApp = new SwytchApp(new SwytchConfig
     EnableStaticFileServer = true,
     PrecompileTemplates = true
 });
+
 
 
 //set up service container 
@@ -23,6 +25,11 @@ container.AddLogging(c =>
 });
 container.AddSingleton<ISwytchApp>(swytchApp);
 IServiceProvider serviceProvider = container.BuildServiceProvider();
+
+//Actors
+ActorPool.InitializeActorPool(serviceProvider);
+ActorPool.Register<TalkingActor>();
+
 
 
 //Actions
