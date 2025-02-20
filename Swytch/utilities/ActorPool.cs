@@ -8,7 +8,7 @@ namespace Swytch.utilities;
 public static class ActorPool
 {
     private static ActorSystem? _actorSystemPool;
-    private  const   string ActorPoolName = "SWYTCHACTORSYSTEMPOOL";
+    private const string ActorPoolName = "SWYTCHACTORSYSTEMPOOL";
     private static readonly ConcurrentDictionary<string, IActorRef> Actors = new();
 
     //register
@@ -19,9 +19,8 @@ public static class ActorPool
             throw new InvalidOperationException("Actor system pool not initialized");
         }
 
-
         var actorName = typeof(T).ToString();
-        var routeeInstances = intances == 0 ? Environment.ProcessorCount : intances;
+        var lowerBoundInstances = intances == 0 ? Environment.ProcessorCount : intances;
         if (Actors.ContainsKey(actorName))
         {
             throw new InvalidOperationException(
@@ -30,7 +29,7 @@ public static class ActorPool
 
         var resolver = DependencyResolver.For(_actorSystemPool);
         Props props = resolver.Props<T>()
-            .WithRouter(new RoundRobinPool(routeeInstances, new DefaultResizer(routeeInstances, 10000)))
+            .WithRouter(new RoundRobinPool(lowerBoundInstances, new DefaultResizer(lowerBoundInstances, 100000)))
             .WithSupervisorStrategy(new OneForOneStrategy(maxNrOfRetries: 5, withinTimeRange: TimeSpan.FromSeconds(10),
                 localOnlyDecider: _ => Directive.Restart));
         var actorRef = _actorSystemPool.ActorOf(props, actorName);
