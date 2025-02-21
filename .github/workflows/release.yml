@@ -2,8 +2,6 @@ name: Release
 
 on:
   push:
-    branches:
-      - main  # Ensure it runs only on the main branch
     tags:
       - 'v*'  # Runs only when a new tag like 'v1.0.0' is pushed
 
