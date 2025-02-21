@@ -15,7 +15,7 @@ jobs:
         uses: fountainhead/action-wait-for-check@v1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: 'Build and test Swytch'
+          checkName: build
           repo: ${{ github.repository }}
           intervalSeconds: 10  # Check every 10 seconds
 
