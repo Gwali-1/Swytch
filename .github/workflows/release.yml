@@ -12,14 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Wait for Build & Test Workflow
-        uses: peter-evans/wait-for-workflow-run@v1
+        uses: fountainhead/action-wait-for-check@v1.2.0
+        id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: build-test.yml  #
-          repo: ${{ github.repository }}
-          branch: main  
-          check_interval: 10  
-          timeout: 600  
+          checkName: build
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
 
   publish-nuget:
     needs: wait-for-build  # Runs only if wait-for-build passes
