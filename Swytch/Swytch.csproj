@@ -2,15 +2,39 @@
 
   <PropertyGroup>
     <AssemblyName>Swytch</AssemblyName>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>Swytch</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
-      <Version>0.8.0</Version>
+    <PackageId>Swytch</PackageId>
+    <Version>0.8.0</Version>
+    <Authors>Gwalisam</Authors>
+    <Company>Gwalisamz</Company>
+    <Description>A lightweight, fast, and intuitive web framework for effortlessly building high-performance, concurrent APIs and web applications.</Description>
+    <PackageTags>web framewaork, API, web application, web utility</PackageTags>
+
+    <!-- License and Links -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Gwali-1/Swytch</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Gwali-1/Swytch</PackageProjectUrl>
+
+    <!-- Package Icon -->
+    <PackageIcon>icon.png</PackageIcon>
+
+    <!-- Generate XML Documentation for IntelliSense -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Ensure the package icon is included -->
+    <None Update="icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- NuGet Dependencies -->
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
