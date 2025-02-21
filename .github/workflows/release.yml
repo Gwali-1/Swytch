@@ -1,0 +1,51 @@
+name: Release 
+
+on:
+  push:
+    branches:
+      - main  # Ensure it runs only on the main branch
+    tags:
+      - 'v*'  # Runs only when a new tag like 'v1.0.0' is pushed
+
+jobs:
+  wait-for-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Build & Test Workflow
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check-name: 'Build and test Swytch'
+          repo: ${{ github.repository }}
+          wait-interval: 10  # Check every 10 seconds
+
+  publish-nuget:
+    needs: wait-for-build  # Runs only if wait-for-build passes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Ensure we fetch all tags
+
+      - name: Extract Version from Tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'  # Change if needed
+
+      - name: Restore dependencies
+        run: dotnet restore  Swytch/Swytch.csproj  # Specify project path
+
+      - name: Build ProjectA
+        run: dotnet build  Swytch/Swytch.csproj --configuration Release --no-restore
+
+      - name: Pack NuGet Package
+        run: dotnet pack Swytch/Swytch.csproj --configuration Release --no-build --output .
+
+      - name: Publish to NuGet
+        run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
