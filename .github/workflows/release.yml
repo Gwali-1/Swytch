@@ -12,12 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Wait for Build & Test Workflow
-        uses: lewagon/wait-on-check-action@v1.3.4
+        uses: peter-evans/wait-for-workflow-run@v1
         with:
-          ref: ${{ github.ref }}
-          check-name: 'Run tests'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
+          token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: build-test.yml  #
+          repo: ${{ github.repository }}
+          branch: main  
+          check_interval: 10  
+          timeout: 600  
+
   publish-nuget:
     needs: wait-for-build  # Runs only if wait-for-build passes
     runs-on: ubuntu-latest
