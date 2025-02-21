@@ -12,13 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Wait for Build & Test Workflow
-        uses: fountainhead/action-wait-for-check@v1.2.0
+        uses: lewagon/wait-on-check-action@v1.3.4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: build
-          repo: ${{ github.repository }}
-          intervalSeconds: 10  # Check every 10 seconds
-
+          ref: ${{ github.ref }}
+          check-name: 'Run tests'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
   publish-nuget:
     needs: wait-for-build  # Runs only if wait-for-build passes
     runs-on: ubuntu-latest
