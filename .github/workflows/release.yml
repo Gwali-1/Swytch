@@ -16,7 +16,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: 'Build and test Swytch'
-          repo: ${{ github.repository }}
+          repo: Gwali-1/Swytch
           intervalSeconds: 10  # Check every 10 seconds
 
   publish-nuget:
