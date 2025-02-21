@@ -15,9 +15,9 @@ jobs:
         uses: fountainhead/action-wait-for-check@v1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          check-name: 'Build and test Swytch'
+          checkName: 'Build and test Swytch'
           repo: ${{ github.repository }}
-          wait-interval: 10  # Check every 10 seconds
+          intervalSeconds: 10  # Check every 10 seconds
 
   publish-nuget:
     needs: wait-for-build  # Runs only if wait-for-build passes
