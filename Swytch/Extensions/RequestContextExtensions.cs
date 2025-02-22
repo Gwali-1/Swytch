@@ -385,7 +385,7 @@ public static class RequestContextExtensions
     {
         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-        var responseModel = new InternalErrortResponseModel("fail", message);
+        var responseModel = new InternalErrorResponseModel("fail", message);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
         context.Response.ContentType = Constants.Json;
@@ -404,7 +404,7 @@ public static class RequestContextExtensions
     {
         context.Response.StatusCode = (int)HttpStatusCode.NotImplemented;
 
-        var responseModel = new InternalErrortResponseModel("fail", message);
+        var responseModel = new InternalErrorResponseModel("fail", message);
         var responseBuffer = JsonSerializer.SerializeToUtf8Bytes(responseModel);
         context.Response.ContentLength64 = responseBuffer.Length;
         context.Response.ContentType = Constants.Json;

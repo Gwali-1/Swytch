@@ -5,6 +5,11 @@ using Akka.Routing;
 
 namespace Swytch.utilities;
 
+
+/// <summary>
+/// The Actor pool is a public static class the exposes various public methods that allow you to initialize an actor pool, register actors and activate them by sending them
+/// messages.
+/// </summary>
 public static class ActorPool
 {
     private static ActorSystem? _actorSystemPool;
@@ -12,6 +17,14 @@ public static class ActorPool
     private static readonly ConcurrentDictionary<string, IActorRef> Actors = new();
 
     //register
+    
+    /// <summary>
+    /// Registers a valid actor in the actor pool to be used
+    /// </summary>
+    /// <param name="intances">minimum number of instances of your actor. Defaults to the number of processors in the run environment. The maximum amount of instances that can be
+    /// provisioned based on requirement in the pool is a million(1000000) </param>
+    /// <typeparam name="T">The type of your actor</typeparam>
+    /// <exception cref="InvalidOperationException">If actor pool is not initialized or multiple registration of the same actor</exception>
     public static void Register<T>(int intances = 0) where T : ActorBase
     {
         if (_actorSystemPool is null)
@@ -37,6 +50,14 @@ public static class ActorPool
     }
 
     //tell
+    
+    /// <summary>
+    /// Sends a message to an previously registered actor in the pool.
+    /// </summary>
+    /// <param name="message">The message to send to the actor</param>
+    /// <typeparam name="T">The type of your actor</typeparam>
+    /// <typeparam name="TM">The type of your message</typeparam>
+    /// <exception cref="InvalidOperationException">If actor does not exist in the pool ie not previously registered</exception>
     public static void Tell<T, TM>(TM message)
     {
         var actorName = typeof(T).ToString();
@@ -51,6 +72,10 @@ public static class ActorPool
     }
 
     //create an actor system
+    /// <summary>
+    /// Initializes and configures  the actor system (actor pool). Call this method first before registering actors or you will get InvalidOperationException 
+    /// </summary>
+    /// <param name="serviceProvider">The service provider from the service container of your registered services </param>
     public static void InitializeActorPool(IServiceProvider serviceProvider)
     {
         if (_actorSystemPool is null)
@@ -60,7 +85,9 @@ public static class ActorPool
         }
     }
 
-    //shutdown
+    /// <summary>
+    /// Shut down the actor pool
+    /// </summary>
     public static void ShutDown()
     {
         _actorSystemPool?.Terminate().Wait();

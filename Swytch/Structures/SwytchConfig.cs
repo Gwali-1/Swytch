@@ -1,5 +1,8 @@
 namespace Swytch.Structures;
 
+/// <summary>
+/// Custom type used to configure your swytch app.
+/// </summary>
 public class SwytchConfig
 {
     /// <summary>

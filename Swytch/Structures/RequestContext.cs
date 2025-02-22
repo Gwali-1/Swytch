@@ -17,7 +17,7 @@ in the request*/
 /// <summary>
 ///RequestContext class is a custom type that essentially wraps desired members of the HttpListenerContext class
 ///which in this case is the HttpListenerRequest, HttpListenerResponse, the IPrincipal object which  represents the current
-///client whose request is being handled. Some additional members include the query abd path params properties which will hold all 
+///client whose request is being handled. Some additional members include the query and path params properties which will hold all 
 ///query and path parameters supplied in the request.
 /// Provide this as argument to your request handling methods as it contains information unique to the current request being handled. 
 /// </summary>

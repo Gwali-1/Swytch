@@ -21,16 +21,16 @@
     <PackageProjectUrl>https://github.com/Gwali-1/Swytch</PackageProjectUrl>
 
     <!-- Package Icon -->
-    <PackageIcon>icon.png</PackageIcon>
+    <PackageIcon>logo-3.png</PackageIcon>
 
     <!-- Generate XML Documentation for IntelliSense -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <!-- Ensure the package icon is included -->
-    <None Update="icon.png">
+    <None Update="logo-3.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>Swytch/Logos/logo-3.png</PackagePath>
     </None>
   </ItemGroup>
   <ItemGroup>

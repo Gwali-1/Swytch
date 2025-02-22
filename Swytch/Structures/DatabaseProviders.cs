@@ -1,5 +1,9 @@
 namespace Swytch.Structures;
 
+
+/// <summary>
+/// Enum of some database providers to be used when adding a data storage to your swytch app.
+/// </summary>
 public enum DatabaseProviders
 {
     /// <summary>
