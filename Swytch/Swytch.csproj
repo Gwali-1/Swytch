@@ -12,7 +12,7 @@
         <Version>1.0.0-beta1</Version>
         <Authors>Gwalisam</Authors>
         <Company>Gwalisamz</Company>
-        <Description>A lightweight, fast, and intuitive web framework for effortlessly building high-performance, concurrent APIs and web applications.</Description>
+        <Description>Lightweight, fast and alternative web framework for building high-performance, concurrent APIs and web applications easily</Description>
         <PackageTags>web framewaork, API, web application, web utility</PackageTags>
 
         <!-- License and Links -->
