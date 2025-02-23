@@ -5,22 +5,19 @@
 
 # About
 
-
-Swytch is a lightweight, high-performance web framework written in C# for building modern web applications with minimal
-overhead. It provides an expressive routing API, built-in templating with RazorLight, support for asynchronous job
+Swytch is a web framework written in Csharp. It is lightweight, fast and gives an alternative and refreshing
+way to author web services like REST APIs and web applications It provides an expressive routing API, built-in templating with RazorLight, support for asynchronous job
 processing using Actors, and seamless database integration with Dapper.
 
 
->I started Swytch as an educational project to explore C# as a language and to experiment with a lightweight alternative
-for building simple web services or hacking on personal projects without the overhead of ASP.NET. It has been a
-rewarding experience, and I learned a lot along the way.
-I work on Swytch in my spare time, balancing it with my professional work and the other million things I have on my
-desk. It took over a year to get Swytch to a point where
-I felt it was stable enough to share. Since I only work on this when I can afford to, I kindly ask for patience when
-raising issues or reporting bugs. I'll address them as soon as I can.
-
-
-
+> I started Swytch as an educational project to explore C# as a language and to experiment with a lightweight
+> alternative
+> for building simple web services or hacking on personal projects without the overhead of ASP.NET. It has been a
+> rewarding experience, and I learned a lot along the way.
+> I work on Swytch in my spare time, balancing it with my professional work and the other million things I have on my
+> desk. It took over a year to get Swytch to a point where
+> I felt it was stable enough to share. Since I only work on this when I can afford to, I kindly ask for patience when
+> raising issues or reporting bugs. I'll address them as soon as I can.
 
 #### Check out the [documentation](#) for more information
 
@@ -125,14 +122,12 @@ Query databases easily using **Dapper**:
 ```csharp
 
 //Add data store 
-
 swytchApp.AddDatastore("your_connection_string", DatabaseProviders.SQLite);
 
 //execute query
  using IDbConnection dbConnection = app.GetConnection(DatabaseProviders.SQLite);
  var users = await dbConnection.QueryAsync<User>("SELECT * FROM Users");
 ```
-
 
 ## Contributing
 
