@@ -23,6 +23,9 @@
         <!-- Package Icon -->
         <PackageIcon>logo-3.png</PackageIcon>
 
+        <!-- Package Readme -->
+        <PackageReadmeFile>README-nuget.md</PackageReadmeFile>
+
         <!-- Generate XML Documentation for IntelliSense -->
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
@@ -30,6 +33,11 @@
     <!-- Ensure the package icon is included -->
     <ItemGroup>
         <None Include="Logos/logo-3.png" Pack="true" PackagePath=""/>
+    </ItemGroup>
+
+    <!-- Ensure the package readme is included -->
+    <ItemGroup>
+        <None Include="README-nuget.md" Pack="true" PackagePath=""/>
     </ItemGroup>
 
     <ItemGroup>

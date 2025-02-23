@@ -48,6 +48,7 @@ app.AddAction("GET", "/", async (context) => {
 //start app
 await swytchApp.Listen(); 
 ```
+Run the application and navigate to `http://localhost:8080/`.
 
 #### Check out the [documentation](#) for more information
 #### Check out the [repository on github](https://github.com/Gwali-1/Swytch) 
