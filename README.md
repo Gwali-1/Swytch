@@ -14,7 +14,7 @@
 </p>
 
 [![.NET](https://github.com/Gwali-1/Swytch/actions/workflows/dotnet_build.yml/badge.svg)](https://github.com/Gwali-1/Swytch/actions/workflows/dotnet_build.yml)
-
+[![Publish Tagged Release](https://github.com/ghostty-org/ghostty/actions/workflows/publish-tag.yml/badge.svg)](https://github.com/ghostty-org/ghostty/actions/workflows/publish-tag.yml)
 
 ---
 
