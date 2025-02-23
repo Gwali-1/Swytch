@@ -1,51 +1,50 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <AssemblyName>Swytch</AssemblyName>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <RootNamespace>Swytch</RootNamespace>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PackageId>Swytch</PackageId>
-    <Version>0.8.0</Version>
-    <Authors>Gwalisam</Authors>
-    <Company>Gwalisamz</Company>
-    <Description>A lightweight, fast, and intuitive web framework for effortlessly building high-performance, concurrent APIs and web applications.</Description>
-    <PackageTags>web framewaork, API, web application, web utility</PackageTags>
+    <PropertyGroup>
+        <AssemblyName>Swytch</AssemblyName>
+        <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Swytch</RootNamespace>
+    </PropertyGroup>
+    <PropertyGroup>
+        <PackageId>Swytch</PackageId>
+        <Version>1.0.0-beta1</Version>
+        <Authors>Gwalisam</Authors>
+        <Company>Gwalisamz</Company>
+        <Description>A lightweight, fast, and intuitive web framework for effortlessly building high-performance, concurrent APIs and web applications.</Description>
+        <PackageTags>web framewaork, API, web application, web utility</PackageTags>
 
-    <!-- License and Links -->
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/Gwali-1/Swytch</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Gwali-1/Swytch</PackageProjectUrl>
+        <!-- License and Links -->
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/Gwali-1/Swytch</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Gwali-1/Swytch</PackageProjectUrl>
 
-    <!-- Package Icon -->
-    <PackageIcon>logo-3.png</PackageIcon>
+        <!-- Package Icon -->
+        <PackageIcon>logo-3.png</PackageIcon>
 
-    <!-- Generate XML Documentation for IntelliSense -->
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
+        <!-- Generate XML Documentation for IntelliSense -->
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
     <!-- Ensure the package icon is included -->
-    <None Update="logo-3.png">
-      <Pack>True</Pack>
-      <PackagePath>Swytch/Logos/logo-3.png</PackagePath>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <!-- NuGet Dependencies -->
-    <PackageReference Include="Dapper" Version="2.1.35" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
-    <PackageReference Include="MySql.Data" Version="9.0.0" />
-    <PackageReference Include="Npgsql" Version="8.0.3" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.5.0" />
-    <PackageReference Include="RazorLight" Version="2.3.1" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
-    <PackageReference Include="Akka" Version="1.5.38" />
-    <PackageReference Include="Akka.DependencyInjection" Version="1.5.38" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="Logos/logo-3.png" Pack="true" PackagePath=""/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- NuGet Dependencies -->
+        <PackageReference Include="Dapper" Version="2.1.35"/>
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0"/>
+        <PackageReference Include="MySql.Data" Version="9.0.0"/>
+        <PackageReference Include="Npgsql" Version="8.0.3"/>
+        <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.5.0"/>
+        <PackageReference Include="RazorLight" Version="2.3.1"/>
+        <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118"/>
+        <PackageReference Include="Akka" Version="1.5.38"/>
+        <PackageReference Include="Akka.DependencyInjection" Version="1.5.38"/>
+    </ItemGroup>
 
 </Project>
