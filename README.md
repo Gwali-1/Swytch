@@ -8,8 +8,6 @@
     <br />
     <a href="#about">About</a>
     ·
-    <a href="##📦installation">Install</a>
-    ·
     <a href="#">Documentation</a>
     ·
     <a href="#">Nuget</a>
@@ -43,8 +41,6 @@ processing using Actors, and seamless database integration with Dapper.
 #### Check out the [devlogs and architectural notes ](https://github.com/Gwali-1/Swytch/blob/main/Notes/notes_26_06_24.md)
 
 ## Features
-
----
 
 - **Minimal and Expressive Routing** – Define routes and handler methods easily with a clean API.
 - **Path Parameters** – Extract parameters directly from the URL for dynamic routing.
