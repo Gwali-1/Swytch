@@ -8,7 +8,7 @@
     <br />
     <a href="#about">About</a>
     ·
-    <a href="##installation">Install</a>
+    <a href="##📦installation">Install</a>
     ·
     <a href="#">Documentation</a>
     ·
@@ -91,7 +91,6 @@ Run the application and navigate to `http://localhost:8080/`.
 
 ## Routing & Handlers
 
----
 
 Define dynamic routes with path parameters:
 
