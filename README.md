@@ -22,7 +22,6 @@
 
 # About
 
----
 Swytch is a web framework written in Csharp. It is lightweight, fast and offers an alternative and refreshing
 way to author web services like REST APIs and web applications It provides an expressive routing API, built-in
 templating with RazorLight, support for asynchronous job
@@ -107,7 +106,6 @@ app.AddAction("GET,POST","/users/{id}", async (context) => { //logic here });
 
 ## Middleware
 
----
 Register **middleware**
 
 ```csharp
@@ -119,7 +117,6 @@ app.AddMiddleware(async (context) =>
 
 ## Templating with RazorLight
 
----
 
 Use **RazorLight** to render dynamic template file:
 
@@ -129,7 +126,6 @@ await app.RenderTemplate(context, "templateKey", Books);
 
 ## Background  Jobs (Actors)
 
----
 
 Execute **background tasks** using **Actors**:
 
@@ -146,7 +142,6 @@ ActorPool.Register<TalkingActor>();
 
 ## Database Integration (Dapper)
 
----
 
 Query databases easily using **Dapper**:
 
@@ -162,7 +157,6 @@ swytchApp.AddDatastore("your_connection_string", DatabaseProviders.SQLite);
 
 ## Contributing
 
-----
 
 Contributions are highly valued, whether it's proposing new features, suggesting improvements, or reporting bugs. Your
 input helps make Swytch even better—feel free to submit a PR! 
