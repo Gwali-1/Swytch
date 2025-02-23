@@ -4,7 +4,7 @@
 
 <img src="https://github.com/Gwali-1/Swytch/blob/main/Swytch/Logos/logo-1.png?raw=true" width=300 height=150>
 
-Swytch is a web framework written in Csharp. It is lightweight, fast and gives an alternative and refreshing
+Swytch is a web framework written in Csharp. It is lightweight, fast and offers an alternative and refreshing
 way to author web services like REST APIs and web applications.It provides an expressive routing API, built-in templating
 with RazorLight, support for asynchronous job processing using Actors, and seamless database integration with Dapper.
 

@@ -1,20 +1,40 @@
+<!-- LOGO -->
+
+<p align="center">
+ <img src="https://github.com/Gwali-1/Swytch/blob/main/Swytch/Logos/logo-1.png?raw=true" width=300 height=150>
+</p>
+<p align="center">
+   Lightweight, fast and alternative web framework.
+    <br />
+    <a href="#about">About</a>
+    ·
+    <a href="##installation">Install</a>
+    ·
+    <a href="#">Documentation</a>
+    ·
+    <a href="#">Nuget</a>
+</p>
+
 [![.NET](https://github.com/Gwali-1/Swytch/actions/workflows/dotnet_build.yml/badge.svg)](https://github.com/Gwali-1/Swytch/actions/workflows/dotnet_build.yml)
 
 
-<img src="https://github.com/Gwali-1/Swytch/blob/main/Swytch/Logos/logo-1.png?raw=true" width=300 height=150>
+---
 
 # About
 
-Swytch is a web framework written in Csharp. It is lightweight, fast and gives an alternative and refreshing
-way to author web services like REST APIs and web applications It provides an expressive routing API, built-in templating with RazorLight, support for asynchronous job
+---
+Swytch is a web framework written in Csharp. It is lightweight, fast and offers an alternative and refreshing
+way to author web services like REST APIs and web applications It provides an expressive routing API, built-in
+templating with RazorLight, support for asynchronous job
 processing using Actors, and seamless database integration with Dapper.
 
 
 > I started Swytch as an educational project to explore C# as a language and to experiment with a lightweight
 > alternative
-> for building simple web services or hacking on personal projects without the overhead of ASP.NET. It has been a
+> for building simple web services or hacking on personal projects without the overhead of ASP.NET/ASP.NET CORE. It has
+> been a
 > rewarding experience, and I learned a lot along the way.
-> I work on Swytch in my spare time, balancing it with my professional work and the other million things I have on my
+> I work on Swytch in my spare time, balancing it with my professional life and the other million things I have on my
 > desk. It took over a year to get Swytch to a point where
 > I felt it was stable enough to share. Since I only work on this when I can afford to, I kindly ask for patience when
 > raising issues or reporting bugs. I'll address them as soon as I can.
@@ -24,6 +44,8 @@ processing using Actors, and seamless database integration with Dapper.
 #### Check out the [devlogs and architectural notes ](https://github.com/Gwali-1/Swytch/blob/main/Notes/notes_26_06_24.md)
 
 ## Features
+
+---
 
 - **Minimal and Expressive Routing** – Define routes and handler methods easily with a clean API.
 - **Path Parameters** – Extract parameters directly from the URL for dynamic routing.
@@ -38,6 +60,8 @@ processing using Actors, and seamless database integration with Dapper.
 - **Fast and Lightweight** – Designed for high performance with minimal overhead.
 
 ## 📦 Installation
+
+---
 
 Install **Swytch** via [NuGet](#):
 
@@ -56,10 +80,8 @@ Create a basic **Swytch** application:
 var app = new SwytchApp();
 
 //set up route 
-app.AddAction("GET", "/", async (Context) => {
-
-    Context.ToOk("Hello from Swytch!");
-    
+app.AddAction("GET", "/", async (context) => {
+    context.ToOk("Hello from Swytch!");
 });
 
 //start app
@@ -69,6 +91,8 @@ await swytchApp.Listen();
 Run the application and navigate to `http://localhost:8080/`.
 
 ## Routing & Handlers
+
+---
 
 Define dynamic routes with path parameters:
 
@@ -83,6 +107,7 @@ app.AddAction("GET,POST","/users/{id}", async (context) => { //logic here });
 
 ## Middleware
 
+---
 Register **middleware**
 
 ```csharp
@@ -94,6 +119,8 @@ app.AddMiddleware(async (context) =>
 
 ## Templating with RazorLight
 
+---
+
 Use **RazorLight** to render dynamic template file:
 
 ```csharp
@@ -101,6 +128,8 @@ await app.RenderTemplate(context, "templateKey", Books);
 ```
 
 ## Background  Jobs (Actors)
+
+---
 
 Execute **background tasks** using **Actors**:
 
@@ -117,6 +146,8 @@ ActorPool.Register<TalkingActor>();
 
 ## Database Integration (Dapper)
 
+---
+
 Query databases easily using **Dapper**:
 
 ```csharp
@@ -130,6 +161,8 @@ swytchApp.AddDatastore("your_connection_string", DatabaseProviders.SQLite);
 ```
 
 ## Contributing
+
+----
 
 Contributions are highly valued, whether it's proposing new features, suggesting improvements, or reporting bugs. Your
 input helps make Swytch even better—feel free to submit a PR! 
