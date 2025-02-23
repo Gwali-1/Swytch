@@ -21,7 +21,7 @@
 # About
 
 Swytch is a web framework written in Csharp. It is lightweight, fast and offers an alternative and refreshing
-way to author web services like REST APIs and web applications It provides an expressive routing API, built-in
+way to author web services like REST APIs and web applications.It provides an expressive routing API, built-in
 templating with RazorLight, support for asynchronous job
 processing using Actors, and seamless database integration with Dapper.
 
@@ -50,7 +50,6 @@ processing using Actors, and seamless database integration with Dapper.
 - **Asynchronous Job Processing** – Allows users to execute background and non-blocking tasks using **Actors**.
 - **Resilient Request Handling** – Exceptions occurring during a request are **isolated to that request**, preventing
   failures from affecting the entire application.
-- **Dependency Injection** – Provides seamless integration with DI containers for modular development.
 - **Middleware Support** – Extend functionality by adding middleware for request/response processing.
 - **Fast and Lightweight** – Designed for high performance with minimal overhead.
 
