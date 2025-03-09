@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The SwytchList</title>
+  <link rel="stylesheet" href="/swytchserver/static/style.css"/>
+
+</head>
+<body>
+<header>
+  <div class="tape-deck">
+    <div class="control-lights">
+      <div class="light red"></div>
+      <div class="light green"></div>
+    </div>
+    <div class="tape-spools">
+      <div class="spool"></div>
+      <div class="spool"></div>
+    </div>
+  </div>
+  <h1>SWYTCHLIST</h1>
+  <p class="tagline">Your playlist manager</p>
+  <div class="now-playing" id="now-playing">Ready to mix some tunes...</div>
+</header>
+
+<div class="main-container">
+  <div class="tabs">
+    <div class="tab active" data-tab="create">Browse Playlist</div>
+    <div class="tab " data-tab="create">Create Playlist</div>
+    <div class="tab" data-tab="add-song">Add Song</div>
+    <div class="tab" data-tab="delete">Delete Playlist</div>
+  </div>
+  @RenderBody()
+</div>
+
+<script>
+  // Mock API and data storage (since we don't have a real backend)
+  const API = {
+    playlists: [
+      {
+        id: "p1",
+        name: "80s Classics",
+        description: "The best hits from the 1980s",
+        songs: [
+          {id: "s1", title: "Take On Me", artist: "a-ha", duration: "3:46"},
+          {id: "s2", title: "Sweet Dreams", artist: "Eurythmics", duration: "3:36"},
+          {id: "s3", title: "Billie Jean", artist: "Michael Jackson", duration: "4:54"}
+        ]
+      },
+      {
+        id: "p2",
+        name: "90s Rock",
+        description: "Grunge and alternative rock from the 90s",
+        songs: [
+          {id: "s4", title: "Smells Like Teen Spirit", artist: "Nirvana", duration: "5:01"},
+          {id: "s5", title: "Black Hole Sun", artist: "Soundgarden", duration: "5:18"}
+        ]
+      }
+    ],
+
+    getAllPlaylists: function () {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(this.playlists.map(p => ({
+            id: p.id,
+            name: p.name,
+            description: p.description,
+            songCount: p.songs.length
+          })));
+        }, 300);
+      });
+    },
+
+    getPlaylist: function (id) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const playlist = this.playlists.find(p => p.id === id);
+          if (playlist) {
+            resolve(playlist);
+          } else {
+            reject(new Error("Playlist not found"));
+          }
+        }, 300);
+      });
+    },
+
+    createPlaylist: function (name, description) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const newId = "p" + (this.playlists.length + 1);
+          const newPlaylist = {
+            id: newId,
+            name: name,
+            description: description || "",
+            songs: []
+          };
+          this.playlists.push(newPlaylist);
+          resolve(newPlaylist);
+        }, 300);
+      });
+    },
+
+    deletePlaylist: function (id) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const index = this.playlists.findIndex(p => p.id === id);
+          if (index !== -1) {
+            this.playlists.splice(index, 1);
+            resolve({success: true, message: "Playlist deleted"});
+          } else {
+            reject(new Error("Playlist not found"));
+          }
+        }, 300);
+      });
+    },
+
+    addSong: function (playlistId, songData) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const playlist = this.playlists.find(p => p.id === playlistId);
+          if (playlist) {
+            const newSong = {
+              id: "s" + (Math.floor(Math.random() * 10000)),
+              title: songData.title,
+              artist: songData.artist,
+              duration: songData.duration
+            };
+            playlist.songs.push(newSong);
+            resolve({playlist, newSong});
+          } else {
+            reject(new Error("Playlist not found"));
+          }
+        }, 300);
+      });
+    }
+  };
+
+  // DOM elements
+  const output = document.getElementById('output');
+  const playlistsContainer = document.getElementById('playlists-container');
+  const singlePlaylistContainer = document.getElementById('single-playlist-container');
+  const nowPlayingDisplay = document.getElementById('now-playing');
+
+  // Tab functionality
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Deactivate all tabs
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      // Activate clicked tab
+      tab.classList.add('active');
+      document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+    });
+  });
+
+  // Helper function to display output
+  function displayOutput(data) {
+    output.textContent = typeof data === 'string'
+      ? data
+      : JSON.stringify(data, null, 2);
+  }
+
+  // Helper function to display error
+  function displayError(error) {
+    output.textContent = `Error: ${error.message}`;
+  }
+
+  // Display all playlists
+  document.getElementById('get-all-playlists').addEventListener('click', async () => {
+    try {
+      const playlists = await API.getAllPlaylists();
+      displayOutput(playlists);
+
+      playlistsContainer.innerHTML = '';
+      playlists.forEach(playlist => {
+        const playlistEl = document.createElement('div');
+        playlistEl.className = 'playlist-item';
+        playlistEl.innerHTML = `
+            <strong>${playlist.name}</strong> (${playlist.id})
+            <div>${playlist.songCount} songs</div>
+            <small>${playlist.description}</small>
+          `;
+        playlistEl.addEventListener('click', () => {
+          document.getElementById('get-playlist-id').value = playlist.id;
+          document.getElementById('get-playlist').click();
+
+          // Also fill in the playlist ID fields in the forms
+          document.getElementById('add-song-playlist-id').value = playlist.id;
+          document.getElementById('delete-playlist-id').value = playlist.id;
+        });
+        playlistsContainer.appendChild(playlistEl);
+      });
+    } catch (error) {
+      displayError(error);
+    }
+  });
+
+  // Get single playlist
+  document.getElementById('get-playlist').addEventListener('click', async () => {
+    const playlistId = document.getElementById('get-playlist-id').value.trim();
+    if (!playlistId) {
+      displayOutput("Please enter a playlist ID");
+      return;
+    }
+
+    try {
+      const playlist = await API.getPlaylist(playlistId);
+      displayOutput(playlist);
+
+      singlePlaylistContainer.innerHTML = `
+          <h3>${playlist.name}</h3>
+          <p>${playlist.description}</p>
+          <div class="songs-list">
+            <h4>Songs (${playlist.songs.length})</h4>
+          </div>
+        `;
+
+      const songsList = singlePlaylistContainer.querySelector('.songs-list');
+      playlist.songs.forEach(song => {
+        const songEl = document.createElement('div');
+        songEl.className = 'song-item';
+        songEl.innerHTML = `
+            <span>${song.title} - ${song.artist}</span>
+            <span>${song.duration}</span>
+          `;
+        songEl.addEventListener('click', () => {
+          nowPlayingDisplay.textContent = `Now playing: ${song.title} by ${song.artist}`;
+        });
+        songsList.appendChild(songEl);
+      });
+    } catch (error) {
+      displayError(error);
+      singlePlaylistContainer.innerHTML = '';
+    }
+  });
+
+  // Create playlist
+  document.getElementById('create-playlist').addEventListener('click', async () => {
+    const name = document.getElementById('new-playlist-name').value.trim();
+    const description = document.getElementById('new-playlist-description').value.trim();
+
+    if (!name) {
+      displayOutput("Please enter a playlist name");
+      return;
+    }
+
+    try {
+      const newPlaylist = await API.createPlaylist(name, description);
+      displayOutput(newPlaylist);
+      document.getElementById('get-all-playlists').click();
+      document.getElementById('new-playlist-name').value = '';
+      document.getElementById('new-playlist-description').value = '';
+    } catch (error) {
+      displayError(error);
+    }
+  });
+
+  // Delete playlist
+  document.getElementById('delete-playlist').addEventListener('click', async () => {
+    const playlistId = document.getElementById('delete-playlist-id').value.trim();
+
+    if (!playlistId) {
+      displayOutput("Please enter a playlist ID");
+      return;
+    }
+
+    try {
+      const result = await API.deletePlaylist(playlistId);
+      displayOutput(result);
+      document.getElementById('get-all-playlists').click();
+      document.getElementById('delete-playlist-id').value = '';
+    } catch (error) {
+      displayError(error);
+    }
+  });
+
+  // Add song to playlist
+  document.getElementById('add-song').addEventListener('click', async () => {
+    const playlistId = document.getElementById('add-song-playlist-id').value.trim();
+    const title = document.getElementById('add-song-title').value.trim();
+    const artist = document.getElementById('add-song-artist').value.trim();
+    const duration = document.getElementById('add-song-duration').value.trim();
+
+    if (!playlistId || !title || !artist) {
+      displayOutput("Please fill in all required fields");
+      return;
+    }
+
+    try {
+      const result = await API.addSong(playlistId, {title, artist, duration});
+      displayOutput(result);
+
+      if (document.getElementById('get-playlist-id').value === playlistId) {
+        document.getElementById('get-playlist').click();
+      }
+
+      document.getElementById('add-song-title').value = '';
+      document.getElementById('add-song-artist').value = '';
+      document.getElementById('add-song-duration').value = '';
+    } catch (error) {
+      displayError(error);
+    }
+  });
+
+  // Initial load of playlists
+  document.getElementById('get-all-playlists').click();
+</script>
+</body>
+</html>

@@ -35,7 +35,7 @@ public class SwytchApp : ISwytchApp
     private string TemplateLocation { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
 
 
-    public SwytchApp( SwytchConfig? config = null)
+    public SwytchApp(SwytchConfig? config = null)
     {
         //set up logger 
         using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
@@ -48,22 +48,24 @@ public class SwytchApp : ISwytchApp
             //template location
             TemplateLocation = config.TemplateLocation ?? TemplateLocation;
             //register available templates
-            if (!Directory.Exists(TemplateLocation)) return;
-            _engine = new RazorLightEngineBuilder().UseFileSystemProject(TemplateLocation).UseMemoryCachingProvider()
-                .Build();
-
-            //precompile templates
-            if (config.PrecompileTemplates)
+            if (Directory.Exists(TemplateLocation))
             {
-                //read all templates 
-                foreach (var template in Directory.EnumerateFiles(TemplateLocation))
+                _engine = new RazorLightEngineBuilder().UseFileSystemProject(TemplateLocation)
+                    .UseMemoryCachingProvider()
+                    .Build();
+                
+                //precompile templates
+                if (config.PrecompileTemplates)
                 {
-                    //get file name 
-                    var templateName = Path.GetFileName(template);
-                    _ = _engine.CompileTemplateAsync(templateName).GetAwaiter().GetResult();
+                    //read all templates 
+                    foreach (var template in Directory.EnumerateFiles(TemplateLocation))
+                    {
+                        //get file name 
+                        var templateName = Path.GetFileName(template);
+                        _ = _engine.CompileTemplateAsync(templateName).GetAwaiter().GetResult();
+                    }
                 }
             }
-
             //max-age directive
             _staticCacheMaxAge = config.StaticCacheMaxAge?.Trim() ?? _staticCacheMaxAge;
 

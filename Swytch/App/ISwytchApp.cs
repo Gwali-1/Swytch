@@ -3,6 +3,11 @@ using Swytch.Structures;
 
 namespace Swytch.App;
 
+/// <summary>
+/// In summary, this is a representation of your running application. It contains and exposes functionality that manages the application lifetime, ensure resilience, allow you to
+/// configure your web application as a whole  etc.
+///  
+/// </summary>
 public interface ISwytchApp
 {
     /// <summary>

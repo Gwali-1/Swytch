@@ -1,24 +1,42 @@
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Swytch_Api_Template.DTOs;
-using Swytch_Api_Template.Services.Interfaces;
+using Swytch_Web_Template.DTOs;
+using Swytch_Web_Template.Services.Interfaces;
 using Swytch.App;
 using Swytch.Extensions;
 using Swytch.Structures;
 
-namespace Swytch_Api_Template.Actions;
+namespace Swytch_Web_Template.Actions;
 
 public class PlaylistAction
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<PlaylistAction> _logger;
+    private ISwytchApp _swytchApp;
+
+    
 
     public PlaylistAction(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
         _logger = serviceProvider.GetRequiredService<ILogger<PlaylistAction>>();
+        _swytchApp = serviceProvider.GetRequiredService<ISwytchApp>();
+
     }
+    
+        
+    public async Task Home(RequestContext context)
+    {
+        _logger.LogInformation("Loading landing page");
+        using var scope = _serviceProvider.CreateScope();
+        var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
+
+        var playlists = await playlistService.GetAllPlaylists();
+        _swytchApp.RenderTemplate(context,"BrowsePlaylist",playlists);
+        
+    }
+
 
 
     //Returns all playlists

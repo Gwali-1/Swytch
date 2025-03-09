@@ -1,0 +1,41 @@
+
+@{
+    Layout = "Layout.cshtml";
+}
+
+
+<div class="section">
+    <div class="section-header">
+        <h2>Playlist Operations</h2>
+    </div>
+      
+    <div class="tab-container">
+        <div class="tabs">
+            <div class="tab active" data-tab="create">Create Playlist</div>
+            <div class="tab" data-tab="add-song">Add Song</div>
+            <div class="tab" data-tab="delete">Delete Playlist</div>
+        </div>
+        
+        <div class="tab-content active" id="create-tab">
+            <h3>Create New Playlist</h3>
+            <input type="text" id="new-playlist-name" placeholder="Playlist name">
+            <textarea id="new-playlist-description" placeholder="Description (optional)" rows="3"></textarea>
+            <button id="create-playlist">Create Playlist</button>
+        </div>
+        
+        <div class="tab-content" id="add-song-tab">
+            <h3>Add Song to Playlist</h3>
+            <input type="text" id="add-song-playlist-id" placeholder="Playlist ID">
+            <input type="text" id="add-song-title" placeholder="Song title">
+            <input type="text" id="add-song-artist" placeholder="Artist">
+            <input type="text" id="add-song-duration" placeholder="Duration (e.g., 3:45)">
+            <button id="add-song">Add Song</button>
+        </div>
+        
+        <div class="tab-content" id="delete-tab">
+            <h3>Delete Playlist</h3>
+            <input type="text" id="delete-playlist-id" placeholder="Playlist ID">
+            <button id="delete-playlist">Delete Playlist</button>
+        </div>
+    </div>
+</div>

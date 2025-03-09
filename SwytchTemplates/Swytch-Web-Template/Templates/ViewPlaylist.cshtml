@@ -1,0 +1,22 @@
+@{
+    Layout = "Layout.cshtml";
+}
+
+
+
+<div class="section">
+    <div class="section-header">
+        <h2>Playlist Details</h2>
+    </div>
+    <input type="text" id="get-playlist-id" placeholder="Playlist ID">
+    <button id="get-playlist">Get Playlist</button>
+    <div id="single-playlist-container">
+
+        <h3>playlist.name</h3>
+        <p>{playlist.description}</p>
+        <div class="songs-list">
+            <h4>Songs ({playlist.songs.length})</h4>
+        </div>
+        
+    </div>
+</div>

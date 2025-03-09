@@ -1,0 +1,263 @@
+/* Global styles with retro vibe and light green accents */
+body {
+    font-family: "Courier New", monospace;
+    background-color: #fafafa;
+    color: #333;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    border-bottom: 2px solid #333;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    background-color: #f0f7f0;
+    border-radius: 10px 10px 0 0;
+    padding-top: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #aaa;
+    padding-bottom: 5px;
+    color: #2e582e;
+}
+
+h3 {
+    color: #2e582e;
+}
+
+.tagline {
+    font-style: italic;
+    color: #777;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.row {
+    display: flex;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+}
+
+.section {
+    margin-bottom: 20px;
+    background-color: #f0f7f0;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.section:hover {
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.section-header {
+    background-color: #c0e6c0;
+    margin: -20px -20px 20px -20px;
+    padding: 10px 20px;
+    border-radius: 5px 5px 0 0;
+    border-bottom: 1px solid #a0d0a0;
+}
+
+input, textarea, button {
+    font-family: "Courier New", monospace;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #c0e6c0;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4a7a4a;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #5a8a5a;
+}
+
+
+
+.output {
+    min-height: 150px;
+    background: #222;
+    color: #0f0;
+    padding: 10px;
+    font-size: 0.9rem;
+    overflow: auto;
+    white-space: pre-wrap;
+    border-radius: 3px;
+    border: 1px solid #999;
+}
+
+.playlist-item {
+    padding: 10px;
+    border-bottom: 1px dashed #a0d0a0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.playlist-item:hover {
+    background-color: #e0f0e0;
+}
+
+.song-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dotted #c0e6c0;
+}
+
+.tape-deck {
+    width: 200px;
+    height: 120px;
+    margin: 0 auto 30px;
+    background-color: #333;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tape-spools {
+    display: flex;
+    justify-content: space-around;
+    width: 70%;
+}
+
+.spool {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #111;
+    border: 5px solid #444;
+    position: relative;
+}
+
+.spool:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 10px;
+    height: 10px;
+    background-color: #666;
+    border-radius: 50%;
+}
+
+.control-lights {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+}
+
+.light {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.light.red {
+    background-color: #f00;
+    animation: blink 2s infinite;
+}
+
+.light.green {
+    background-color: #0f0;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
+
+.now-playing {
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 5px;
+    color: #777;
+}
+
+.tab-container {
+    margin-bottom: 20px;
+}
+
+.tabs {
+    display: flex;
+    background-color: #e0f0e0;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-right: 1px solid #c0e6c0;
+    transition: background-color 0.2s;
+}
+
+.tab:last-child {
+    border-right: none;
+}
+
+.tab.active {
+    background-color: #4a7a4a;
+    color: white;
+}
+
+.tab:hover:not(.active) {
+    background-color: #d0e8d0;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    background-color: #f0f7f0;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid #c0e6c0;
+}
+
+.tab-content.active {
+    display: block;
+}
