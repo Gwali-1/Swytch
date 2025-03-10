@@ -1,5 +1,8 @@
 ﻿
 
+using System.Collections.Immutable;
+using System.Threading.Channels;
+using Azure.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swytch_Web_Template.Actions;
@@ -11,7 +14,8 @@ using Swytch.Structures;
 
 ISwytchApp  swytchApp = new SwytchApp(new SwytchConfig
 {
-    EnableStaticFileServer = true
+    EnableStaticFileServer = true,
+    StaticCacheMaxAge = "5"
 });
 swytchApp.AddLogging();
 //Add datastore
@@ -48,14 +52,9 @@ PlaylistAction playlistAction = new PlaylistAction(serviceProvider);
 //view playliat
 
 swytchApp.AddAction("GET","/", playlistAction.Home);
+swytchApp.AddAction("POST,GET", "/create-playlist", playlistAction.CreatePlaylist);
 
-
-
-
-
-swytchApp.AddAction("GET", "/playlists", playlistAction.AllPlaylists);
 swytchApp.AddAction("GET", "/playlist/{playlistId}", playlistAction.GetPlaylist);
-swytchApp.AddAction("POST", "/playlist", playlistAction.CreatePlaylist);
 swytchApp.AddAction("POST", "/song/{playlistId}", playlistAction.AddSong);
 swytchApp.AddAction("GET", "/songs/{playlistId}", playlistAction.GetPlaylistSongs);
 swytchApp.AddAction("DELETE", "/playlist/delete/{playlistId}", playlistAction.DeletePlaylist);
@@ -72,6 +71,7 @@ DatabaseHelper.InsertSampleDataIfTablesEmpty(swytchApp);
 //     await swytchApp.RenderTemplate<Object>(context,"BrowsePlaylist",null);
 // });
 //
+
 
 await swytchApp.Listen();
 

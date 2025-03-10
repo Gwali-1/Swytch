@@ -142,7 +142,7 @@ public static class RequestContextExtensions
             ".7z" => "application/x-7z-compressed",
             _ => "application/octet-stream",
         };
-        int bufferSize = 4096; //4kb
+        int bufferSize = 8192; //8kb
         byte[] fileContent = new byte[bufferSize];
         try
         {

@@ -26,10 +26,10 @@
 
 <div class="main-container">
   <div class="tabs">
-    <div class="tab active" data-tab="create">Browse Playlist</div>
-    <div class="tab " data-tab="create">Create Playlist</div>
-    <div class="tab" data-tab="add-song">Add Song</div>
-    <div class="tab" data-tab="delete">Delete Playlist</div>
+    <div class="tab" data-content="browse"><a href="/">Browse Playlists</a></div>
+    <div class="tab" data-content="create"><a href="/create-playlist?tab=Create Playlist">Create Playlist</a></div>
+    <div class="tab" data-content="add-song"><a href="/add-song">Add Song</a></div>
+    <div class="tab" data-content="delete"><a href="/delete-playlist">Delete Playlist</a></div>
   </div>
   @RenderBody()
 </div>
@@ -307,6 +307,10 @@
 
   // Initial load of playlists
   document.getElementById('get-all-playlists').click();
+
+
+
+
 </script>
 </body>
 </html>

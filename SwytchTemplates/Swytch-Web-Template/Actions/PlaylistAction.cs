@@ -28,13 +28,17 @@ public class PlaylistAction
         
     public async Task Home(RequestContext context)
     {
-        _logger.LogInformation("Loading landing page");
+        // _logger.LogInformation("Loading landing page");
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
 
         var playlists = await playlistService.GetAllPlaylists();
-        _swytchApp.RenderTemplate(context,"BrowsePlaylist",playlists);
+        await _swytchApp.RenderTemplate(context,"BrowsePlaylist",playlists);
         
+    }
+
+    public async Task PlaylistOperations(RequestContext context)
+    {
     }
 
 
@@ -54,6 +58,11 @@ public class PlaylistAction
     //Creates a new playlist
     public async Task CreatePlaylist(RequestContext context)
     {
+        if (context.Request.HttpMethod == "GET")
+        {
+            await _swytchApp.RenderTemplate<object>(context,"CreatePlaylist",null);
+            return;
+        }
         _logger.LogInformation("Creating new playlist");
         using var scope = _serviceProvider.CreateScope();
         var playlistService = _serviceProvider.GetRequiredService<IPlaylistService>();

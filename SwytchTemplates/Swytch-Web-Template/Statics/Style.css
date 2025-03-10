@@ -106,8 +106,6 @@ button:hover {
     background-color: #5a8a5a;
 }
 
-
-
 .output {
     min-height: 150px;
     background: #222;
@@ -145,7 +143,7 @@ button:hover {
     background-color: #333;
     border-radius: 10px;
     position: relative;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -201,15 +199,9 @@ button:hover {
 }
 
 @keyframes blink {
-    0% {
-        opacity: 0.3;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0.3;
-    }
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
 }
 
 .now-playing {
@@ -235,6 +227,8 @@ button:hover {
     cursor: pointer;
     border-right: 1px solid #c0e6c0;
     transition: background-color 0.2s;
+    text-align: center;
+    flex: 1;
 }
 
 .tab:last-child {
@@ -259,5 +253,27 @@ button:hover {
 }
 
 .tab-content.active {
+    display: block;
+}
+
+/* Tab Links Styling */
+.tab a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.tab.active a {
+    color: white;
+}
+
+/* Content areas */
+.content-area {
+    display: none;
+}
+
+.content-area.active {
     display: block;
 }
