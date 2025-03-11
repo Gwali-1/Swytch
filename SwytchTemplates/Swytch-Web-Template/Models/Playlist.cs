@@ -1,4 +1,3 @@
-
 namespace Swytch_Web_Template.Models;
 
 public class Playlist

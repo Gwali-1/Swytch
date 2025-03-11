@@ -35,6 +35,7 @@ public class PlaylistService : IPlaylistService
         {
             return Task.FromResult(default(Playlist));
         }
+
         return Task.FromResult(playList.First());
     }
 
@@ -75,7 +76,7 @@ public class PlaylistService : IPlaylistService
     {
         using var dbContext = _app.GetConnection(DatabaseProviders.SQLite);
         string query = "SELECT Id ,Title, Artist FROM Song  WHERE PlaylistId = @PlaylistId";
-        var songs = dbContext.Query<Song>(query, new {PlaylistId=playListId}).ToList();
+        var songs = dbContext.Query<Song>(query, new { PlaylistId = playListId }).ToList();
         return Task.FromResult(songs);
     }
 }

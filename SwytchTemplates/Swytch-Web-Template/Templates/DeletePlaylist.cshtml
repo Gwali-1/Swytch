@@ -3,11 +3,15 @@
 }
 
 <div class="section">
+    <div class="section-header">
+        <h2>Delete Playlist</h2>
+    </div>
     <div class="tab-container">
-        <div class="tab-content" id="delete-tab">
-            <h3>Delete Playlist</h3>
-            <input type="text" id="delete-playlist-id" placeholder="Playlist ID">
-            <button id="delete-playlist">Delete Playlist</button>
+        <div class="tab-content active" id="delete-tab">
+            <form method="post" action="/delete-playlist">
+                <input name="playlistId" type="text" id="delete-playlist-id" placeholder="Playlist ID">
+                <button type="submit" id="delete-playlist">Delete Playlist</button>
+            </form>
         </div>
     </div>
 </div>

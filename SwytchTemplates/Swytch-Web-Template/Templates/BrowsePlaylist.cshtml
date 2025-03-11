@@ -2,16 +2,7 @@
     Layout = "Layout.cshtml";
 }
 
-@using Swytch_Web_Template.Models
-@model List<Swytch_Web_Template.Models.Playlist>
-
-
 <div class="section">
-  
-    <div class="section-header">
-        <h2>Browse Playlists</h2>
-    </div>
-    
     <a href="/">
         <button id="get-all-playlists">Refresh Playlists</button>
     </a>
@@ -21,11 +12,12 @@
         @foreach (var playlist in @Model)
         {
             <div class="playlist-item">
-                [@playlist.Id]<strong>@playlist.Name</strong>
-                <div>10 songs</div>
-                <small>@playlist.Description</small>
+                <a href="/playlist/@playlist.Id">
+                    [@playlist.Id]<strong>@playlist.Name</strong>
+                    <div>10 songs</div>
+                    <small>@playlist.Description</small>
+                </a>
             </div>
         }
-
     </div>
 </div>

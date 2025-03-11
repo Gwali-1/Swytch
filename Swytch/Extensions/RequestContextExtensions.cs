@@ -151,11 +151,11 @@ public static class RequestContextExtensions
             int bytesRead;
 
             context.Response.ContentType = contentType;
+            context.Response.SendChunked = true;
             context.Response.StatusCode = (int)status;
             await using Stream writer = context.Response.OutputStream;
             while ((bytesRead = await fileStream.ReadAsync(fileContent, 0, fileContent.Length)) != 0)
             {
-                context.Response.ContentLength64 = bytesRead;
                 await writer.WriteAsync(fileContent);
             }
         }

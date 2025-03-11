@@ -30,8 +30,6 @@ serviceContainer.AddLogging(builder =>
 });
 
 
-
-
 //build service provider and use
 IServiceProvider serviceProvider = serviceContainer.BuildServiceProvider();
 var logger = serviceProvider.GetRequiredService<ILogger<Program>>();

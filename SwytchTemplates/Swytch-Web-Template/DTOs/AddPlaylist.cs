@@ -5,8 +5,6 @@ namespace Swytch_Web_Template.DTOs;
 public class AddPlaylist
 
 {
-    [JsonPropertyName("name")]
-    public string Name { get; set; }            // Name of the playlist
-    [JsonPropertyName("description")]
-    public string Description { get; set; }    // Description of the playlist (optional)
+    [JsonPropertyName("name")] public string Name { get; set; } // Name of the playlist
+    [JsonPropertyName("description")] public string Description { get; set; } // Description of the playlist (optional)
 }

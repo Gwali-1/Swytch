@@ -3,14 +3,19 @@
 }
 
 <div class="section">
+
+    <div class="section-header">
+        <h2>Add Song to Playlist</h2>
+    </div>
     <div class="tab-container">
-        <div class="tab-content" id="add-song-tab">
-            <h3>Add Song to Playlist</h3>
-            <input type="text" id="add-song-playlist-id" placeholder="Playlist ID">
-            <input type="text" id="add-song-title" placeholder="Song title">
-            <input type="text" id="add-song-artist" placeholder="Artist">
-            <input type="text" id="add-song-duration" placeholder="Duration (e.g., 3:45)">
-            <button id="add-song">Add Song</button>
+        <div class="tab-content active" id="add-song-tab">
+            <form method="post" action="/add-song">
+                <input name="playlistId" type="text" id="add-song-playlist-id" placeholder="Playlist ID">
+                <input name="title" type="text" id="add-song-title" placeholder="Song title">
+                <input name="artist" type="text" id="add-song-artist" placeholder="Artist">
+                <button type="submit" id="add-song">Add Song</button>
+            </form>
         </div>
     </div>
+
 </div>

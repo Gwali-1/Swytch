@@ -8,13 +8,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-<!--        <ProjectReference Include="..\..\Swytch\Swytch.csproj" />-->
-        <PackageReference Include="Swytch" Version="1.0.0-beta1" />
+        <ProjectReference Include="..\..\Swytch\Swytch.csproj"/>
+        <!--        <PackageReference Include="Swytch" Version="1.0.0-beta1"/>-->
     </ItemGroup>
     <ItemGroup>
-      <Content Include=".template.config\template.json" />
+        <Content Include=".template.config\template.json"/>
     </ItemGroup>
-
 
 
 </Project>

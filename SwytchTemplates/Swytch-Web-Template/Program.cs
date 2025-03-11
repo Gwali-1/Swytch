@@ -42,35 +42,18 @@ IServiceProvider serviceProvider = serviceContainer.BuildServiceProvider();
 PlaylistAction playlistAction = new PlaylistAction(serviceProvider);
 
 
-
-//register 
-
-//browse playlist
-//create playlist
-//add song
-//delete song 
-//view playliat
-
 swytchApp.AddAction("GET","/", playlistAction.Home);
 swytchApp.AddAction("POST,GET", "/create-playlist", playlistAction.CreatePlaylist);
-
+swytchApp.AddAction("POST,GET", "/add-song", playlistAction.AddSong);
+swytchApp.AddAction("POST,GET", "/delete-playlist", playlistAction.DeletePlaylist);
 swytchApp.AddAction("GET", "/playlist/{playlistId}", playlistAction.GetPlaylist);
-swytchApp.AddAction("POST", "/song/{playlistId}", playlistAction.AddSong);
-swytchApp.AddAction("GET", "/songs/{playlistId}", playlistAction.GetPlaylistSongs);
-swytchApp.AddAction("DELETE", "/playlist/delete/{playlistId}", playlistAction.DeletePlaylist);
+
+
 
 
 //migrate data
-
 DatabaseHelper.CreateTablesIfNotExist(swytchApp);
 DatabaseHelper.InsertSampleDataIfTablesEmpty(swytchApp);
-
-
-// swytchApp.AddAction("GET","/", async (context) =>
-// {
-//     await swytchApp.RenderTemplate<Object>(context,"BrowsePlaylist",null);
-// });
-//
 
 
 await swytchApp.Listen();

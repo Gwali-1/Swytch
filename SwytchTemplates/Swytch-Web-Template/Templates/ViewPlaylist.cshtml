@@ -1,22 +1,25 @@
 @{
     Layout = "Layout.cshtml";
 }
-
+@model Swytch_Web_Template.Models.ViewList
 
 
 <div class="section">
     <div class="section-header">
         <h2>Playlist Details</h2>
     </div>
-    <input type="text" id="get-playlist-id" placeholder="Playlist ID">
-    <button id="get-playlist">Get Playlist</button>
     <div id="single-playlist-container">
 
-        <h3>playlist.name</h3>
-        <p>{playlist.description}</p>
+        <h3>@Model.Playlist.Name</h3>
+        <p><q>@Model.Playlist.Description</q></p>
         <div class="songs-list">
-            <h4>Songs ({playlist.songs.length})</h4>
+            <h4>Songs ({@Model.Songs.Count})</h4>
         </div>
-        
+        @foreach (var song in @Model.Songs)
+        {
+            <div clas="song-item">
+                <span><strong>@song.Title</strong> - <i>@song.Artist</i></span>
+            </div> 
+        }
     </div>
 </div>
