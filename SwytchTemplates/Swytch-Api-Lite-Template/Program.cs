@@ -14,7 +14,7 @@ using Swytch.Extensions;
 using Swytch.Structures;
 
 
-ISwytchApp swytchApp = new SwytchApp( new SwytchConfig
+ISwytchApp swytchApp = new SwytchApp(new SwytchConfig
 {
     EnableStaticFileServer = true,
     StaticCacheMaxAge = "4"
@@ -38,8 +38,6 @@ serviceContainer.AddLogging(builder =>
 //build service provider and use
 IServiceProvider serviceProvider = serviceContainer.BuildServiceProvider();
 var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-
-
 
 
 //Get all playlists 
@@ -118,6 +116,9 @@ swytchApp.AddAction("DELETE", "/playlist/delete/{playlistId}", async (context) =
     await playlistService.DeletePlaylist(int.Parse(playListId));
     await context.ToOk($"Playlist {playListId} deleted");
 });
+
+//Add Swytch API explorer page
+swytchApp.AddAction("GET", "/", async (context) => { await context.ServeFile("index.html", HttpStatusCode.OK); });
 
 
 //migrate data
