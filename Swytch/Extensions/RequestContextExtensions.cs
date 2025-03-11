@@ -156,7 +156,7 @@ public static class RequestContextExtensions
             await using Stream writer = context.Response.OutputStream;
             while ((bytesRead = await fileStream.ReadAsync(fileContent, 0, fileContent.Length)) != 0)
             {
-                await writer.WriteAsync(fileContent);
+                await writer.WriteAsync(fileContent,0,bytesRead);
             }
         }
         catch (FileNotFoundException)

@@ -1,6 +1,7 @@
 ﻿// This template file is auto-generated.
 // GitHub Repository:https://github.com/Gwali-1/Swytch.git 
 
+using System.Net;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,11 @@ using Swytch.Extensions;
 using Swytch.Structures;
 
 
-ISwytchApp swytchApp = new SwytchApp();
+ISwytchApp swytchApp = new SwytchApp( new SwytchConfig
+{
+    EnableStaticFileServer = true,
+    StaticCacheMaxAge = "4"
+});
 swytchApp.AddLogging();
 
 //Add datastore
@@ -33,6 +38,8 @@ serviceContainer.AddLogging(builder =>
 //build service provider and use
 IServiceProvider serviceProvider = serviceContainer.BuildServiceProvider();
 var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+
+
 
 
 //Get all playlists 

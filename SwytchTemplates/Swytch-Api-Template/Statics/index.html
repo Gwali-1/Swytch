@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/swytchserver/static/logo-5.png">
+
+    <title>API Endpoint Tester</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f2f7f2; /* Light green background */
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #5a8a5a;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-top: 4px solid #4CAF50; /* Green accent border */
+        }
+
+        .header {
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e6efe6; /* Light green border */
+        }
+
+        h1 {
+            color: #2e7d32; /* Dark green header */
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        .request-section {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .response-section {
+            flex: 1;
+            min-width: 0;
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            color: #388e3c; /* Medium green header */
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .endpoint-card {
+            border: 1px solid #c8e6c9; /* Very light green border */
+            border-radius: 6px;
+            padding: 16px;
+            background-color: #f9fff9; /* Ultra light green background */
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .method-select {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .method-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .method-btn:first-child {
+            border-radius: 4px 0 0 4px;
+        }
+
+        .method-btn:last-child {
+            border-radius: 0 4px 4px 0;
+        }
+
+        .method-btn.active.get {
+            background-color: #61affe;
+            color: white;
+            border-color: #61affe;
+        }
+
+        .method-btn.active.post {
+            background-color: #49cc90;
+            color: white;
+            border-color: #49cc90;
+        }
+
+        .method-btn.active.put {
+            background-color: #fca130;
+            color: white;
+            border-color: #fca130;
+        }
+
+        .method-btn.active.delete {
+            background-color: #f93e3e;
+            color: white;
+            border-color: #f93e3e;
+        }
+
+        .endpoint-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #2e7d32; /* Dark green text */
+        }
+
+        .endpoint-description {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: #388e3c; /* Medium green text */
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #c8e6c9; /* Very light green border */
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            background-color: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4CAF50; /* Green border when focused */
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2); /* Green glow when focused */
+        }
+
+        .url-input-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .url-input-container .custom-select {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .url-input-container input {
+            margin-bottom: 0;
+        }
+
+        .url-input-container .url-presets {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #c8e6c9;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            z-index: 10;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .url-input-container .url-presets.show {
+            display: block;
+        }
+
+        .url-input-container .url-preset-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .url-input-container .url-preset-option:hover {
+            background-color: #f0f8f0;
+        }
+
+        .url-input-container .url-preset-option:last-child {
+            border-bottom: none;
+        }
+
+        .url-input-container .url-preset-option .url-title {
+            font-weight: bold;
+            color: #2e7d32;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .url-input-container .url-preset-option .url-value {
+            color: #666;
+            font-size: 12px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green button */
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #388e3c; /* Darker green on hover */
+        }
+
+        button:disabled {
+            background-color: #a5d6a7; /* Light green when disabled */
+            cursor: not-allowed;
+        }
+
+        .output-container {
+            flex-grow: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output {
+            background-color: #272822;
+            color: #53ca3e;
+            border-radius: 6px;
+            padding: 16px;
+            font-family: monospace;
+            font-size: 14px;
+            flex-grow: 1;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #388e3c; /* Medium green border */
+        }
+
+        .loading {
+            opacity: 0.6;
+        }
+
+        .param-container {
+            margin-bottom: 10px;
+        }
+
+        .add-param {
+            background-color: transparent;
+            color: #4CAF50; /* Green text */
+            border: 1px solid #4CAF50; /* Green border */
+            font-size: 12px;
+            padding: 4px 8px;
+            margin-bottom: 15px;
+        }
+
+        .add-param:hover {
+            background-color: rgba(76, 175, 80, 0.1); /* Very light green background on hover */
+        }
+
+        .param-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .param-row input {
+            margin-bottom: 0;
+        }
+
+        .remove-param {
+            background-color: transparent;
+            color: #f93e3e;
+            border: 1px solid #f93e3e;
+            font-size: 12px;
+            padding: 4px 8px;
+            flex-shrink: 0;
+        }
+
+        .body-input {
+            min-height: 100px;
+            font-family: monospace;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .status-success {
+            background-color: #4CAF50; /* Green success status */
+            color: white;
+        }
+
+        .status-error {
+            background-color: #f93e3e;
+            color: white;
+        }
+
+        .status-info {
+            background-color: #61affe;
+            color: white;
+        }
+
+        .cors-warning {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #fffbea;
+            border: 1px solid #ffeeba;
+            border-radius: 4px;
+            color: #856404;
+            font-size: 12px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .response-section {
+                position: relative;
+                max-height: 500px;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Swytch API Explorer 🔍</h1>
+        <p>A lightweight interface to test your API endpoints</p>
+        <div class="cors-warning">
+            <strong>Note:</strong> This tool makes direct API calls from your browser. Some APIs may have CORS
+            restrictions.
+            For best results, test with APIs that allow cross-origin requests or use with your own APIs that include
+            proper CORS headers.
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Request Section (Left) -->
+        <div class="request-section">
+            <div class="section">
+                <div class="section-header">
+                    <h2>API Request</h2>
+                    <p>Configure your request parameters</p>
+                </div>
+
+                <div class="endpoint-card">
+                    <!-- Method selector -->
+                    <div class="method-select">
+                        <button class="method-btn get active" data-method="GET">GET</button>
+                        <button class="method-btn post" data-method="POST">POST</button>
+                        <button class="method-btn put" data-method="PUT">PUT</button>
+                        <button class="method-btn delete" data-method="DELETE">DELETE</button>
+                    </div>
+
+                    <form id="endpoint-form">
+                        <input type="hidden" id="request-method" name="method" value="GET">
+
+                        <div class="param-container">
+                            <label for="url-input">API URL:</label>
+                            <div class="url-input-container">
+                                <div class="custom-select">
+                                    <input type="text" id="url-input" name="url"
+                                           value="http://127.0.0.1:8080/playlists"
+                                           placeholder="Enter complete API URL" autocomplete="off">
+                                    <div class="url-presets" id="url-presets">
+                                        <!-- Preset URLs will be inserted here by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="params-section">
+                            <div class="endpoint-title">Query Parameters</div>
+                            <div id="params-container"></div>
+                            <button type="button" id="add-param" class="add-param">+ Add Parameter</button>
+                        </div>
+
+                        <div id="headers-section">
+                            <div class="endpoint-title">Headers</div>
+                            <div id="headers-container">
+                                <div class="param-row">
+                                    <input type="text" placeholder="Key" value="Content-Type" name="header-key-0">
+                                    <input type="text" placeholder="Value" value="application/json"
+                                           name="header-value-0">
+                                    <button type="button" class="remove-param">×</button>
+                                </div>
+                            </div>
+                            <button type="button" id="add-header" class="add-param">+ Add Header</button>
+                        </div>
+
+                        <div id="body-section" style="display: none;">
+                            <div class="endpoint-title">Request Body</div>
+                            <textarea id="body-input" name="body" class="body-input" placeholder='{
+  "name": "User Name",
+  "email": "user@example.com"
+}'></textarea>
+                        </div>
+
+                        <button type="button" id="send-request">Send Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Response Section (Right) -->
+        <div class="response-section">
+            <div class="section-header">
+                <h2>API Response</h2>
+                <div id="status-display"></div>
+            </div>
+            <div class="output-container">
+                <div class="output" id="output">// API responses will appear here</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    Powered by <a href="https://github.com/Gwali-1/Swytch" target="_blank">SWYTCH</a> &copy; <span id="year"></span>
+</footer>
+
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.addEventListener('DOMContentLoaded', function () {
+        const output = document.getElementById('output');
+        const methodBtns = document.querySelectorAll('.method-btn');
+        const requestMethodInput = document.getElementById('request-method');
+        const bodySection = document.getElementById('body-section');
+        const paramsContainer = document.getElementById('params-container');
+        const headersContainer = document.getElementById('headers-container');
+        const addParamBtn = document.getElementById('add-param');
+        const addHeaderBtn = document.getElementById('add-header');
+        const sendRequestBtn = document.getElementById('send-request');
+        const urlInput = document.getElementById('url-input');
+        const urlPresetsContainer = document.getElementById('url-presets');
+        const bodyInput = document.getElementById('body-input');
+        const statusDisplay = document.getElementById('status-display');
+
+        // Preset URLs with descriptions
+        // Preset URLs with descriptions
+        const presetUrls = [
+            {
+                title: "[GET] Retrieve all playlist",
+                url: "http://127.0.0.1:8080/playlists",
+            },
+            {
+                title: "[GET] Retrieve a playlist",
+                url: "http://127.0.0.1:8080/playlist/{playListId}",
+            },
+            {
+                title: "[POST] Add a song",
+                url: "http://127.0.0.1:8080/song/{playlistId}",
+            },
+            {
+                title: "[GET] Get playlist songs",
+                url: "http://127.0.0.1:8080/songs/{playlistId}",
+            },
+            {
+                title: "[DELETE] Delete Users",
+                url: "http://127.0.0.1:8080/playlist/delete/{playlistId}",
+            },
+            {
+                title: "[POST] Create Playlist",
+                url: "http://127.0.0.1:8080/playlist",
+            }
+        ]
+
+        // Populate URL presets
+        presetUrls.forEach(preset => {
+            const option = document.createElement('div');
+            option.className = 'url-preset-option';
+            option.innerHTML = `
+          <span class="url-title">${preset.title}</span>
+          <span class="url-value">${preset.url}</span>
+        `;
+            option.addEventListener('click', function () {
+                urlInput.value = preset.url;
+                toggleUrlPresets(false);
+            });
+            urlPresetsContainer.appendChild(option);
+        });
+
+        // Toggle URL presets dropdown
+        function toggleUrlPresets(show) {
+            if (show === undefined) {
+                urlPresetsContainer.classList.toggle('show');
+            } else {
+                if (show) {
+                    urlPresetsContainer.classList.add('show');
+                } else {
+                    urlPresetsContainer.classList.remove('show');
+                }
+            }
+        }
+
+        // Show dropdown when input is focused
+        urlInput.addEventListener('focus', function () {
+            toggleUrlPresets(true);
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('.url-input-container')) {
+                toggleUrlPresets(false);
+            }
+        });
+
+        // Filter presets when typing
+        urlInput.addEventListener('input', function () {
+            const value = this.value.toLowerCase();
+            const options = urlPresetsContainer.querySelectorAll('.url-preset-option');
+
+            options.forEach(option => {
+                const title = option.querySelector('.url-title').textContent.toLowerCase();
+                const url = option.querySelector('.url-value').textContent.toLowerCase();
+
+                if (title.includes(value) || url.includes(value)) {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+
+            // Only show dropdown if there are matching options and input is not empty
+            if (value && Array.from(options).some(option => option.style.display !== 'none')) {
+                toggleUrlPresets(true);
+            } else if (!value) {
+                toggleUrlPresets(true); // Show all options if input is empty
+            } else {
+                toggleUrlPresets(false);
+            }
+        });
+
+        // Method selection handling
+        methodBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                methodBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const method = this.dataset.method;
+                requestMethodInput.value = method;
+
+                // Show/hide body based on method
+                if (method === 'GET' || method === 'DELETE') {
+                    bodySection.style.display = 'none';
+                } else {
+                    bodySection.style.display = 'block';
+                }
+            });
+        });
+
+        // Add query parameter
+        let paramCount = 0;
+        addParamBtn.addEventListener('click', function () {
+            const paramRow = document.createElement('div');
+            paramRow.className = 'param-row';
+            paramRow.innerHTML = `
+          <input type="text" placeholder="Key" name="param-key-${paramCount}">
+          <input type="text" placeholder="Value" name="param-value-${paramCount}">
+          <button type="button" class="remove-param">×</button>
+        `;
+            paramsContainer.appendChild(paramRow);
+
+            // Add remove handler
+            paramRow.querySelector('.remove-param').addEventListener('click', function () {
+                paramRow.remove();
+            });
+
+            paramCount++;
+        });
+
+        // Add header
+        let headerCount = 1; // Start at 1 since we have one by default
+        addHeaderBtn.addEventListener('click', function () {
+            const headerRow = document.createElement('div');
+            headerRow.className = 'param-row';
+            headerRow.innerHTML = `
+          <input type="text" placeholder="Key" name="header-key-${headerCount}">
+          <input type="text" placeholder="Value" name="header-value-${headerCount}">
+          <button type="button" class="remove-param">×</button>
+        `;
+            headersContainer.appendChild(headerRow);
+
+            // Add remove handler
+            headerRow.querySelector('.remove-param').addEventListener('click', function () {
+                headerRow.remove();
+            });
+
+            headerCount++;
+        });
+
+        // Remove buttons for initial headers
+        document.querySelectorAll('.remove-param').forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.closest('.param-row').remove();
+            });
+        });
+
+        // Format JSON function
+        function formatJSON(json) {
+            try {
+                return JSON.stringify(JSON.parse(json), null, 2);
+            } catch (e) {
+                return json;
+            }
+        }
+
+        // Send request
+        sendRequestBtn.addEventListener('click', async function () {
+            // Disable button during request
+            sendRequestBtn.disabled = true;
+
+            const method = requestMethodInput.value;
+            let url = urlInput.value.trim();
+
+            if (!url) {
+                output.textContent = "Error: Please enter a valid URL";
+                sendRequestBtn.disabled = false;
+                return;
+            }
+
+            // Gather parameters
+            const queryParams = {};
+            paramsContainer.querySelectorAll('.param-row').forEach(row => {
+                const key = row.querySelector('input[name^="param-key"]').value;
+                const value = row.querySelector('input[name^="param-value"]').value;
+                if (key) queryParams[key] = value;
+            });
+
+            // Gather headers
+            const headers = {};
+            headersContainer.querySelectorAll('.param-row').forEach(row => {
+                const key = row.querySelector('input[name^="header-key"]').value;
+                const value = row.querySelector('input[name^="header-value"]').value;
+                if (key) headers[key] = value;
+            });
+
+            // Get body if applicable
+            const body = bodyInput.value;
+
+            // Build URL with query parameters
+            const queryString = Object.keys(queryParams)
+                .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`)
+                .join('&');
+
+            if (queryString) {
+                url += (url.includes('?') ? '&' : '?') + queryString;
+            }
+
+            // Display loading state
+            output.classList.add('loading');
+            output.textContent = 'Loading...';
+            statusDisplay.innerHTML = '';
+
+            // Request info for display
+            const requestInfo = `// ${method} ${url}\n// Request sent at: ${new Date().toISOString()}\n`;
+            const requestHeaders = `// Headers: ${JSON.stringify(headers, null, 2)}\n`;
+            const requestBody = body && (method === 'POST' || method === 'PUT')
+                ? `// Request Body: ${body}\n\n`
+                : '\n';
+
+            try {
+                // Make the actual API request
+                const fetchOptions = {
+                    method: method,
+                    headers: headers,
+                    mode: 'cors',
+                };
+
+                // Add body for POST/PUT requests
+                if ((method === 'POST' || method === 'PUT') && body) {
+                    fetchOptions.body = body;
+                }
+
+                const startTime = Date.now();
+                const response = await fetch(url, fetchOptions);
+                const endTime = Date.now();
+                const duration = endTime - startTime;
+
+                // Try to get the response as JSON first
+                let responseData;
+                let responseText;
+                const contentType = response.headers.get('content-type');
+
+                try {
+                    if (contentType && contentType.includes('application/json')) {
+                        responseData = await response.json();
+                        responseText = JSON.stringify(responseData, null, 2);
+                    } else {
+                        responseText = await response.text();
+                        try {
+                            // Try to parse as JSON anyway in case the content-type is wrong
+                            responseData = JSON.parse(responseText);
+                            responseText = JSON.stringify(responseData, null, 2);
+                        } catch (e) {
+                            // Keep as text if not valid JSON
+                        }
+                    }
+                } catch (e) {
+                    responseText = `Error parsing response: ${e.message}`;
+                }
+
+                // Build response headers display
+                const responseHeaders = {};
+                response.headers.forEach((value, key) => {
+                    responseHeaders[key] = value;
+                });
+
+                // Create status display
+                const statusClass = response.ok ? 'status-success' : 'status-error';
+                statusDisplay.innerHTML = `<span class="status ${statusClass}">Status: ${response.status} ${response.statusText}</span> <span>(${duration}ms)</span>`;
+
+                // Display the response with request info
+                const headerInfo = `// Response Headers:\n// ${JSON.stringify(responseHeaders, null, 2)}\n\n`;
+                output.textContent = requestInfo + requestHeaders + requestBody + headerInfo + responseText;
+
+            } catch (error) {
+                // Handle network errors
+                statusDisplay.innerHTML = `<span class="status status-error">Error: Network Failure</span>`;
+                output.textContent = requestInfo + requestHeaders + requestBody + `// Error: ${error.message}\n\nThis might be due to CORS restrictions. Make sure the API allows cross-origin requests from this domain.`;
+            } finally {
+                output.classList.remove('loading');
+                sendRequestBtn.disabled = false;
+            }
+        });
+
+        // Add initial parameter row
+        addParamBtn.click();
+    });
+</script>
+</body>
+</html>

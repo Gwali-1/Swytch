@@ -43,37 +43,40 @@ public class SwytchApp : ISwytchApp
 
 
         //config section
-        if (config is not null)
+        if (config is null)
         {
-            //template location
-            TemplateLocation = config.TemplateLocation ?? TemplateLocation;
-            //register available templates
-            if (Directory.Exists(TemplateLocation))
+            config = new SwytchConfig { };
+        }
+
+        //template location
+        TemplateLocation = config.TemplateLocation ?? TemplateLocation;
+        //register available templates
+        if (Directory.Exists(TemplateLocation))
+        {
+            _engine = new RazorLightEngineBuilder().UseFileSystemProject(TemplateLocation)
+                .UseMemoryCachingProvider()
+                .Build();
+
+            //precompile templates
+            if (config.PrecompileTemplates)
             {
-                _engine = new RazorLightEngineBuilder().UseFileSystemProject(TemplateLocation)
-                    .UseMemoryCachingProvider()
-                    .Build();
-                
-                //precompile templates
-                if (config.PrecompileTemplates)
+                //read all templates 
+                foreach (var template in Directory.EnumerateFiles(TemplateLocation))
                 {
-                    //read all templates 
-                    foreach (var template in Directory.EnumerateFiles(TemplateLocation))
-                    {
-                        //get file name 
-                        var templateName = Path.GetFileName(template);
-                        _ = _engine.CompileTemplateAsync(templateName).GetAwaiter().GetResult();
-                    }
+                    //get file name 
+                    var templateName = Path.GetFileName(template);
+                    _ = _engine.CompileTemplateAsync(templateName).GetAwaiter().GetResult();
                 }
             }
-            //max-age directive
-            _staticCacheMaxAge = config.StaticCacheMaxAge?.Trim() ?? _staticCacheMaxAge;
+        }
 
-            //static file server
-            if (config.EnableStaticFileServer)
-            {
-                this.AddStaticServer();
-            }
+        //max-age directive
+        _staticCacheMaxAge = config.StaticCacheMaxAge?.Trim() ?? _staticCacheMaxAge;
+
+        //static file server
+        if (config.EnableStaticFileServer)
+        {
+            this.AddStaticServer();
         }
     }
 
