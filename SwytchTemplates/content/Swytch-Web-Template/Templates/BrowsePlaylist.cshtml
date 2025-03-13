@@ -1,6 +1,7 @@
 @{
     Layout = "Layout.cshtml";
 }
+@model  List<Swytch_Web_Template.Models.Playlist>
 
 <div class="section">
     <a href="/">
@@ -8,7 +9,6 @@
     </a>
 
     <div id="playlists-container">
-
         @foreach (var playlist in @Model)
         {
             <div class="playlist-item">

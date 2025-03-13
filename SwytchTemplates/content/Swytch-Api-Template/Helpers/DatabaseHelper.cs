@@ -129,6 +129,5 @@ public static class DatabaseHelper
             ";
 
         dbConnection.Execute(createTablesSql);
-        Console.WriteLine("Playlist and Songs table created");
     }
 }

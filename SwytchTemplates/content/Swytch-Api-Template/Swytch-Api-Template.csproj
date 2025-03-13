@@ -9,10 +9,6 @@
         <PreserveCompilationContext>true</PreserveCompilationContext>
     </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\Swytch\Swytch.csproj"/>
-    </ItemGroup>
-
     <!--   Directive to include files or folders in your build output-->
     <ItemGroup>
         <Content Include="Statics\**\*">
@@ -24,13 +20,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include=".template.config\template.json"/>
-        <Content Update="Statics\index.html">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Update="Statics\logo-5.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        <ProjectReference Include="..\..\..\Swytch\Swytch.csproj"/>
     </ItemGroup>
-
 </Project>

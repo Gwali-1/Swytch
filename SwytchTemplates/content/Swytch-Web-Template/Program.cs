@@ -1,8 +1,4 @@
 ﻿
-
-using System.Collections.Immutable;
-using System.Threading.Channels;
-using Azure.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swytch_Web_Template.Actions;
@@ -15,14 +11,17 @@ using Swytch.Structures;
 ISwytchApp  swytchApp = new SwytchApp(new SwytchConfig
 {
     EnableStaticFileServer = true,
-    StaticCacheMaxAge = "5"
+    StaticCacheMaxAge = "60"
 });
+
+//Enable request logging
 swytchApp.AddLogging();
+
 //Add datastore
 swytchApp.AddDatastore("Data Source=playlist.db; foreign keys=true", DatabaseProviders.SQLite);
 
 
-
+//Set up service container
 ServiceCollection serviceContainer = new ServiceCollection();
 
 //Register services here
@@ -33,15 +32,17 @@ serviceContainer.AddLogging(builder =>
     builder.AddConsole();
     builder.SetMinimumLevel(LogLevel.Information);
 });
-//build service provider and use
+
+//Build service provider
 IServiceProvider serviceProvider = serviceContainer.BuildServiceProvider();
 
 
 
-//actions
+//Action instance
 PlaylistAction playlistAction = new PlaylistAction(serviceProvider);
 
 
+//Register routes with actions
 swytchApp.AddAction("GET","/", playlistAction.Home);
 swytchApp.AddAction("POST,GET", "/create-playlist", playlistAction.CreatePlaylist);
 swytchApp.AddAction("POST,GET", "/add-song", playlistAction.AddSong);
@@ -50,8 +51,7 @@ swytchApp.AddAction("GET", "/playlist/{playlistId}", playlistAction.GetPlaylist)
 
 
 
-
-//migrate data
+//Import sample data
 DatabaseHelper.CreateTablesIfNotExist(swytchApp);
 DatabaseHelper.InsertSampleDataIfTablesEmpty(swytchApp);
 

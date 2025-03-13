@@ -38,8 +38,6 @@ public class PlaylistAction
     //Creates a new playlist
     public async Task CreatePlaylist(RequestContext context)
     {
-          
-
         if (context.Request.HttpMethod == "POST")
         {
             _logger.LogInformation("Creating new playlist");
@@ -49,6 +47,7 @@ public class PlaylistAction
             if (string.IsNullOrEmpty(newPlaylistFormValues["name"]) ||
                 string.IsNullOrEmpty(newPlaylistFormValues["description"]))
             {
+                _logger.LogDebug("Submitted form contains empty or null fields");
                 await context.ToRedirect("/create-playlist");
                 return;
             }
@@ -62,7 +61,7 @@ public class PlaylistAction
             await context.ToRedirect("/");
             return;
         }
-        
+
         await _swytchApp.RenderTemplate<object>(context, "CreatePlaylist", null);
     }
 
@@ -97,7 +96,6 @@ public class PlaylistAction
             await context.ToRedirect($"/playlist/{playListId}");
             return;
         }
-
 
         await _swytchApp.RenderTemplate<object>(context, "AddSong", null);
     }
@@ -134,7 +132,13 @@ public class PlaylistAction
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
-        _ = context.PathParams.TryGetValue("playlistId", out playListId);
+        var found = context.PathParams.TryGetValue("playlistId", out playListId);
+        if (!found)
+        {
+            await context.ToRedirect("/");
+            return;
+        }
+
         var playList = await playlistService.GetPlaylist(int.Parse(playListId));
         var songs = await playlistService.GetSongs(int.Parse(playListId));
         var viewList = new ViewList

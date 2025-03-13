@@ -17,7 +17,7 @@ namespace Swytch.App;
 /// The SwytchApp class is the entry point to the framework library. An instance of this type exposes public APIs for that allow you
 /// to register your middlewares , request handling methods , start the server etc. There is an internal routing implementation that handles
 /// calling middlewares in the order they were registered and calling the right methods for the right routes and http verbs.
-/// Call Listen when done registering your handling logic and middlewares to start listening, accepting and processing requests.
+/// Call Listen when done registering your request handling logic and middlewares to start listening, accepting and processing requests.
 /// </summary>
 public class SwytchApp : ISwytchApp
 {
@@ -250,9 +250,9 @@ public class SwytchApp : ISwytchApp
     }
 
     /// <summary>
-    /// This method returns the the internal implementation of the router used in swytch.
+    /// This method returns the internal implementation of the router used in swytch.
     /// It essentially returns the method used internally to handle routing and process the request pipeline
-    /// and is provided to aid in testing the routing logic for the library author and contibutors.
+    /// and is provided to aid in testing the routing logic for the library author and contributors.
     /// </summary>
     /// <returns>The Swytch router method</returns>
     public Func<RequestContext, Task> GetSwytchRouter()

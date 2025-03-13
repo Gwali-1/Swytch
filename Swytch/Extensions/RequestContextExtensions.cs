@@ -5,10 +5,13 @@ using Swytch.utilities;
 
 namespace Swytch.Extensions;
 
+/// <summary>
+/// Provides a bunch of convenience methods on the RequestContext type focused on responding  to an HTTP request by writing to the response stream.
+/// </summary>
 public static class RequestContextExtensions
 {
     /// <summary>
-    /// Writes a string as an http response and set the response status code to the one provided.
+    /// Writes a string as a http response and set the response status code to the one provided.
     /// </summary>
     /// <param name="context">The current request context</param>
     /// <param name="payload">The string payload to send</param>
@@ -24,7 +27,7 @@ public static class RequestContextExtensions
     }
 
     /// <summary>
-    /// Writes a html content as an http response and set the response status code to the one provided.
+    /// Writes a html content as a http response and set the response status code to the one provided.
     /// </summary>
     /// <param name="context">The current request context</param>
     /// <param name="payload">The html content to send</param>
@@ -60,7 +63,7 @@ public static class RequestContextExtensions
     /// <summary>
     /// Asynchronously reads and streams the contents of static files from the static directory({baseDirectory}/statics) of the application is running
     /// </summary>
-    /// <param name="filename">The name of the file without the extension. eg catnames instead of catnames.txt</param>
+    /// <param name="filename">The name of the file without the extension. e.g. catnames instead of catnames.txt</param>
     /// <param name="context">The current request context</param>
     /// <param name="status">The response status </param>
     public static async Task ServeFile(this RequestContext context, string filename, HttpStatusCode status)
@@ -159,8 +162,10 @@ public static class RequestContextExtensions
                 await writer.WriteAsync(fileContent,0,bytesRead);
             }
         }
-        catch (FileNotFoundException)
+        catch (FileNotFoundException e)
         {
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.StackTrace);
             await WriteTextToStream(context, Constants.NotFound, HttpStatusCode.NotFound);
         }
     }
@@ -414,7 +419,7 @@ public static class RequestContextExtensions
 
 
     /// <summary>
-    /// Respond to HTTP request manually specifying status code and response datat 
+    /// Respond to HTTP request manually specifying status code and response data 
     /// </summary>
     /// <param name="context">The current request context</param>
     /// <param name="payload">The response data</param>

@@ -19,10 +19,10 @@ public static class ActorPool
     //register
     
     /// <summary>
-    /// Registers a valid actor in the actor pool to be used
+    /// Registers a valid actor in the Swytch actor pool
     /// </summary>
-    /// <param name="intances">minimum number of instances of your actor. Defaults to the number of processors in the run environment. The maximum amount of instances that can be
-    /// provisioned based on requirement in the pool is a million(1000000) </param>
+    /// <param name="intances">minimum number of instances of your actor. Defaults to the number of processors in the run environment. The maximum amount of instances that will be
+    /// provisioned based on requirement in the pool is capped at a  million(1000000) </param>
     /// <typeparam name="T">The type of your actor</typeparam>
     /// <exception cref="InvalidOperationException">If actor pool is not initialized or multiple registration of the same actor</exception>
     public static void Register<T>(int intances = 0) where T : ActorBase
@@ -49,7 +49,6 @@ public static class ActorPool
         Actors[actorName] = actorRef;
     }
 
-    //tell
     
     /// <summary>
     /// Sends a message to an previously registered actor in the pool.

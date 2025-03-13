@@ -16,13 +16,15 @@ using Swytch.Structures;
 ISwytchApp swytchApp = new SwytchApp(new SwytchConfig
 {
     EnableStaticFileServer = true,
-    StaticCacheMaxAge = "4"
+    StaticCacheMaxAge = "60"
 });
 
 //Add datastore
 swytchApp.AddDatastore("Data Source=playlist.db; foreign keys=true", DatabaseProviders.SQLite);
 
+//Set up service container
 ServiceCollection serviceContainer = new ServiceCollection();
+
 //Register services here
 serviceContainer.AddSingleton<ISwytchApp>(swytchApp);
 serviceContainer.AddScoped<IPlaylistService, PlaylistService>();
@@ -33,14 +35,14 @@ serviceContainer.AddLogging(builder =>
 });
 
 
-//build service provider and use
+//Build service provider
 IServiceProvider serviceProvider = serviceContainer.BuildServiceProvider();
 
-//actions
+//Actions instance
 PlaylistAction playlistAction = new PlaylistAction(serviceProvider);
 
 
-//register 
+//Register routes with action
 swytchApp.AddAction("GET", "/playlists", playlistAction.AllPlaylists);
 swytchApp.AddAction("GET", "/playlist/{playlistId}", playlistAction.GetPlaylist);
 swytchApp.AddAction("POST", "/playlist", playlistAction.CreatePlaylist);
@@ -52,7 +54,7 @@ swytchApp.AddAction("DELETE", "/playlist/delete/{playlistId}", playlistAction.De
 //Add api explorer page
 swytchApp.AddAction("GET", "/", async (context) => { await context.ServeFile("index.html", HttpStatusCode.OK); });
     
-//migrate data
+//Import sample data
 DatabaseHelper.CreateTablesIfNotExist(swytchApp);
 DatabaseHelper.InsertSampleDataIfTablesEmpty(swytchApp);
 

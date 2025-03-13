@@ -39,8 +39,7 @@ public class PlaylistAction
         _logger.LogInformation("Creating new playlist");
         using var scope = _serviceProvider.CreateScope();
         var playlistService = _serviceProvider.GetRequiredService<IPlaylistService>();
-        var newPlayListJson = context.ReadJsonBody();
-        var newPlayList = JsonSerializer.Deserialize<AddPlaylist>(newPlayListJson);
+        var newPlayList = context.ReadJsonBody<AddPlaylist>();
         await playlistService.CreatePlaylist(newPlayList);
         await context.ToOk("Playlist added");
     }
@@ -53,9 +52,14 @@ public class PlaylistAction
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
-        _ = context.PathParams.TryGetValue("playlistId", out playListId);
-        var newSongJson = context.ReadJsonBody();
-        var newSong = JsonSerializer.Deserialize<AddSong>(newSongJson);
+        var found = context.PathParams.TryGetValue("playlistId", out playListId);
+        if (!found)
+        {
+            await context.ToBadRequest("playlistId is missing");
+            return;
+        }
+
+        var newSong = context.ReadJsonBody<AddSong>();
         await playlistService.AddSongToPlaylist(newSong, int.Parse(playListId));
         await context.ToOk("Song added");
     }
@@ -66,7 +70,13 @@ public class PlaylistAction
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
-        _ = context.PathParams.TryGetValue("playlistId", out playListId);
+        var found = context.PathParams.TryGetValue("playlistId", out playListId);
+        if (!found)
+        {
+            await context.ToBadRequest("playlistId is missing");
+            return;
+        }
+
         var songs = await playlistService.GetSongs(int.Parse(playListId));
         await context.ToOk(songs);
     }
@@ -79,7 +89,13 @@ public class PlaylistAction
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
-        _ = context.PathParams.TryGetValue("playlistId", out playListId);
+        var found = context.PathParams.TryGetValue("playlistId", out playListId);
+        if (!found)
+        {
+            await context.ToBadRequest("playlistId is missing");
+            return;
+        }
+
         var playList = await playlistService.GetPlaylist(int.Parse(playListId));
         await context.ToOk(playList);
     }
@@ -91,8 +107,13 @@ public class PlaylistAction
         using var scope = _serviceProvider.CreateScope();
         var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
         string playListId;
-        _ = context.PathParams.TryGetValue("playlistId", out playListId);
-        await playlistService.DeletePlaylist(int.Parse(playListId));
+        var found = context.PathParams.TryGetValue("playlistId", out playListId);
+        if (!found)
+        {
+            await context.ToBadRequest("playlistId is missing");
+            return;
+        }
+
         await context.ToOk($"Playlist {playListId} deleted");
     }
 }

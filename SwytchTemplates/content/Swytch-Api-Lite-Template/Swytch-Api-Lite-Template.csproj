@@ -17,9 +17,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
-    <ItemGroup>
-        <Content Include=".template.config\template.json"/>
-    </ItemGroup>
+    
     <ItemGroup>
       <ProjectReference Include="..\..\..\Swytch\Swytch.csproj" />
     </ItemGroup>

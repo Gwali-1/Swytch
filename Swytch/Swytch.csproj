@@ -55,4 +55,10 @@
         <PackageReference Include="Akka.DependencyInjection" Version="1.5.38"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="Logos\logo-5.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>

@@ -130,7 +130,7 @@ public class RequestContext : IRequestContext
     {
         if (Request.ContentType != null && !Request.ContentType.Equals("application/x-www-form-urlencoded"))
         {
-            throw new InvalidDataException("application/x-www-form-urlencoded");
+            throw new InvalidDataException("ContentType not application/x-www-form-urlencoded");
         }
 
         try

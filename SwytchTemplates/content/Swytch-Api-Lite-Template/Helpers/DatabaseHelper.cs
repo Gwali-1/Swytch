@@ -12,7 +12,6 @@ public static class DatabaseHelper
     public static void InsertSampleDataIfTablesEmpty(ISwytchApp app)
     {
         // Sample data
-        // Sample playlists
         var playlists = new List<AddPlaylist>
         {
             new AddPlaylist
@@ -68,11 +67,11 @@ public static class DatabaseHelper
             new Song { Title = "Ransom", Artist = "Saint Jhn", PlaylistId = 3 },
 
             // The Ghana List Playlist (PlaylistId = 4)
-            new Song { Title = "YAYA", Artist = "Black Sherif", PlaylistId = 4 }, // Drill
-            new Song { Title = "Rollies and Cigars", Artist = "Sarkodie", PlaylistId = 4 }, // Rap
-            new Song { Title = "Most Original", Artist = "Stonebwoy", PlaylistId = 4 }, // Dancehall
-            new Song { Title = "Susuka", Artist = "Kofi Kinaata", PlaylistId = 4 }, // Highlife
-            new Song { Title = "Aben Wo Ha", Artist = "Daddy Lumba", PlaylistId = 4 } // Classic Highlife
+            new Song { Title = "YAYA", Artist = "Black Sherif", PlaylistId = 4 },
+            new Song { Title = "Rollies and Cigars", Artist = "Sarkodie", PlaylistId = 4 },
+            new Song { Title = "Most Original", Artist = "Stonebwoy", PlaylistId = 4 },
+            new Song { Title = "Susuka", Artist = "Kofi Kinaata", PlaylistId = 4 },
+            new Song { Title = "Aben Wo Ha", Artist = "Daddy Lumba", PlaylistId = 4 }
         };
 
 
@@ -129,6 +128,5 @@ public static class DatabaseHelper
             ";
 
         dbConnection.Execute(createTablesSql);
-        Console.WriteLine("Playlist and Songs table created");
     }
 }

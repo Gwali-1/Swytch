@@ -17,17 +17,20 @@ using Swytch.Structures;
 ISwytchApp swytchApp = new SwytchApp(new SwytchConfig
 {
     EnableStaticFileServer = true,
-    StaticCacheMaxAge = "4"
+    StaticCacheMaxAge = "60"
 });
+
+//Enable request logging
 swytchApp.AddLogging();
 
 //Add datastore
 swytchApp.AddDatastore("Data Source=playlist.db; foreign keys=true", DatabaseProviders.SQLite);
 
+//Set up service container
 ServiceCollection serviceContainer = new ServiceCollection();
 //Register services here
 serviceContainer.AddSingleton<ISwytchApp>(swytchApp);
-serviceContainer.AddScoped<IPlaylistService, PlaylistService>(c => new PlaylistService(c));
+serviceContainer.AddScoped<IPlaylistService, PlaylistService>();
 serviceContainer.AddLogging(builder =>
 {
     builder.AddConsole();
@@ -35,11 +38,14 @@ serviceContainer.AddLogging(builder =>
 });
 
 
-//build service provider and use
+//Build service provider
 IServiceProvider serviceProvider = serviceContainer.BuildServiceProvider();
+
+//Retrieving registered service
 var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 
 
+//Routes and action registration
 //Get all playlists 
 swytchApp.AddAction("GET", "/playlists", async (context) =>
 {
@@ -58,7 +64,12 @@ swytchApp.AddAction("GET", "/playlist/{playlistId}", async (context) =>
     using var scope = serviceProvider.CreateScope();
     var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
     string playListId;
-    _ = context.PathParams.TryGetValue("playlistId", out playListId);
+   var found = context.PathParams.TryGetValue("playlistId", out playListId);
+   if (!found)
+   {
+       await context.ToBadRequest("playlistId is missing");
+       return;
+   }
     var playList = await playlistService.GetPlaylist(int.Parse(playListId));
     await context.ToOk(playList);
 });
@@ -70,8 +81,7 @@ swytchApp.AddAction("POST", "/playlist", async (context) =>
     logger.LogInformation("Creating new playlist");
     using var scope = serviceProvider.CreateScope();
     var playlistService = serviceProvider.GetRequiredService<IPlaylistService>();
-    var newPlayListJson = context.ReadJsonBody();
-    var newPlayList = JsonSerializer.Deserialize<AddPlaylist>(newPlayListJson);
+    var newPlayList = context.ReadJsonBody<AddPlaylist>();
     await playlistService.CreatePlaylist(newPlayList);
     await context.ToOk("Playlist added");
 });
@@ -83,9 +93,13 @@ swytchApp.AddAction("POST", "/song/{playlistId}", async (context) =>
     using var scope = serviceProvider.CreateScope();
     var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
     string playListId;
-    _ = context.PathParams.TryGetValue("playlistId", out playListId);
-    var newSongJson = context.ReadJsonBody();
-    var newSong = JsonSerializer.Deserialize<AddSong>(newSongJson);
+    var found = context.PathParams.TryGetValue("playlistId", out playListId);
+    if (!found)
+    {
+        await context.ToBadRequest("playlistId is missing");
+        return;
+    }
+    var newSong = context.ReadJsonBody<AddSong>();
     await playlistService.AddSongToPlaylist(newSong, int.Parse(playListId));
     await context.ToOk("Song added");
 });
@@ -99,7 +113,12 @@ swytchApp.AddAction("GET", "/songs/{playlistId}", async (context) =>
     using var scope = serviceProvider.CreateScope();
     var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
     string playListId;
-    _ = context.PathParams.TryGetValue("playlistId", out playListId);
+    var found = context.PathParams.TryGetValue("playlistId", out playListId);
+    if (!found)
+    {
+        await context.ToBadRequest("playlistId is missing");
+        return;
+    }
     var songs = await playlistService.GetSongs(int.Parse(playListId));
     await context.ToOk(songs);
 });
@@ -112,7 +131,12 @@ swytchApp.AddAction("DELETE", "/playlist/delete/{playlistId}", async (context) =
     using var scope = serviceProvider.CreateScope();
     var playlistService = scope.ServiceProvider.GetRequiredService<IPlaylistService>();
     string playListId;
-    _ = context.PathParams.TryGetValue("playlistId", out playListId);
+    var found = context.PathParams.TryGetValue("playlistId", out playListId);
+    if (!found)
+    {
+        await context.ToBadRequest("playlistId is missing");
+        return;
+    }
     await playlistService.DeletePlaylist(int.Parse(playListId));
     await context.ToOk($"Playlist {playListId} deleted");
 });
@@ -121,10 +145,9 @@ swytchApp.AddAction("DELETE", "/playlist/delete/{playlistId}", async (context) =
 swytchApp.AddAction("GET", "/", async (context) => { await context.ServeFile("index.html", HttpStatusCode.OK); });
 
 
-//migrate data
-
+//Import sample data
 DatabaseHelper.CreateTablesIfNotExist(swytchApp);
 DatabaseHelper.InsertSampleDataIfTablesEmpty(swytchApp);
 
-//start app
+//Start app
 await swytchApp.Listen();
