@@ -31,6 +31,7 @@ Install **Swytch** via NuGet:
 dotnet add package Swytch
 ```
 
+
 ## ⚡ Basic Swytch App
 
 ```csharp
