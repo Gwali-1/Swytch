@@ -48,7 +48,6 @@ public static class DatabaseHelper
             new Song { Title = "Young Boy", Artist = "Kweku Smoke", PlaylistId = 1 },
             new Song { Title = "Kwadwo", Artist = "Kweku Smoke", PlaylistId = 1 },
             new Song { Title = "Dreams", Artist = "Kweku Smoke", PlaylistId = 1 },
-            new Song { Title = "Letter to You", Artist = "Ypee Okenneth", PlaylistId = 1 },
             new Song { Title = "Oh My Days", Artist = "Ypee Okenneth", PlaylistId = 1 },
             new Song { Title = "Badman", Artist = "Jahbad", PlaylistId = 1 },
 
@@ -57,7 +56,6 @@ public static class DatabaseHelper
             new Song { Title = "Touch the Sky", Artist = "Kanye West", PlaylistId = 2 },
             new Song { Title = "Can't Tell Me Nothing", Artist = "Kanye West", PlaylistId = 2 },
             new Song { Title = "Flashing Lights", Artist = "Kanye West", PlaylistId = 2 },
-            new Song { Title = "Through the Wire", Artist = "Kanye West", PlaylistId = 2 },
             new Song { Title = "Champion", Artist = "Kanye West", PlaylistId = 2 },
 
             // Author's Picks Playlist (PlaylistId = 3)

@@ -6,12 +6,8 @@
         <RootNamespace>Swytch_Api_Lite_Template</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
     </PropertyGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\Swytch\Swytch.csproj"/>
-        <!--        <PackageReference Include="Swytch" Version="1.0.0-beta1"/>-->
-    </ItemGroup>
-
     <!--   Directive to include files or folders in your build output-->
     <ItemGroup>
         <Content Include="Statics\**\*">
@@ -23,6 +19,9 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include=".template.config\template.json"/>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Swytch\Swytch.csproj" />
     </ItemGroup>
 
 

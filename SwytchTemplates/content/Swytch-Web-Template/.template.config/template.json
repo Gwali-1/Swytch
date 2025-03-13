@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Gwalisam",
+  "classifications": [
+    "Web",
+    "Web Application project",
+    "server side rendering"
+  ],
+  "identity": "SwychWebApp.Project",
+  "name": "Swytch Web Application",
+  "shortName": "swytch-web",
+  "sourceName": "Swytch_Web_Template",
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**"
+          ]
+        }
+      ]
+    }
+  ],
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}
