@@ -21,7 +21,7 @@
         <PackageProjectUrl>https://github.com/Gwali-1/Swytch</PackageProjectUrl>
 
         <!-- Package Icon -->
-        <PackageIcon>logo-3.png</PackageIcon>
+        <PackageIcon>logo-5.png</PackageIcon>
 
         <!-- Package Readme -->
         <PackageReadmeFile>README-nuget.md</PackageReadmeFile>
@@ -33,6 +33,7 @@
     <!-- Ensure the package icon is included -->
     <ItemGroup>
         <None Include="Logos/logo-5.png" Pack="true" PackagePath=""/>
+        <None Include="Logos/logo-1.png" Pack="true" PackagePath=""/>
     </ItemGroup>
 
     <!-- Ensure the package readme is included -->
@@ -59,11 +60,6 @@
       <Content Update="Logos\logo-5.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-    </ItemGroup>
-    <ItemGroup>
-        <Content Update="Logos\logo-1.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
     </ItemGroup>
 
 </Project>
