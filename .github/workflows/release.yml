@@ -44,7 +44,8 @@ jobs:
         run: dotnet build  Swytch/Swytch.csproj --configuration Release --no-restore
 
       - name: Pack NuGet Package
-        run: dotnet pack Swytch/Swytch.csproj --configuration Release --no-build --output .
+        run: dotnet pack Swytch/Swytch.csproj --configuration Release --no-build --output . -p:Version=${{ env.VERSION }}
+
 
       - name: Publish to NuGet
         run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
