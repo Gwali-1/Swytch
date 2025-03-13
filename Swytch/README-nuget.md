@@ -1,6 +1,6 @@
 
 
-![](https://github.com/Gwali-1/Swytch/blob/main/Swytch/Logos/logo-1.png?raw=true)
+![logo](Logos/logo-1.png)
 [![.NET](https://github.com/Gwali-1/Swytch/actions/workflows/dotnet_build.yml/badge.svg)](https://github.com/Gwali-1/Swytch/actions/workflows/dotnet_build.yml)
 
 Swytch is a web framework written in C#. It is lightweight, fast and offers an alternative and refreshing
