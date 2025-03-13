@@ -25,7 +25,6 @@
   <PropertyGroup>
     <LocalizeTemplates>false</LocalizeTemplates>
   </PropertyGroup>
-q
   <ItemGroup>
     <PackageReference Include="Microsoft.TemplateEngine.Tasks" Version="*" PrivateAssets="all" IsImplicitlyDefined="true"/>
   </ItemGroup>
