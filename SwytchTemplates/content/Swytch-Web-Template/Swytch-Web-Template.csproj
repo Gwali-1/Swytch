@@ -9,11 +9,6 @@
         <PreserveCompilationContext>true</PreserveCompilationContext>
 
     </PropertyGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\Swytch\Swytch.csproj"/>
-    </ItemGroup>
-
     <!--   Directive to include files or folders in your build output-->
     <ItemGroup>
         <Content Include=".template.config\template.json"/>
@@ -23,5 +18,10 @@
         <Content Include="Templates\**\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <PackageReference Include="Swytch" Version="1.0.0-beta4"/>
     </ItemGroup>
 </Project>

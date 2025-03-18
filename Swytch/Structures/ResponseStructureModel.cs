@@ -1,6 +1,5 @@
 namespace Swytch.Structures;
 
-
 /// <summary>
 /// Response structure of responses when using any of the RequestContext response extension methods.
 /// </summary>
@@ -16,8 +15,8 @@ public class ResponseStructureModel<T>
         Data = data;
     }
 }
-/// Response structure of error response when using any of the RequestContext response extension methods.
 
+/// Response structure of error response when using any of the RequestContext response extension methods.
 public class InternalErrorResponseModel
 {
     public string Status { get; set; }

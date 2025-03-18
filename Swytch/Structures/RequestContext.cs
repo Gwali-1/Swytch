@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Web;
 using Microsoft.Extensions.Logging;
 using Swytch.App;
-using Swytch.utilities;
 
 namespace Swytch.Structures;
 
@@ -23,14 +22,43 @@ in the request*/
 /// </summary>
 public class RequestContext : IRequestContext
 {
+    /// <summary>
+    /// Represents the HTTP request information as an object.
+    /// </summary>
     public HttpListenerRequest Request { get; set; }
+
+    /// <summary>
+    /// Represents the HTTP response object.
+    /// </summary>
     public HttpListenerResponse Response { get; set; }
+
+    /// <summary>
+    /// Represents the client whose request is being handled in this context.
+    /// </summary>
     public ClaimsPrincipal? User { get; set; }
+
+    /// <summary>
+    /// Key-value pair of all the path params extracted for the matched route. 
+    /// </summary>
     public Dictionary<string, string> PathParams { get; set; }
+
+    /// <summary>
+    /// Key-value pairs of all the query paramters extracted for the matched route.
+    /// </summary>
     public Dictionary<string, string?> QueryParams { get; set; }
+
+    /// <summary>
+    /// Boolean field which indicates whether a request passed the authentication handler logic or not 
+    /// </summary>
     public Boolean IsAuthenticated { get; set; }
+
     private readonly ILogger<SwytchApp> _logger;
 
+    /// <summary>
+    ///default contrustor
+    /// </summary>
+    /// <param name="logger"></param>
+    /// <param name="c"></param>
     public RequestContext(ILogger<SwytchApp> logger, HttpListenerContext c)
     {
         Request = c.Request;
@@ -74,7 +102,6 @@ public class RequestContext : IRequestContext
     /// ContentType header must be set to application/json or InvalidDataException is thrown
     /// </summary>
     /// <typeparam name="T">Represent the type to deserialize the body to</typeparam>
-
     /// <returns>json request string sent as a post request</returns>
     /// <exception cref="InvalidDataException"></exception>
     public T? ReadJsonBody<T>()
@@ -98,12 +125,11 @@ public class RequestContext : IRequestContext
             throw;
         }
     }
-    
+
     /// <summary>
     /// Reads and returns the request body content and returns it as it is.
     /// </summary>
     /// <returns>Raw request body content</returns>
-
     public string ReadRawBody()
     {
         try
@@ -146,6 +172,4 @@ public class RequestContext : IRequestContext
             throw;
         }
     }
-
-
 }
