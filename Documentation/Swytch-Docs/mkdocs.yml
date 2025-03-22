@@ -1,0 +1,27 @@
+site_name: Swytch Docs
+site_url: https://mydomain.org/mysite
+
+nav:
+  - Home: index.md 
+  - Getting started: 
+      - Installation: Installation.md
+      - Quickstart: Quickstart.md
+  - Guide: Guide.md
+        
+        
+theme:
+  name: material
+  palette:
+    primary: teal
+    accent: green
+  font:
+    text: Winky Sans
+  icon:
+    repo: fontawesome/brands/github  
+extra:
+  generator: false
+  
+repo_url: https://github.com/Gwali-1/Swytch/blob/main/Notes/notes.md
+
+
+    
