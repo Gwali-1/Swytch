@@ -11,11 +11,28 @@ nav:
         
 theme:
   name: material
+  logo: img/logo-5.png
+  favicon: img/logo-5.png
   palette:
-    primary: teal
-    accent: green
+    # Dark Mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Dark mode
+      primary: green
+      accent: deep purple
+    
+    # Light Mode
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Light mode
+      primary: grey
+      accent: green
+    
+    
   font:
-    text: Winky Sans
+    text: "Open Sans"
   icon:
     repo: fontawesome/brands/github  
 extra:
