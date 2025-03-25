@@ -7,6 +7,8 @@ nav:
       - Installation: Installation.md
       - Quickstart: Quickstart.md
   - Guide: Guide.md
+  - Help: Help.md
+  - Release Notes: ReleaseNotes.md
 
 markdown_extensions:
   - pymdownx.highlight

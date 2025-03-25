@@ -1,14 +1,13 @@
 # Quickstart
 
-I hope you are ready to get started. In this section we shall get an introduction to Swytch. Be sure 
-to follow the [installation](#Installation.md) to set up a project and install Swytch first.
+Ready to get started? In this section we shall get an introduction to Swytch. Be sure 
+to follow the [installation](Installation.md) to set up a project and install Swytch first.
 
 
 
 ## A Basic Swytch App
 
-A Swytch application in it's most minimal basic form will look something like this 
-> Replace the content of Server.cs with the code block
+A Swytch application in its most minimal and basic form will look something like this: 
 
 ```csharp
 using System.Net;
@@ -25,28 +24,30 @@ swytchApp.AddAction("GET","/", async (context) =>
 
 await swytchApp.Listen();
 
-
 ```
-This is a simple swytch application that starts a server that listens on the default URI prefix `http://127.0.0.1:8080/` and sends an HTML response to all HTTP GET requests
-to the root path or `/`. For every other path it shall respond with a **404 Not Found** and request to the correct path with any other method apart 
-from HTTP GET gets a response of **405 Method Not Allowed**
+> Replace the content of Server.cs with this code block.
+
+_This is a simple Swytch application that starts a server that listens on the default URI prefix `http://127.0.0.1:8080/` and
+returns an HTML response to all HTTP GET requests to the root path or `/`. For every other path it shall respond with a 
+**404 Not Found** and request to the root path with any other method apart 
+from HTTP GET will ge **405 Method Not Allowed**._
 
 Now let's go over  what this code does line by line.
 
-1. First we start by specifying all the namespaces which contains usesful classes we need in our application
+1. First, we specify all the namespaces which contains the methods and classes that serve our purpose.
 
-2. Then we go ahead to create an instance on a swytchApp
+2. Then we go ahead and create an instance on a swytchApp
 
-3. Next we configure our swytch app on how it should respond when we recieve a request on the home route using the `AddAction` method 
-.We  shall refer to this as adding an action to our swytch app. The method takes in 3 arguments .First is
-the http methods on which we should perfrom the action, the second is the path and the third is the action method/ handler method
-itself. check [guide]() on what makes a valid action method.
+3. Next we configure our Swytch app to perform a specific action when we receive a GET request on the root path using
+the `AddAction` method. We shall refer to this as adding an action to our Swytch app. The method takes in 3 parameters. First is
+the HTTP method(s) on which we should perform the action, the second is the path and the third is the action method/handler method
+itself. You will find more information on what the action method is, how to write it and different ways of using it in
+the [guide]() section.
 
-4. Then finally we start our server and wait for requests
+4. Finally, we start our server and wait for requests
 
 
-To run the application simply make sure youre in the project root and then run `Dotnet run`
-
+To run the application simply make sure you're in the project root and then run `Dotnet run`
 or just start it from your IDE with whatever button provided.
 
 
@@ -54,16 +55,16 @@ or just start it from your IDE with whatever button provided.
 
 ## SwytchApp
 
-`SwytchApp` represents the running application. An instance of this class is your web app or server.
-It holds all configurations, including route definitions, server settings, and static file caching
-policies.
+`SwytchApp` represents the running application. An instance of this class is your web application or server.
+It holds all configurations, including route definitions, server settings, static file caching
+policies etc.
 
-You can configure your `SwytchApp` using `SwytchConfig` class, which provides sensible defaults. 
+You can configure your `SwytchApp` using the [SwytchConfig](#) class, which provides sensible defaults. 
 For example, the default configuration for the above application has cache max age is `3600` seconds,
 and template precompilation is disabled (`false`). But we can change that with.
 
 ```csharp
-var app = new SwytchApp(new SwytchConfig
+SwytchApp swytchApp  = new SwytchApp(new SwytchConfig
 {
     StaticCacheMaxAge = 7200, // Set cache max age to 2 hours
     PrecompileTemplates = true // Enable precompilation
@@ -88,12 +89,9 @@ and allow  multiple HTTP methods on the same route by separating them with a com
 #### Multiple HTTP Methods
 
 ```csharp
-app.AddAction("GET,POST", "/about", async (context) => {...});
+swytchApp.AddAction("GET,POST", "/", async (context) => {...});
 ```
-
-You can allow multiple HTTP methods on the same route by separating them with a comma:
-
-This ensures that both `GET` and `POST` requests to `"/about"` are handled by the same action/handler method.
+This ensures that both `GET` and `POST` requests to `"/"` are handled by the same action/handler method.
 
 #### Route Matching Order
 
@@ -103,8 +101,8 @@ the first one will always take precedence.
 For example:
 
 ```csharp
-app.AddAction("GET", "/about", async (context) => {...}));
-app.AddAction("POST", "/about", async (context) => {...}));
+app.AddAction("GET", "/submit", async (context) => {...}));
+app.AddAction("POST", "/submit", async (context) => {...}));
 ```  
 
 In this case, a `POST` request to `"/about"` will still match the first `GET` route,
@@ -126,7 +124,6 @@ await context.ServeFile("SubmitPage.html",HttpStatusCode.OK);
     
 });
 ```  
-
 By doing this, both `GET` and `POST` requests will correctly match the intended handler.
 
 
@@ -135,7 +132,7 @@ By doing this, both `GET` and `POST` requests will correctly match the intended 
 ## Response Extensions
 
 Swytch provides handy extension methods on the `RequestContext` type to quickly send HTTP responses 
-like  `WriteHtmlToStream` and `ServeFile` used in our application above to send an HTML response to the client.
+like  `WriteHtmlToStream` and `ServeFile` used in our application above.
 You can find these methods in the `Swytch.Extensions` namespace.
 
 For a full list of response methods and utilites currently available, check the [Guide](#).
@@ -144,7 +141,7 @@ For a full list of response methods and utilites currently available, check the 
 
 ## Starting the Application
 
-After configuring your Swytch app, you can start it by calling the `Listen` method. By default, it listens on port `8080`:
+After configuring your  instance of `SwytchApp`, you finally call the `Listen` method and start the application. By default, it listens on port `8080`:
 
 ```csharp
 await app.Listen();
@@ -158,6 +155,6 @@ await app.Listen("http://localhost:5000/");
 
 **Note:** The URL prefix **must** end with a trailing `/`, or an `ArgumentException` will be thrown.
 
-Also, always `await` this call—if not, the server will start and immediately exit.  
+Also, always `await` this call, if not, the server will start and immediately exit.  
 
 
