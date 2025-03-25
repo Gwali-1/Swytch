@@ -1,7 +1,8 @@
 ﻿using System.Net;
+using System.Security.Claims;
 using Swytch.App;
 using Swytch.Extensions;
-
+using Swytch.Structures;
 
 
 SwytchApp swytchApp = new SwytchApp();
@@ -10,6 +11,10 @@ swytchApp.AddAction("GET","/obal/", async (context) =>
 {
     await context.WriteHtmlToStream("<h1>Hello from swytch<h1>", HttpStatusCode.OK);
 });
+
+
+
+
 
 await swytchApp.Listen();
 
