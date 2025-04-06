@@ -13,11 +13,11 @@ Once installed, verify the installation by running:
 
 ## Create A Project
 
-The foundation of  swytch app is nothing but a console application. So we shall create a simple boring console app and
+The foundation of a swytch app is nothing but a console application. So we shall create a simple boring console app and
 then supercharge it with all the amazing features Swytch has to offer.
 
 > Note that Swytch has starter templates that can be used to quickly bootstrap a project and get up and running quickly.
-> We shall later take a look at that under the [Guide](#) section but  for now let's set up everything from the ground up
+> We shall later take a look at that under the [Swytch templates](#) section but  for now let's set up everything from the ground up
 > to have a better perspective into what makes a Swytch application.
 
 First create a console application like you always do:

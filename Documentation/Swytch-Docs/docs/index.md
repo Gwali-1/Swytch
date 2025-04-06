@@ -24,7 +24,7 @@ contributions through pull requests will help shape Swytch into something even b
 Get started with [Installation](Installation.md) and then get an overview of what a Swytch application looks like
 with the [Quickstart](Quickstart.md). 
 There is also a more detailed [Tutorial](#) that shows how to create a small but complete application with Swytch. 
-The [Guide](Guide.md) section also shows how to set up and use various features and functionality built into Swytch.
+The [Guide](Guide.md) section also shows how to set up and use various features and functionality built into Swytch in detail.
 
 ## Note 
 

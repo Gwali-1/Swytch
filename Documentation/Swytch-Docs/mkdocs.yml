@@ -6,7 +6,14 @@ nav:
   - Getting started: 
       - Installation: Installation.md
       - Quickstart: Quickstart.md
-  - Guide: Guide.md
+  - Guide:
+      - General: Guide.md
+      - Swytch templates: SwytchTemplates.md
+      - RequestContext: RequestContext.md
+      - ResponseExtensions:  ResponseExtensions.md
+      - Authentication Utilities:  AuthUtility.md
+      - Swytch ActorPool:  ActorPool.md
+      
   - Release Notes: ReleaseNotes.md
   - Help: Help.md
 

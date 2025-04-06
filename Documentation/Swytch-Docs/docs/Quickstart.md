@@ -36,18 +36,18 @@ Now let's go over  what this code does line by line.
 
 1. First, we specify all the namespaces which contains the methods and classes that serve our purpose.
 
-2. Then we go ahead and create an instance on a swytchApp
+2. Then we go ahead and create an instance on a swytchApp.
 
-3. Next we configure our Swytch app to perform a specific action when we receive a GET request on the root path using
+3. Next we configure our Swytch app to perform a specific action when we receive a GET request on the root path(`/`) using
 the `AddAction` method. We shall refer to this as adding an action to our Swytch app. The method takes in 3 parameters. First is
 the HTTP method(s) on which we should perform the action, the second is the path and the third is the action method/handler method
 itself. You will find more information on what the action method is, how to write it and different ways of using it in
 the [guide]() section.
 
-4. Finally, we start our server and wait for requests
+4. Finally, we start our server and wait for requests.
 
 
-To run the application simply make sure you're in the project root and then run `Dotnet run`
+To run the application simply make sure you're in the project root and then execute `Dotnet run` in the terminal 
 or just start it from your IDE with whatever button provided.
 
 
@@ -108,7 +108,7 @@ app.AddAction("POST", "/submit", async (context) => {...}));
 In this case, a `POST` request to `"/about"` will still match the first `GET` route,
 resulting in a **405 Method Not Allowed** response.
 
-To prevent this, define both methods in a single `AddAction` and make a decision how you handle
+To prevent this, define both HTTP methods to be handled by a single `AddAction` and make a decision how you handle
 a request based on what HTTP method it came with:
 
 ```csharp
@@ -132,7 +132,7 @@ By doing this, both `GET` and `POST` requests will correctly match the intended 
 ## Response Extensions
 
 Swytch provides handy extension methods on the `RequestContext` type to quickly send HTTP responses 
-like  `WriteHtmlToStream` and `ServeFile` used in our application above.
+like  `WriteHtmlToStream` and `ServeFile` used in the code samples above.
 You can find these methods in the `Swytch.Extensions` namespace.
 
 For a full list of response methods and utilites currently available, check the [Guide](#).
@@ -153,7 +153,7 @@ You can specify a different URL prefix if needed:
 await app.Listen("http://localhost:5000/");
 ```  
 
-**Note:** The URL prefix **must** end with a trailing `/`, or an `ArgumentException` will be thrown.
+**Note:** The URL prefix **must** end with a trailing `/`, or an [ArgumentException](https://learn.microsoft.com/en-us/dotnet/api/system.net.httplistenerprefixcollection.add?view=net-9.0#system-net-httplistenerprefixcollection-add(system-string)) will be thrown.
 
 Also, always `await` this call, if not, the server will start and immediately exit.  
 
