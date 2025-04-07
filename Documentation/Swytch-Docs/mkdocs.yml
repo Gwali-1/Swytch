@@ -10,7 +10,6 @@ nav:
       - General: Guide.md
       - Swytch templates: SwytchTemplates.md
       - RequestContext: RequestContext.md
-      - ResponseExtensions:  ResponseExtensions.md
       - Authentication Utilities:  AuthUtility.md
       - Swytch ActorPool:  ActorPool.md
       

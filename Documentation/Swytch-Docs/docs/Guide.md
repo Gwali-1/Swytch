@@ -155,7 +155,7 @@ reaches any handler, ensuring unauthorized requests never reach protected resour
 #### Add A AuthHandler
 
 ```csharp
-app.AddAuthentication(async (context) => {
+swytchApp.AddAuthentication(async (context) => {
     var token = context.Request.Headers["Authorization"];
 
     // Simulate an async token validation
@@ -192,7 +192,7 @@ If authentication fails, the request will not be processed further.
 #### Accessing Claims and Authentication Status in a Handler
 
 ```csharp
-app.AddAction("GET", "/profile", async (context) => {
+swytchApp.AddAction("GET", "/profile", async (context) => {
         var username = ctx.User?.FindFirst(ClaimTypes.Name)?.Value ?? "Unknown";
         await context.ToOK(new { message = $"Welcome, {username}!" });
     }
@@ -247,7 +247,7 @@ manually handling the request.Let's look at an example.
 To enable the static file server, configure it when creating an instance of `SwytchApp`:
 
 ```csharp
-var app = new SwytchApp(new SwytchConfig 
+var swytchApp = new SwytchApp(new SwytchConfig 
 {
     EnableStaticFileServer = true,
     StaticFileCacheMaxAge = 7200 // Cache files for 2 hours
@@ -316,7 +316,7 @@ You can render the above template from a route handler like indicated in the exa
 - **Example Usage:**
 
 ```csharp
-var content = app.GenerateTemplate("welcome", new { Name = "John Doe" });
+var content = swytchApp.GenerateTemplate("welcome", new { Name = "John Doe" });
 Console.WriteLine(content); 
 ```
 
@@ -336,9 +336,9 @@ directly sends it as an HTTP response to the client.
 **Example Usage:**
 
 ```csharp
-app.AddAction("GET", "/welcome", async ctx => 
+swytchApp.AddAction("GET", "/welcome", async ctx => 
 {
-    await app.RenderTemplate(ctx, "welcome", new { Name = "John Doe" });
+    await swytchApp.RenderTemplate(ctx, "welcome", new { Name = "John Doe" });
 });
 ```
 
@@ -349,6 +349,83 @@ the generated content as an HTTP response.
 
 ## Database 
 
+### Working with Databases
+
+Swytch includes built-in support for relational databases through the powerful and lightweight
+[Dapper](https://github.com/DapperLib/Dapper) micro-ORM. Dapper was chosen for its simplicity, lightweight footprint, 
+and easy-to-use APIs, making it a great fit for Swytch’s minimalistic approach.
+Dapper allows you to execute SQL queries directly while taking care of parameter
+mapping, making it ideal for building data-driven applications without the overhead of a full ORM.
+
+### Registering a Database Source
+
+To begin working with a database in Swytch, you must first register it using the `AddDatastore` method available on your
+`ISwytchApp` instance. This method stores the connection string along with the type of database provider, so Swytch can 
+later retrieve and create a proper connection when needed.
+
+The `AddDatastore` method accepts two parameters:
+
+- `connectionString` (string): The connection string used to connect to the database.
+- `provider` (`DatabaseProviders` enum): The type of database provider being registered.
+
+Swytch currently supports the following database providers through the `Swytch.Structures.DatabaseProviders` enum:
+
+- `DatabaseProviders.SqlServer` – _Microsoft SQL Server_
+- `DatabaseProviders.MySql` – _MySQL_
+- `DatabaseProviders.PostgreSql` – _PostgreSQL_
+- `DatabaseProviders.SQLite` – _SQLite_
+- `DatabaseProviders.Oracle` – _Oracle_
+
+When you call `AddDatastore`, Swytch will associate the provided connection string with the selected database provider
+internally. This registration must occur before attempting to use that provider in your app logic.
+
+### Retrieving a Connection
+
+Once a datastore has been registered, you can obtain a connection to it using the `GetConnection` method. This method is also 
+defined on the `ISwytchApp` interface and is your main entry point for executing SQL commands via Dapper.
+
+The `GetConnection` method takes one parameter:
+
+- `provider` (`DatabaseProviders`): The type of database you want to connect to.
+
+It returns a raw connection object (e.g., `SqlConnection`, `NpgsqlConnection`, etc.) depending on the database provider you
+registered earlier.
+
+Some important notes:
+
+- If you call `GetConnection` with a provider that has **not** been registered using `AddDatastore`, a `KeyNotFoundException` 
+- will be thrown.
+- If an **unsupported** provider is passed to the method, Swytch throws a `NotSupportedException`.
+- The returned connection **implements `IDisposable`**, meaning you should **always dispose of it** after use to avoid connection 
+leaks.
+
+You can dispose of the connection using:
+
+- A `using` block (`using var conn = ...`)
+- Or calling `conn.Dispose()` manually
+
+### Example
+
+Here's an example showing how to register a PostgreSQL database and use it to retrieve a list of users.
+
+```csharp
+// Register the PostgreSQL database
+swytchApp.AddDatastore(
+    "Host=localhost;Port=5432;Database=mydb;Username=myuser;Password=mypassword;",
+    DatabaseProviders.PostgreSql
+);
+
+// Define a route that retrieves data from the database
+swytchApp.AddAction("GET", "/users", async context =>
+{
+    using var conn = swytchApp.GetConnection(DatabaseProviders.PostgreSql);
+    
+    var users = await conn.QueryAsync<User>("SELECT * FROM users");
+
+    await context.ToOk(users);
+});
+
+```
 
 
 
