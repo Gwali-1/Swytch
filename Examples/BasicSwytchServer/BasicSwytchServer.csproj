@@ -10,7 +10,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Swytch\Swytch.csproj" />
+<!--        <ProjectReference Include="..\..\Swytch\Swytch.csproj" />-->
+        <PackageReference Include="Swytch" Version="1.0.0-beta5" />
+        
     </ItemGroup>
 
 

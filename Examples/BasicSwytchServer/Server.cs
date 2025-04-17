@@ -7,16 +7,17 @@ using Swytch.Structures;
 
 SwytchApp swytchApp = new SwytchApp();
 
-swytchApp.AddAction("GET","/obal/", async (context) =>
+
+swytchApp.AddMiddleWare(async (context) => { context.ContextBag["name"] = "namuel"; });
+
+
+swytchApp.AddAction("GET", "/obal/", async (context) =>
 {
+    Console.WriteLine(context.ContextBag["name"]);
     await context.WriteHtmlToStream("<h1>Hello from swytch<h1>", HttpStatusCode.OK);
 });
 
 
-
-
-
-await swytchApp.Listen();
 
 
 // //middlewares
