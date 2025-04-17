@@ -42,13 +42,13 @@ Now let's go over  what this code does line by line.
 the `AddAction` method. We shall refer to this as adding an action to our Swytch app. The method takes in 3 parameters. First is
 the HTTP method(s) on which we should perform the action, the second is the path and the third is the action method/handler method
 itself. You will find more information on what the action method is, how to write it and different ways of using it in
-the [guide]() section.
+the [guide](Guide.md#addaction) section.
 
 4. Finally, we start our server and wait for requests.
 
 
 To run the application simply make sure you're in the project root and then execute `Dotnet run` in the terminal 
-or just start it from your IDE with whatever button provided.
+or just start it from your IDE with whatever button provided and navigate to `http://127.0.0.1:8080/` in your browser.
 
 
 
@@ -135,7 +135,7 @@ Swytch provides handy extension methods on the `RequestContext` type to quickly 
 like  `WriteHtmlToStream` and `ServeFile` used in the code samples above.
 You can find these methods in the `Swytch.Extensions` namespace.
 
-For a full list of response methods and utilites currently available, check the [Guide](#).
+For a full list of response methods and utilites currently available, check the [request context extensions page](RequestContext.md).
 
 
 

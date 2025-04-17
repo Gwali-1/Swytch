@@ -360,7 +360,7 @@ mapping, making it ideal for building data-driven applications without the overh
 ### Registering a Database Source
 
 To begin working with a database in Swytch, you must first register it using the `AddDatastore` method available on your
-`ISwytchApp` instance. This method stores the connection string along with the type of database provider, so Swytch can 
+`ISwytchApp`(SwychApp) instance. This method stores the connection string along with the type of database provider, so Swytch can 
 later retrieve and create a proper connection when needed.
 
 The `AddDatastore` method accepts two parameters:
@@ -377,7 +377,8 @@ Swytch currently supports the following database providers through the `Swytch.S
 - `DatabaseProviders.Oracle` – _Oracle_
 
 When you call `AddDatastore`, Swytch will associate the provided connection string with the selected database provider
-internally. This registration must occur before attempting to use that provider in your app logic.
+internally. This registration must occur before attempting to use that provider or perform any database operations 
+in your app logic.
 
 ### Retrieving a Connection
 
@@ -394,8 +395,8 @@ registered earlier.
 Some important notes:
 
 - If you call `GetConnection` with a provider that has **not** been registered using `AddDatastore`, a `KeyNotFoundException` 
-- will be thrown.
-- If an **unsupported** provider is passed to the method, Swytch throws a `NotSupportedException`.
+will be thrown.
+
 - The returned connection **implements `IDisposable`**, meaning you should **always dispose of it** after use to avoid connection 
 leaks.
 

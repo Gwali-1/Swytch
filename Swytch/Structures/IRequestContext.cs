@@ -40,6 +40,13 @@ public interface IRequestContext
     Dictionary<string, string?> QueryParams { get; set; }
 
     /// <summary>
+    /// A key-value store for sharing arbitrary data across the request lifecycle.
+    /// Keys and values are both of type <see cref="object"/>, so it's recommended to use unique key types
+    /// to avoid collisions.
+    /// </summary>
+    public Dictionary<Object, object> ContextBag { get; set; }
+
+    /// <summary>
     /// Boolean field which indicates whether a request passed the authentication handler logic or not 
     /// </summary>
     Boolean IsAuthenticated { get; set; }

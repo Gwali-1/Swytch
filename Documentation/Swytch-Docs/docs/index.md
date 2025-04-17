@@ -6,18 +6,18 @@ way to author web services . Swytch focuses on minimal abstraction, allowing dev
 
 Swytch is built on [HttpListener](https://learn.microsoft.com/en-us/dotnet/api/system.net.httplistener?view=net-9.0) for a lightweight, programmatically controlled HTTP server, 
 [RazorLight](https://github.com/toddams/RazorLight) for dynamic content rendering with Razor syntax, [Dapper](https://github.com/DapperLib/Dapper) for efficient database interactions, 
-and [Akka.NET](https://github.com/akkadotnet/akka.net) for actor based concurrency functionality it provides. 
+and [Akka.NET](https://github.com/akkadotnet/akka.net) for the actor based concurrency functionality it provides. 
 
 
 
 
 ## Philosophy
-Swytch follows a simple philosophy: "Do less, so you can do more.", Instead of imposing a load of rigid conventions, it provides just enough abstraction to handle common tasks efficiently
+Swytch follows a simple philosophy, "Do less, so you can do more". Instead of imposing a load of rigid conventions, it provides just enough abstraction to handle common tasks efficiently
 while giving you, the developer full control over your code.
 Swytch is designed for those who enjoy recreational programming and want a framework that stays out of their way. 
 If that sounds like you or if you're open to making a switch (pun intended) and try something new, then
 I encourage you to approach Swytch with an open mind. It’s not meant to be like anything you’ve used before.
-The project is still young, and there's plenty of room for growth. Many features could be built in to further simplify development, and as the community grows,
+The project is still young, and there's plenty of room for growth. Many features could be built in to further simplify development and hopefully, 
 contributions through pull requests will help shape Swytch into something even better.
 
 ## Getting Started

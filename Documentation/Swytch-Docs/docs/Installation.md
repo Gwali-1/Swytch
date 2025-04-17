@@ -5,7 +5,7 @@ Swytch a .NET C# Web framework, hence to use it you'll need the .NET SDK install
 download and install it from the
 official [.NET website](https://dotnet.microsoft.com/en-us/download).
 
-Once installed, verify the installation by running:
+Once installed, verify the installation by running
 
 ```sh
  dotnet --version
@@ -20,7 +20,7 @@ then supercharge it with all the amazing features Swytch has to offer.
 > We shall later take a look at that under the [Swytch templates](#) section but  for now let's set up everything from the ground up
 > to have a better perspective into what makes a Swytch application.
 
-First create a console application like you always do:
+First create a console application like you always do
 ```sh
 dotnet new console -n MyFistSwytchApp
 cd MyFirstSwytchApp
@@ -51,5 +51,5 @@ alternatively you can add the package reference to your project's `.csproj` file
 ```
 
 
- [ Next  >>](Quickstart.md)
+ [ NEXT ](Quickstart.md)
 

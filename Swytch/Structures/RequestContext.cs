@@ -52,6 +52,11 @@ public class RequestContext : IRequestContext
     /// </summary>
     public Boolean IsAuthenticated { get; set; }
 
+    /// <summary>
+    /// A key-value store for sharing arbitrary data across the request lifecycle.
+    /// </summary>
+    public Dictionary<Object, object> ContextBag { get; set; } = new Dictionary<object, object>();
+
     private readonly ILogger<SwytchApp> _logger;
 
     /// <summary>

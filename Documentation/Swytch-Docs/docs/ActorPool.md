@@ -1,55 +1,61 @@
 ### Swytch Actor Pool
 
-Swytch provides built-in support for concurrent and background task execution using the actor model.
-This is made possible through a preconfigured actor pool built on top of the powerful Akka.NET framework.
-This is achieved by exposing APIs that allow you to send tasks to an actor pool or directly to an individual actor.
-Under the hood, Swytch leverages **Akka.NET**, a powerful actor system implementation, and exposes a simplified API to
-use
-it seamlessly within your application.
-
+Swytch provides built-in support for concurrent and background task execution using independent units of computations 
+known as [Actors](https://getakka.net/articles/concepts/actors.html#:~:text=An%20actor%20is%20a%20container,encapsulated%20behind%20an%20Actor%20Reference.).
+Swytch does this through a preconfigured [Actor system](https://getakka.net/articles/concepts/actor-systems.html) built on top of the powerful [Akka.NET framework](https://getakka.net/articles/intro/what-is-akka.html)
+and exposing simple, intuitive  APIs that allow you to  register actors and then send them tasks to be executed.
 ---
 
 ### Understanding the Actor Model
 
-The **Actor Model** is a concurrency model that treats "actors" as the fundamental units of computation.
-Unlike traditional concurrency approaches in C#—like using `Threads`, `Tasks`, or the `ThreadPool`—where shared memory
-and
-synchronization (e.g., locks, semaphores) are common, the actor model promotes a **message-passing architecture**.
+The _Actor Model_ is a concurrency model that treats _actors_ as the fundamental units of computation.
+Unlike traditional concurrency approaches in C# such as using `Threads`, `Tasks`, or the `ThreadPool` where memory is 
+shared and hence synchronization  techniques like `locks`, `semaphores` are common to avoid some of the challenges that concurrency
+presents, the actor model promotes a **message-passing** architecture which helps avoid these challenges by design.
 
-Here’s how it differs and works:
+How is it different?
 
-- **No Shared State**: Each actor encapsulates its own state. This removes the need for locks or mutexes to protect
-  shared data.
-- **Message Passing**: Actors communicate exclusively through asynchronous messages. One actor sends a message to
-  another, which is then processed in isolation.
-- **Isolation and Fault-Tolerance**: Since actors don't share memory, failures in one actor do not affect others. They
-  can also supervise and restart each other in case of failures.
-- **Sequential Execution per Actor**: Each actor processes one message at a time, avoiding race conditions by design.
 
-This model makes concurrent and parallel execution more robust, scalable, and easier to reason about—especially in
-complex systems.
-This are some useful links to read more about the actor model
+In the Actor Model there is no shared state. Each actor encapsulates its own state. This removes the need for locks or mutexes to protect
+shared data.
 
-[Actor-Model System with Akka.NET](https://www.zartis.com/actor-model-system-with-akka-net/)
+Also, Actors communicate exclusively through asynchronous messages. One actor sends a message to
+another, which is then processed in isolation.
 
-[When and How to Use the Actor Model An Introduction to Akka NET Actors](https://youtu.be/0KnIMDoJpZs)
+Now  Since actors don't share memory, failures in one actor do not affect others. They
+can also supervise and restart each other in case of failures making them resilient.
+
+Another important feature of this model is there is sequential execution of task per Actor. Actors communicate through messaging 
+and each upon receiving messages  processes one message at a time, avoiding race conditions by design.
+
+This model makes concurrent and parallel execution more robust, scalable, and easier to reason about especially in
+complex systems. Swytch provides a very lightweight and intuitive abstraction to work with the actor model and take 
+advantage of its qualities in your applications easily. It provides APIs that will allow you to perform actions like registering
+these actors and also sending them messages to trigger a task to be executed in the actor pool. We'll take 
+a look at how to use actors in swytch in more detail below
+
+
+> This are some useful links to read more about the actor model
+
+* [Actor-Model System with Akka.NET](https://www.zartis.com/actor-model-system-with-akka-net/)
+* [When and How to Use the Actor Model An Introduction to Akka NET Actors](https://youtu.be/0KnIMDoJpZs)
 
 ---
 
 ### Swytch Actor Pool
 
-Swytch makes it easy to use the actor model through a static utility class called `ActorPool`.
+Swytch makes it easy to use the _Actor Model_ through a static utility class called `ActorPool`.
 This class provides methods for initializing the pool, registering your actor types, and sending messages to them.
 
-Swytch internally leverages Akka.NET to implement its actor system. It wraps some of the Akka.NET complexity and
-exposes an easy-to-use utility class called ActorPool that allows you to initialize and interact with the actor
-infrastructure.
+Swytch internally leverages Akka.NET to implement its actor pool(Actor System). It wraps around some of the Akka.NET complexity and
+exposes methods utility class called `ActorPool` that allows you to initialize and interact with the actor
+infrastructure seamlessly.
 
-Let's explore how to use it:
+_Let's explore how to use it..._
 
-Before using the actor pool, you must initialize it with your application's `IServiceProvider`:
+Before using the actor pool, you must initialize it with your application's `IServiceProvider`.
 
-### InitializeActorPool(serviceProvider)
+### InitializeActorPool
 
 The `InitializeActorPool` method is used to initialize the actor pool for your Swytch application.
 This method requires the `IServiceProvider` parameter to set up the actor pool in such a way that your actors can
@@ -64,15 +70,14 @@ injected when executed.
 
 This method is essential and **must** be called first. If you attempt to use the actor pool or any related methods
 before
-calling this method, an `InvalidOperationException` will be thrown with the message:
+calling this method, an `InvalidOperationException` will be thrown.
 
 #### Example
 
 ```csharp
- // Create a service collection and register the services
+ // Create a service collection and register the services that you inject into your actor classes
    var serviceCollection = new ServiceCollection();
    serviceCollection.AddSingleton<MyService>();
-   serviceCollection.AddActors(); // Assuming you have a method to register actor services
 
  // Build the service provider
     var serviceProvider = serviceCollection.BuildServiceProvider();
@@ -83,7 +88,7 @@ calling this method, an `InvalidOperationException` will be thrown with the mess
 ```
 
 
-### Register<T>(int instances = 0)
+### Register
 
 After initializing your actor pool using the `InitializeActorPool` method, you can register your custom actor implementations into the pool. The `Register<T>` method allows you to register an actor that will be used for future executions.
 
@@ -99,7 +104,7 @@ Once an actor is registered, you can send messages to it using the `Tell` method
 
 #### Example
 
-Let's look at a simple example of an actor that receives a message and logs it:
+Let's look at a simple example of how you would write  an actor that receives a message and logs it:
 
 ```csharp
 public class LoggingActor : ReceiveActor
@@ -120,16 +125,20 @@ public class LoggingActor : ReceiveActor
 
 ```
 
-The LoggingActor class inherits from Swytch's ReceiveActor base class, which is a base class provided by Akka.NET and Swytch for handling 
-messages enabling it to handle incoming messages. 
+The `LoggingActor` class inherits from the `ReceiveActor` base class, which is a base class provided by Akka.NET to indicate that
+this is actor that is meant to receive messages  and react to them.
+
 It uses dependency injection to receive an ILogger<LoggingActor>, which allows it to log messages. In the actor's constructor,
-the logger is injected, and the actor is set up to handle messages of type string. When a message of this type is received,
+the logger is injected, and the actor is set up to handle messages of type string. 
+
+When a message of this type is received,
 the actor logs the message using the injected logger. This shows how actors in Swytch can use dependency injection for
 external services and perform specific actions, such as logging, upon receiving messages.
 
 
 **Register the actor**
 
+You will register the above actor like this
 ```csharp
 ActorPool.Register<LogActor>(instances: 2); // Register LogActor with a minimum of 2 instances
 
@@ -138,19 +147,23 @@ This registeres and ensures that there will always be at least 2 instances of th
 Swytch will handle scaling the number of actor instances based on the system's demand.
 
 
-### ActorPool.Tell
+### Tell
 
-Once registered, you can send a message to the actor using the Tell method:
-The Tell method is used to send a message to a registered actor in the actor pool. This method takes two parameters:
+Once registered, you can send a message to the actor using the `Tell` method:
+The `Tell` method is used to send a message to a registered actor in the actor pool. 
+This isa generic method takes two parameters.
 
-T specifies the type of the actor that will receive the message.
+_T_ specifies the type of the actor that will receive the message.
 
-TM is the type of the message being sent to the actor.
+_TM_ is the type of the message being sent to the actor.
 
 When a message is sent using this method, Swytch identifies the actor in the pool by the actor type T, and it sends 
-the specified message of type TM to it. The actor must have a handler that can process messages of type TM. 
+the specified message of type TM to it. 
+
+The actor must be set up to receive can process messages of type TM. 
+
 If an actor is not registered in the pool or if the actor does not have a handler for the provided message type,
-nothing happens, and in the case of an unregistered actor, an InvalidOperationException will be thrown.
+nothing happens(the message is dropped), and in the case of an unregistered actor, an `InvalidOperationException` will be thrown.
 
 This method allows for flexible message passing to actors, ensuring that the actor processes messages of
 the correct type, while also ensuring that only valid actors in the pool handle the incoming messages
