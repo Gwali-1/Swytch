@@ -1,5 +1,5 @@
 site_name: Swytch Docs
-site_url: https://mydomain.org/mysite
+site_url: ../https://gwali-1.github.io/Swytch/
 docs_dir: .
 
 nav:
