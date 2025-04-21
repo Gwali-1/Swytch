@@ -1,6 +1,8 @@
 site_name: Swytch Docs
 docs_dir: .
 site_dir: ../site
+site_url: https://gwali-1.github.io/Swytch
+
 
 nav:
   - Home: index.md 
