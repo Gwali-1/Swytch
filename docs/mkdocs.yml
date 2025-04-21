@@ -1,5 +1,6 @@
 site_name: Swytch Docs
 site_url: https://mydomain.org/mysite
+docs_dir: .
 
 nav:
   - Home: index.md 
