@@ -3,6 +3,8 @@ docs_dir: .
 site_dir: ../site
 site_url: https://gwali-1.github.io/Swytch
 use_directory_urls: false
+extra:
+  base_url: /Swytch/
 
 
 nav:
