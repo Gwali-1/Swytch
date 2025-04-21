@@ -29,6 +29,9 @@ theme:
   name: material
   logo: img/logo-5.png
   favicon: img/logo-5.png
+  theme:
+    features:
+      - navigation.footer
   palette:
     # Dark Mode
     - scheme: slate
@@ -58,6 +61,7 @@ theme:
 extra:
   generator: false
   base_url: /Swytch/
+
 
 repo_url: https://github.com/Gwali-1/Swytch/blob/main/Notes/notes.md
 
