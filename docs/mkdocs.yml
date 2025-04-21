@@ -1,6 +1,6 @@
 site_name: Swytch Docs
 docs_dir: docs
-site_dir: .
+site_dir: ../
 site_url: https://gwali-1.github.io/Swytch
 use_directory_urls: true
 
