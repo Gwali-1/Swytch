@@ -27,8 +27,8 @@ markdown_extensions:
         
 theme:
   name: material
-  logo: img/logo-5.png
-  favicon: img/logo-5.png
+  logo: Img/logo-5.png
+  favicon: Img/logo-5.png
   theme:
     features:
       - navigation.footer
