@@ -121,6 +121,7 @@ var authResult = AuthUtility.ValidateBearerToken(context, 'token', validationPar
     return authResult;
 });
 
+
 ```
 
 This authentication setup leverages the `ValidateBearerToken` utility to inspect and validate a JWT included in the
