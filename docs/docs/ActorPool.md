@@ -1,4 +1,4 @@
-### Swytch Actor Pool
+
 
 Swytch provides built-in support for concurrent and background task execution using independent units of computations 
 known as [Actors](https://getakka.net/articles/concepts/actors.html#:~:text=An%20actor%20is%20a%20container,encapsulated%20behind%20an%20Actor%20Reference.).
@@ -48,7 +48,7 @@ Swytch makes it easy to use the _Actor Model_ through a static utility class cal
 This class provides methods for initializing the pool, registering your actor types, and sending messages to them.
 
 Swytch internally leverages Akka.NET to implement its actor pool(Actor System). It wraps around some of the Akka.NET complexity and
-exposes methods utility class called `ActorPool` that allows you to initialize and interact with the actor
+exposes methods on a  utility class called `ActorPool` that allows you to initialize and interact with the actor
 infrastructure seamlessly.
 
 _Let's explore how to use it..._
@@ -149,9 +149,9 @@ Swytch will handle scaling the number of actor instances based on the system's d
 
 ### Tell
 
-Once registered, you can send a message to the actor using the `Tell` method:
+Once registered, you can send a message to the actor using the `Tell` method.
 The `Tell` method is used to send a message to a registered actor in the actor pool. 
-This isa generic method takes two parameters.
+This is a generic method takes two parameters.
 
 _T_ specifies the type of the actor that will receive the message.
 
@@ -160,7 +160,7 @@ _TM_ is the type of the message being sent to the actor.
 When a message is sent using this method, Swytch identifies the actor in the pool by the actor type T, and it sends 
 the specified message of type TM to it. 
 
-The actor must be set up to receive can process messages of type TM. 
+The actor must be set up to receive and  process messages of type TM. 
 
 If an actor is not registered in the pool or if the actor does not have a handler for the provided message type,
 nothing happens(the message is dropped), and in the case of an unregistered actor, an `InvalidOperationException` will be thrown.
@@ -178,7 +178,7 @@ ActorPool.Tell<LogActor, string>("Hello, Actor!");
 In this example, the Tell method sends the message "Hello, Actor!" to one of the available LogActor instances,
 which will then log the message to the console.
 
-By registering your actors and sending messages, you can easily build concurrent, scalable applications using the actor model.
+By registering your actors and sending messages, you can easily build fast, concurrent, scalable applications using the actor model.
 
 ### Complete Example
 

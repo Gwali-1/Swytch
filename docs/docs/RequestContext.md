@@ -1,4 +1,3 @@
-### RequestContext
 
 The `RequestContext` class in Swytch is designed to encapsulate all relevant information about an HTTP request being
 handled,
@@ -82,21 +81,6 @@ specific to the
 current request, such as parameters, headers, and authentication status. This not only simplifies request handling but
 also makes
 your code more maintainable and modular.
-
-
-
-
-### Why is `RequestContext` Important?
-
-- It encapsulates all critical information about the HTTP request and response, ensuring that your application has easy
-  access to the data it needs to process requests and generate appropriate responses.
-- Most response extension methods are available through `RequestContext` because it gives direct access to the
-  `HttpListenerResponse` object, allowing for seamless interaction with the response stream (e.g., writing data back to
-  the client).
-- By passing `RequestContext` to your handler methods, you ensure that each method can work with the specific details of
-  the current request, without the need for repetitive code or global state management. This makes the request handling
-  process clean and maintainable.
-
 
 
 

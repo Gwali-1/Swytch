@@ -1,4 +1,3 @@
-### Authentication Utilities
 
 Swytch provides a small but useful set of authentication utility methods to help you get started with simple auth flows.
 These helpers are designed to assist in setting up basic authentication and JWT bearer token validation easily and
@@ -28,7 +27,7 @@ swytchApp.AddAuthentication(async (context) =>
     var authResult = AuthUtility.ValidateBasicAuthScheme(context, "admin:secret");
     if (authResult.IsAuthenticated)
     {
-    //add more claims
+    //optionally add more claims
      authResult.claimsPrincipal.Claims.Append(new Claim(ClaimTypes.Age, 45));
      return authResult;
     }
@@ -49,7 +48,7 @@ single
 default claim, the `ClaimTypes.Name`, which is set to the username part of the basic auth string.
 
 You can customize this further by appending additional
-claims to the ClaimsPrincipal before returning the response, allowing for extended identity or authorization handling
+claims to the `ClaimsPrincipal` object before returning the response, allowing for extended identity or authorization handling
 within your application.
 
 ### Bearer Authentication (JWT)
@@ -125,10 +124,10 @@ var authResult = AuthUtility.ValidateBearerToken(context, 'token', validationPar
 ```
 
 This authentication setup leverages the `ValidateBearerToken` utility to inspect and validate a JWT included in the
-request . The _TokenValidationParameters_ object specifies how the token
+request . The `TokenValidationParameters` object specifies how the token
 should be validated, such as the expected issuer, audience, lifetime, and signing key.
 
-If the token passes all checks, the utility returns an authenticated AuthResponse, which includes a ClaimsPrincipal
+If the token passes all checks, the utility returns an authenticated `AuthResponse`, which includes a `ClaimsPrincipal`
 populated with the claims that were originally embedded in the token when it was created.
 
 You can also append additional claims programmatically before
