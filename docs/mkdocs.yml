@@ -30,7 +30,6 @@ theme:
   name: material
   logo: Img/logo-5.png
   favicon: Img/logo-5.png
-  custom_dir: docs/overrides
   theme:
     features:
       - navigation.footer
@@ -63,6 +62,13 @@ theme:
 extra:
   generator: false
   base_url: /Swytch/
+  
+  meta:
+    - property: og:image
+      content: Img/rebecca-lee-preview.jpg
+    - property: twitter:image
+      content: Img/rebecca-lee-preview.jpg
+
 
 
 repo_url: https://github.com/Gwali-1/Swytch/blob/main/Notes/notes.md
