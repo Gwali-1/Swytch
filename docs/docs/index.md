@@ -1,7 +1,7 @@
 
 # About Swytch
 --------
-Welcome to the  Swytch docs! **Swytch**  _(pronounced "switch" like the network device or a light bulb switch)_  is a web framework written in C#. It is lightweight, fast and offers an alternative and refreshing
+Hello, and welcome to the  Swytch docs! **Swytch**  _(pronounced "switch" like the [network device](https://m.media-amazon.com/images/I/51kiC0-UGQL._AC_SL1295_.jpg) or a light bulb switch)_  is a web framework written in C#. It is lightweight, fast and offers an alternative and refreshing
 way to author web services . Swytch focuses on minimal abstraction, allowing developers more control over their applications while simplifying repetitive tasks.
 
 Swytch is built on [HttpListener](https://learn.microsoft.com/en-us/dotnet/api/system.net.httplistener?view=net-9.0) for a lightweight, programmatically controlled HTTP server, 

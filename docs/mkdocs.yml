@@ -30,6 +30,7 @@ theme:
   name: material
   logo: Img/logo-5.png
   favicon: Img/logo-5.png
+  custom_dir: docs/overrides
   theme:
     features:
       - navigation.footer

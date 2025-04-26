@@ -28,7 +28,7 @@ all available Swytch starter templates directly through the .NET CLI.
 Run the following command:
 
 ```bash
-dotnet new install Swytch.Templates
+dotnet new install Swytch.Template.Pack
 ```
 
 ## Usage

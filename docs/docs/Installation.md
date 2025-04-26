@@ -17,7 +17,7 @@ The foundation of a swytch app is nothing but a console application. So we shall
 then supercharge it with all the amazing features Swytch has to offer.
 
 > Note that Swytch has starter templates that can be used to quickly bootstrap a project and get up and running quickly.
-> We shall later take a look at that under the [Swytch templates](#) section but  for now let's set up everything from the ground up
+> We shall later take a look at that under the [Swytch templates](SwytchTemplates.md) section but  for now let's set up everything from the ground up
 > to have a better perspective into what makes a Swytch application.
 
 First create a console application like you always do
@@ -32,7 +32,7 @@ cd MyFirstSwytchApp
 
 ## Adding Nuget Package
 
-You can easily add Swytch to your project using the [Nuget package](https://www.nuget.org/packages/Swytch/#dependencies-body-tab).
+You can easily add Swytch to your project using the [Nuget package](https://www.nuget.org/packages/Swytch/).
 
 ```sh 
  dotnet add package Swytch 
@@ -41,7 +41,7 @@ You can easily add Swytch to your project using the [Nuget package](https://www.
 or maybe a specific version with
 
 ```sh
- dotnet add package Swytch -Version <number>
+ dotnet add package Swytch --Version <number>
 ```
 
 alternatively you can add the package reference to your project's `.csproj` file

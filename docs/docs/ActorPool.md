@@ -34,12 +34,13 @@ advantage of its qualities in your applications easily. It provides APIs that wi
 these actors and also sending them messages to trigger a task to be executed in the actor pool. We'll take 
 a look at how to use actors in swytch in more detail below
 
-
+----
 > This are some useful links to read more about the actor model
 
 * [Actor-Model System with Akka.NET](https://www.zartis.com/actor-model-system-with-akka-net/)
-* [When and How to Use the Actor Model An Introduction to Akka NET Actors](https://youtu.be/0KnIMDoJpZs)
+* **When and How to Use the Actor Model An Introduction to Akka NET Actors**
 
+<iframe width="1083" height="609" src="https://www.youtube.com/embed/0KnIMDoJpZs" title="When and How to Use the Actor Model An Introduction to Akka NET Actors" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ---
 
 ### Swytch Actor Pool

@@ -59,7 +59,7 @@ or just start it from your IDE with whatever button provided and navigate to `ht
 It holds all configurations, including route definitions, server settings, static file caching
 policies etc.
 
-You can configure your `SwytchApp` using the [SwytchConfig](#) class, which provides sensible defaults. 
+You can configure your `SwytchApp` using the [SwytchConfig](Guide.md#enabling-the-static-file-server) class, which provides sensible defaults. 
 For example, the default configuration for the above application has cache max age is `3600` seconds,
 and template precompilation is disabled (`false`). But we can change that with.
 
@@ -71,7 +71,6 @@ SwytchApp swytchApp  = new SwytchApp(new SwytchConfig
 });
 ```
 
-For more details on available configurations, check the [Guide](#).
 
 
 
