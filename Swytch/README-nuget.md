@@ -23,14 +23,6 @@ Make the `swytch` and try it out!
 - **Resilient Request Handling** – Exceptions occurring during a request are isolated to that request, preventing
   failures from affecting the entire application.
 
-## 📦 Installation
-
-Install **Swytch** via NuGet:
-
-```sh
-dotnet add package Swytch
-```
-
 
 
 ## ⚡ Basic Swytch App
@@ -51,7 +43,7 @@ await swytchApp.Listen();
 ```
 Run the application and navigate to `http://localhost:8080/`.
 
-#### Check out the [documentation](#) for more information
+#### Check out the [documentation](https://gwali-1.github.io/Swytch/) for more information
 #### Check out the [repository on github](https://github.com/Gwali-1/Swytch) 
 
 ## 🤝 Contributing
@@ -61,7 +53,7 @@ input helps make Swytch even better—feel free to submit a PR to the [github re
 
 ## 🔗 Links
 
-- **Documentation**: [Swytch Docs](#)
-- **Website**: [Swytch Website](#)
+- **Documentation**: [Swytch Docs](https://gwali-1.github.io/Swytch/)
+- **Website**: [Swytch Website](https://gwali-1.github.io/Swytch/)
 - **GitHub Repository**: [Swytch on GitHub](https://github.com/Gwali-1/Swytch)
 - **Twitter**: [Swytch on Twitter](#)

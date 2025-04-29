@@ -6,11 +6,9 @@
 <p align="center">
    Lightweight, Fast and Alternative.
     <br />
-    <a href="#about">About</a>
+    <a href="https://gwali-1.github.io/Swytch/">Documentation</a>
     ·
-    <a href="#">Documentation</a>
-    ·
-    <a href="#">Nuget</a>
+    <a href="https://www.nuget.org/packages/Swytch/">Nuget</a>
 </p>
 
 [![.NET](https://github.com/Gwali-1/Swytch/actions/workflows/dotnet_build.yml/badge.svg)](https://github.com/Gwali-1/Swytch/actions/workflows/dotnet_build.yml)
@@ -24,9 +22,9 @@
 # About
 
 Swytch is a web framework written in C#. It is lightweight, fast and offers an alternative and refreshing
-way to author web services like REST APIs, web applications and static sites.It provides an expressive routing API, built-in
+way to author web services like REST APIs, web applications and static sites. It provides an expressive routing API, built-in
 templating with RazorLight, support for asynchronous job
-processing using Actors, and seamless database integration with Dapper.
+processing using Actors and seamless database integration with Dapper.
 
 
 > I started Swytch as an educational project to explore C# as a language and to experiment with a lightweight
@@ -39,7 +37,7 @@ processing using Actors, and seamless database integration with Dapper.
 > I felt it was stable enough to share. Since I only work on this when I can afford to, I kindly ask for patience when
 > raising issues or reporting bugs. I'll address them as soon as I can.
 
-#### Check out the [documentation](#) for more information
+#### Check out the [documentation](https://gwali-1.github.io/Swytch/) for more information
 
 #### Check out the [devlogs and architectural notes ](https://github.com/Gwali-1/Swytch/blob/main/Notes/notes_26_06_24.md)
 
@@ -60,7 +58,7 @@ processing using Actors, and seamless database integration with Dapper.
 
 ---
 
-Install **Swytch** via [NuGet](#):
+Install **Swytch** via [NuGet](https://www.nuget.org/packages/Swytch/):
 
 ```sh
  dotnet add package Swytch
@@ -122,9 +120,8 @@ app.AddAction("GET,POST","/users/{id}", async (context) => {
 Register **middleware**
 
 ```csharp
-app.AddMiddleware(async (context) =>
-{
-    Console.WriteLine("Incoming request...");
+swytchApp.AddMiddleware(async (context) => {
+    context.Response.Headers["X-Custom-Header"] = "Middleware Added";
 });
 ```
 
@@ -134,7 +131,10 @@ app.AddMiddleware(async (context) =>
 Use **RazorLight** to render dynamic template file:
 
 ```csharp
-await app.RenderTemplate(context, "templateKey", Books);
+swytchApp.AddAction("GET", "/welcome", async ctx => 
+{
+    await swytchApp.RenderTemplate(ctx, "welcome", new { Name = "John Doe" });
+});
 ```
 
 ## Background  Jobs (Actors)
@@ -157,12 +157,20 @@ ActorPool.Register<TalkingActor>();
 Query databases easily using **Dapper**:
 
 ```csharp
-//Add data store 
-swytchApp.AddDatastore("your_connection_string", DatabaseProviders.SQLite);
+// Register the PostgreSQL database
+swytchApp.AddDatastore(
+    "Host=localhost;Port=5432;Database=mydb;Username=myuser;Password=mypassword;",
+    DatabaseProviders.PostgreSql
+);
 
-//execute query
- using IDbConnection dbConnection = app.GetConnection(DatabaseProviders.SQLite);
- var users = await dbConnection.QueryAsync<User>("SELECT * FROM Users");
+// Define a route that retrieves data from the database
+swytchApp.AddAction("GET", "/users", async context =>
+{
+    using var conn = swytchApp.GetConnection(DatabaseProviders.PostgreSql);
+
+    var users = await conn.QueryAsync<User>("SELECT * FROM users");
+    await context.ToOk(users);
+});
 ```
 
 ## Contributing
