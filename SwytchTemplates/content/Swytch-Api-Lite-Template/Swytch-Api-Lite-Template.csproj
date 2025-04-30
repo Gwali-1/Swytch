@@ -19,7 +19,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Swytch" Version="1.0.0-beta4" />
+        <PackageReference Include="Swytch" Version="1.0.0" />
     </ItemGroup>
 
 </Project>
