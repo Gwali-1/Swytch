@@ -13,8 +13,6 @@ This release completes the core framework features and serves as a solid foundat
 
 I encourage you to give it a try and hope you will be kind enough to share any feedback you have. I would like to know how practical it is for users other than myself.
 
-Find a detailed guide on the [Swytch Documentation Site](https://gwali-1.github.io/Swytch/) to learn more about the framework and how to use it to its fullest.
-
 ---
 
 ### Core Features
