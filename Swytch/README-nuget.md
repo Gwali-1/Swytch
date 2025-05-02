@@ -32,7 +32,7 @@ Make the `swytch` and try it out!
 var app = new SwytchApp();
 
 //set up route 
-app.AddAction("GET", "/", async (context) => {
+app.AddAction(RequestMethod.GET, "/", async (context) => {
 
     context.ToOk("Welcome to Swytch!");
     

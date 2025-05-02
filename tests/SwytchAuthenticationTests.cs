@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Swytch.App;
 using Swytch.Extensions;
+using Swytch.Structures;
 using Swytch.utilities;
 using Xunit;
 
@@ -35,7 +36,7 @@ public class SwytchAuthenticationTests : IDisposable
         var responseCode = HttpStatusCode.OK;
 
 
-        _testServer.AddAction("GET", path,
+        _testServer.AddAction(new [] {RequestMethod.GET}, path,
             async c => { await c.WriteTextToStream(responseBody, responseCode); });
 
         //start the server on a different thread 
@@ -153,7 +154,7 @@ public class SwytchAuthenticationTests : IDisposable
             await Task.Delay(0);
             return AuthUtility.ValidateBasicAuthScheme(c, correctBasic);
         });
-        _testServer.AddAction("GET", path,
+        _testServer.AddAction(new [] {RequestMethod.GET}, path,
             async c => { await c.WriteTextToStream(responseBody, HttpStatusCode.OK); });
 
 
@@ -220,7 +221,7 @@ public class SwytchAuthenticationTests : IDisposable
         var tokenValidationParameters = TestHelpers.GeTokenValidationParameters();
 
 
-        _testServer.AddAction("GET", path,
+        _testServer.AddAction( new [] {RequestMethod.GET}, path,
             async c =>
             {
                 var claim = c.User.Claims.First(c => c.Type.Equals("customeClaim"));

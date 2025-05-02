@@ -17,14 +17,37 @@ public interface ISwytchApp
     /// <param name="middleware">The middleware method(any method that takes in RequestContext and returns a task)</param>
     void AddMiddleWare(Func<RequestContext, Task> middleware);
 
+
+
+    
     /// <summary>
     /// Registers http methods,url and the handler method 
     /// </summary>
     /// <param name="methods">The allowed http methods that the handler should be called for</param>
     /// <param name="path">the url path that the handler should be called for</param>
     /// <param name="requestHandler">The request handler</param>
+    [Obsolete($"We recommended to use {nameof(RequestMethod)} as methods parameter instead",false)]
     void AddAction(string methods, string path, Func<RequestContext, Task> requestHandler);
 
+    /// <summary>
+    /// Registers http methods,url and the handler method 
+    /// </summary>
+    /// <param name="methods">The allowed http methods that the handler should be called for</param>
+    /// <param name="path">the url path that the handler should be called for</param>
+    /// <param name="requestHandler">The request handler</param>
+    void AddAction(RequestMethod[] methods, string path, Func<RequestContext, Task> requestHandler);
+
+    
+    /// <summary>
+    /// Registers http methods,url and the handler method 
+    /// </summary>
+    /// <param name="method">The allowed http methods that the handler should be called for</param>
+    /// <param name="path">the url path that the handler should be called for</param>
+    /// <param name="requestHandler">The request handler</param>
+    void AddAction(RequestMethod method, string path, Func<RequestContext, Task> requestHandler);
+
+    
+    
     /// <summary>
     /// Registers a new database store to the collection
     /// </summary>
