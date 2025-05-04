@@ -134,6 +134,8 @@ public class SwytchRoutingTests : IDisposable
     [InlineData( "/Send/", "/Send/" , RequestMethod.POST, HttpStatusCode.OK)]
     [InlineData( "/Del/", "/Delete/" , RequestMethod.DEL, HttpStatusCode.NotFound)]
     [InlineData( "/edit/", "/edit/" , RequestMethod.PUT, HttpStatusCode.OK)]
+    [InlineData( "/update/", "/update/" , RequestMethod.PATCH, HttpStatusCode.OK)]
+    [InlineData( "/heads/", "/heads/" , RequestMethod.HEAD, HttpStatusCode.OK)]
 
     public async Task Test_Request_Should_Return_As_What_Set_using_Request_Method_Enum(
         string requestPath,
@@ -171,6 +173,8 @@ public class SwytchRoutingTests : IDisposable
             RequestMethod.POST => await _httpClient.PostAsync(requestUri, new StringContent("")),
             RequestMethod.DEL => await _httpClient.DeleteAsync(requestUri),
             RequestMethod.PUT => await _httpClient.PutAsync(requestUri, new StringContent("")),
+            RequestMethod.PATCH => await _httpClient.PatchAsync(requestUri,new StringContent("")),
+            RequestMethod.HEAD => await _httpClient.SendAsync(new HttpRequestMessage() { RequestUri= new Uri(requestUri) ,Method = HttpMethod.Head}),
             _ => throw new ArgumentOutOfRangeException(nameof(method), method, null)
         };
 

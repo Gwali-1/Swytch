@@ -446,18 +446,15 @@ public static class RequestContextExtensions
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static RequestMethod ToRequestMethod(this string requestMethod)
     {
-        switch (requestMethod)
+        return requestMethod switch
         {
-            case "GET":
-                return RequestMethod.GET;
-            case "POST":
-                return RequestMethod.POST;
-            case "PUT":
-                return RequestMethod.PUT;
-            case "DEL":
-                return RequestMethod.DEL;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(requestMethod), requestMethod, null);
-        }
+            "GET" => RequestMethod.GET,
+            "POST" => RequestMethod.POST,
+            "PUT" => RequestMethod.PUT,
+            "DEL" => RequestMethod.DEL,
+            "HEAD" => RequestMethod.HEAD,
+            "PATCH" => RequestMethod.PATCH,
+            _ => throw new ArgumentOutOfRangeException(nameof(requestMethod), requestMethod, null)
+        };
     }
 }

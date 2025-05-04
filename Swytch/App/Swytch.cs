@@ -97,7 +97,7 @@ public class SwytchApp : ISwytchApp
     /// <param name="methods">The allowed http methods that the handler should be called for</param>
     /// <param name="path">the url path that the handler should be called for</param>
     /// <param name="requestHandler">The request handler</param>
-    [Obsolete($"We recommended to use {nameof(RequestMethod)} as methods parameter instead",false)]
+    [Obsolete($"It is recommended to use the {nameof(RequestMethod)} enum type as the HTTP method(s) parameter instead of a string input.",false)]
     public void AddAction(string methods, string path, Func<RequestContext, Task> requestHandler)
     {
         string[] urlPath = path.Split("/");
@@ -109,7 +109,7 @@ public class SwytchApp : ISwytchApp
         {
             if (!Enum.IsDefined(typeof(RequestMethod), method))
             {
-                throw new Exception($"'{method}' is not correct request method");
+                throw new ArgumentException($"'{method}' is not correct request method");
             }
             newRoute.Methods.Add(method.ToRequestMethod());
         }

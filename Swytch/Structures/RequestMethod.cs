@@ -20,7 +20,15 @@ public enum RequestMethod
     /// <summary>
     /// 
     /// </summary>
-    PUT
+    PUT,
+    /// <summary>
+    /// 
+    /// </summary>
+    PATCH,
+    /// <summary>
+    /// 
+    /// </summary>
+    HEAD
     
 }
 
