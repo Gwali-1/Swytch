@@ -435,4 +435,26 @@ public static class RequestContextExtensions
         await using System.IO.Stream writer = context.Response.OutputStream;
         await writer.WriteAsync(responseBuffer);
     }
+    
+    
+
+    /// <summary>
+    /// Convert Method string to Request Method Enum
+    /// </summary>
+    /// <param name="requestMethod"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static RequestMethod ToRequestMethod(this string requestMethod)
+    {
+        return requestMethod switch
+        {
+            "GET" => RequestMethod.GET,
+            "POST" => RequestMethod.POST,
+            "PUT" => RequestMethod.PUT,
+            "DEL" => RequestMethod.DEL,
+            "HEAD" => RequestMethod.HEAD,
+            "PATCH" => RequestMethod.PATCH,
+            _ => throw new ArgumentOutOfRangeException(nameof(requestMethod), requestMethod, null)
+        };
+    }
 }

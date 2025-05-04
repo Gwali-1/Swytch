@@ -49,8 +49,8 @@ swytchApp.AddLogging();
 
 
 //Register actions
-swytchApp.AddAction("GET", "/", pageAction.HomePage);
-swytchApp.AddAction("GET", "/books", bookCollectionActions.ShowBookCollection);
-swytchApp.AddAction("GET,POST", "/addBook", bookCollectionActions.AddBook);
+swytchApp.AddAction(RequestMethod.GET, "/", pageAction.HomePage);
+swytchApp.AddAction(RequestMethod.GET, "/books", bookCollectionActions.ShowBookCollection);
+swytchApp.AddAction(new RequestMethod[] { RequestMethod.GET, RequestMethod.POST }, "/addBook", bookCollectionActions.AddBook);
 
 await swytchApp.Listen();

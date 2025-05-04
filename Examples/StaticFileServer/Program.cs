@@ -34,8 +34,8 @@ Func<RequestContext, Task> evening = async c =>
 
 // server.AddAction("GET", "/file/{name}", fserver);
 
-server.AddAction("GET", "/", evening);
-server.AddAction("GET", "/travelling",
+server.AddAction(RequestMethod.GET, "/", evening);
+server.AddAction(RequestMethod.GET, "/travelling",
     async c => { await ResponseUtility.ServeFile(c, "traveling.html", HttpStatusCode.OK); });
 
 

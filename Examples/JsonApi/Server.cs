@@ -1,5 +1,6 @@
 ﻿using JsonApi.Actions;
 using Swytch.App;
+using Swytch.Structures;
 
 
 SwytchApp server = new SwytchApp();
@@ -15,11 +16,11 @@ server.AddMiddleWare(async ctx =>
 Cars cars = new Cars();
 Fighters fighters = new Fighters();
 
-server.AddAction("GET","/cars/", cars.All);
-server.AddAction("GET","/car/{make}",cars.Get);
+server.AddAction(RequestMethod.GET,"/cars/", cars.All);
+server.AddAction(RequestMethod.GET,"/car/{make}",cars.Get);
 
-server.AddAction("GET","/fighters/", fighters.All);
-server.AddAction("GET","/fighter/{name}",fighters.Get);
+server.AddAction(RequestMethod.GET,"/fighters/", fighters.All);
+server.AddAction(RequestMethod.GET,"/fighter/{name}",fighters.Get);
 
 
 await server.Listen("http://127.0.0.1:8080/");

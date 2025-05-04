@@ -10,7 +10,7 @@ internal class Route
 {
     internal string[] UrlPath;
     internal Func<RequestContext, Task> RequestHandler;
-    internal List<string> Methods = new List<string>();
+    internal List<RequestMethod>  Methods = new List<RequestMethod>();
 
     internal Route(Func<RequestContext, Task> handler, string[] path)
     {
