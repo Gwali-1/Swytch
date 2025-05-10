@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 using Npgsql;
 using Oracle.ManagedDataAccess.Client;
 using RazorLight;
+using Swytch.Extensions;
 using Swytch.Structures;
 using Swytch.utilities;
 
@@ -90,6 +91,31 @@ public class SwytchApp : ISwytchApp
         _registeredMiddlewares.Enqueue(middleware);
     }
 
+    /// <summary>
+    /// Registers http methods,url and the handler method 
+    /// </summary>
+    /// <param name="methods">The allowed http methods that the handler should be called for</param>
+    /// <param name="path">the url path that the handler should be called for</param>
+    /// <param name="requestHandler">The request handler</param>
+    [Obsolete($"It is recommended to use the {nameof(RequestMethod)} enum type as the HTTP method(s) parameter instead of a string input.",false)]
+    public void AddAction(string methods, string path, Func<RequestContext, Task> requestHandler)
+    {
+        string[] urlPath = path.Split("/");
+        string[] meths = methods.ToUpper().Split(",");
+
+        Route newRoute = new Route(requestHandler, urlPath);
+
+        foreach (String method in meths)
+        {
+            if (!Enum.IsDefined(typeof(RequestMethod), method))
+            {
+                throw new ArgumentException($"'{method}' is not correct request method");
+            }
+            newRoute.Methods.Add(method.ToRequestMethod());
+        }
+
+        _registeredRoutes.Add(newRoute);
+    }
 
     /// <summary>
     /// Registers http methods,url and the handler method 
@@ -97,17 +123,32 @@ public class SwytchApp : ISwytchApp
     /// <param name="methods">The allowed http methods that the handler should be called for</param>
     /// <param name="path">the url path that the handler should be called for</param>
     /// <param name="requestHandler">The request handler</param>
-    public void AddAction(string methods, string path, Func<RequestContext, Task> requestHandler)
+    public void AddAction(RequestMethod[] methods, string path, Func<RequestContext, Task> requestHandler)
     {
         string[] urlPath = path.Split("/");
-        string[] meths = methods.Split(",");
+        
 
         Route newRoute = new Route(requestHandler, urlPath);
 
-        foreach (String method in meths)
-        {
-            newRoute.Methods.Add(method);
-        }
+        newRoute.Methods.AddRange(methods);
+
+        _registeredRoutes.Add(newRoute);
+    }
+
+    /// <summary>
+    /// Registers http methods,url and the handler method 
+    /// </summary>
+    /// <param name="method">The allowed http methods that the handler should be called for</param>
+    /// <param name="path">the url path that the handler should be called for</param>
+    /// <param name="requestHandler">The request handler</param>
+    public void AddAction(RequestMethod method, string path, Func<RequestContext, Task> requestHandler)
+    {
+        string[] urlPath = path.Split("/");
+        
+
+        Route newRoute = new Route(requestHandler, urlPath);
+
+        newRoute.Methods.Add(method);
 
         _registeredRoutes.Add(newRoute);
     }
@@ -207,7 +248,7 @@ public class SwytchApp : ISwytchApp
             c.Response.Headers.Set(HttpResponseHeader.CacheControl, $"max-age={_staticCacheMaxAge}");
             await ResponseUtility.ServeFile(c, filename ?? "NoFile", HttpStatusCode.OK);
         };
-        AddAction("GET", "/swytchserver/static/{filename}", fileServer);
+        AddAction(new []{ RequestMethod.GET }, "/swytchserver/static/{filename}", fileServer);
     }
 
 
@@ -425,7 +466,7 @@ public class SwytchApp : ISwytchApp
             var (matched, context) = MatchUrl(url ?? string.Empty, r, c);
             if (matched)
             {
-                if (r.Methods.Contains(c.Request.HttpMethod))
+                if (r.Methods.Contains(c.Request.HttpMethod.ToRequestMethod()))
                 {
                     try
                     {

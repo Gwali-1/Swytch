@@ -9,7 +9,7 @@
     </PropertyGroup>
     <PropertyGroup>
         <PackageId>Swytch</PackageId>
-        <Version>1.0.0-beta1</Version>
+        <Version>1.1.0-beta1</Version>
         <Authors>Gwalisam</Authors>
         <Company>Gwalisamz</Company>
         <Description>Lightweight, fast and alternative web framework for building high-performance, concurrent APIs and web applications easily</Description>

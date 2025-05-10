@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.Extensions.Logging;
 using Swytch.App;
+using Swytch.Structures;
 using Swytch.utilities;
 using Xunit;
 using Xunit.Abstractions;
@@ -47,7 +48,7 @@ public class SwytchRoutingTests : IDisposable
         string body)
     {
         //ARRANGE
-        _testServer.AddAction("GET", path,
+        _testServer.AddAction(new [] {RequestMethod.GET}, path,
             async c => { await ResponseUtility.WriteTextToStream(c, body, httpStatusCode); });
 
         //start the server instance on a different thread 
@@ -124,7 +125,64 @@ public class SwytchRoutingTests : IDisposable
         
         Assert.Equal(responseCode, response.StatusCode);
     }
-    
+
+
+
+    [Theory]
+    [InlineData( "/home/", "/home/" , RequestMethod.GET, HttpStatusCode.OK)]
+    [InlineData( "/homeIndex/", "/home/" , RequestMethod.GET, HttpStatusCode.NotFound)]
+    [InlineData( "/Send/", "/Send/" , RequestMethod.POST, HttpStatusCode.OK)]
+    [InlineData( "/Del/", "/Delete/" , RequestMethod.DEL, HttpStatusCode.NotFound)]
+    [InlineData( "/edit/", "/edit/" , RequestMethod.PUT, HttpStatusCode.OK)]
+    [InlineData( "/update/", "/update/" , RequestMethod.PATCH, HttpStatusCode.OK)]
+    [InlineData( "/heads/", "/heads/" , RequestMethod.HEAD, HttpStatusCode.OK)]
+
+    public async Task Test_Request_Should_Return_As_What_Set_using_Request_Method_Enum(
+        string requestPath,
+        string registeredPath,
+        RequestMethod method,
+        HttpStatusCode responseCode)
+    {
+        
+        _testServer.AddAction(method, registeredPath,
+            async c => { await ResponseUtility.WriteTextToStream(c, "Hello test", responseCode); });
+
+
+        //start the server on a different thread 
+        try
+        {
+            _testOutputHelper.WriteLine("starting server");
+            await TestHelpers.StartTestServer("http://localhost:6081/", _testServer);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Exception thrown when starting test server");
+        }
+
+
+        
+        
+        //ACT 
+        
+        await Task.Delay(10);
+        var requestUri = "http://localhost:6081" + requestPath;
+
+        HttpResponseMessage response = method switch
+        {
+            RequestMethod.GET => await _httpClient.GetAsync(requestUri),
+            RequestMethod.POST => await _httpClient.PostAsync(requestUri, new StringContent("")),
+            RequestMethod.DEL => await _httpClient.DeleteAsync(requestUri),
+            RequestMethod.PUT => await _httpClient.PutAsync(requestUri, new StringContent("")),
+            RequestMethod.PATCH => await _httpClient.PatchAsync(requestUri,new StringContent("")),
+            RequestMethod.HEAD => await _httpClient.SendAsync(new HttpRequestMessage() { RequestUri= new Uri(requestUri) ,Method = HttpMethod.Head}),
+            _ => throw new ArgumentOutOfRangeException(nameof(method), method, null)
+        };
+
+        //var response =  await _httpClient.GetAsync(requestUri);
+
+        
+        Assert.Equal(responseCode, response.StatusCode);
+    }
     public void Dispose()
     {
         _testServer.Stop();
