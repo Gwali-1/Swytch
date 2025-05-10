@@ -1,0 +1,1073 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://gwali-1.github.io/Swytch/ActorPool/">
+      
+      
+        <link rel="prev" href="../AuthUtility/">
+      
+      
+        <link rel="next" href="../ReleaseNotes/">
+      
+      
+      <link rel="icon" href="../Img/logo-5.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.13">
+    
+    
+      
+        <title>Swytch ActorPool - Swytch Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Open Sans";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#understanding-the-actor-model" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Swytch Docs" class="md-header__button md-logo" aria-label="Swytch Docs" data-md-component="logo">
+      
+  <img src="../Img/logo-5.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Swytch Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Swytch ActorPool
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="grey" data-md-color-accent="green"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Gwali-1/Swytch/blob/main/Notes/notes.md" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Swytch Docs" class="md-nav__button md-logo" aria-label="Swytch Docs" data-md-component="logo">
+      
+  <img src="../Img/logo-5.png" alt="logo">
+
+    </a>
+    Swytch Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Gwali-1/Swytch/blob/main/Notes/notes.md" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quickstart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guide
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    General
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SwytchTemplates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Swytch templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RequestContext/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RequestContext
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AuthUtility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Authentication Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Swytch ActorPool
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Swytch ActorPool
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-the-actor-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding the Actor Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#swytch-actor-pool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Swytch Actor Pool
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initializeactorpool" class="md-nav__link">
+    <span class="md-ellipsis">
+      InitializeActorPool
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="InitializeActorPool">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#register" class="md-nav__link">
+    <span class="md-ellipsis">
+      Register
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Register">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tell
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete Example
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ReleaseNotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Release Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Help/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Help
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-the-actor-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding the Actor Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#swytch-actor-pool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Swytch Actor Pool
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initializeactorpool" class="md-nav__link">
+    <span class="md-ellipsis">
+      InitializeActorPool
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="InitializeActorPool">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#register" class="md-nav__link">
+    <span class="md-ellipsis">
+      Register
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Register">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tell
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete Example
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Swytch ActorPool</h1>
+
+<p>Swytch provides built-in support for concurrent and background task execution using independent units of computations 
+known as <a href="https://getakka.net/articles/concepts/actors.html#:~:text=An%20actor%20is%20a%20container,encapsulated%20behind%20an%20Actor%20Reference.">Actors</a>.
+Swytch does this through a preconfigured <a href="https://getakka.net/articles/concepts/actor-systems.html">Actor system</a> built on top of the powerful <a href="https://getakka.net/articles/intro/what-is-akka.html">Akka.NET framework</a>
+and exposing simple, intuitive  APIs that allow you to  register actors and then send them tasks to be executed.</p>
+<hr />
+<h3 id="understanding-the-actor-model">Understanding the Actor Model</h3>
+<p>The <em>Actor Model</em> is a concurrency model that treats <em>actors</em> as the fundamental units of computation.
+Unlike traditional concurrency approaches in C# such as using <code>Threads</code>, <code>Tasks</code>, or the <code>ThreadPool</code> where memory is 
+shared and hence synchronization  techniques like <code>locks</code>, <code>semaphores</code> are common to avoid some of the challenges that concurrency
+presents, the actor model promotes a <strong>message-passing</strong> architecture which helps avoid these challenges by design.</p>
+<p>How is it different?</p>
+<p>In the Actor Model there is no shared state. Each actor encapsulates its own state. This removes the need for locks or mutexes to protect
+shared data.</p>
+<p>Also, Actors communicate exclusively through asynchronous messages. One actor sends a message to
+another, which is then processed in isolation.</p>
+<p>Now  Since actors don't share memory, failures in one actor do not affect others. They
+can also supervise and restart each other in case of failures making them resilient.</p>
+<p>Another important feature of this model is there is sequential execution of task per Actor. Actors communicate through messaging 
+and each upon receiving messages  processes one message at a time, avoiding race conditions by design.</p>
+<p>This model makes concurrent and parallel execution more robust, scalable, and easier to reason about especially in
+complex systems. Swytch provides a very lightweight and intuitive abstraction to work with the actor model and take 
+advantage of its qualities in your applications easily. It provides APIs that will allow you to perform actions like registering
+these actors and also sending them messages to trigger a task to be executed in the actor pool. We'll take 
+a look at how to use actors in swytch in more detail below</p>
+<hr />
+<blockquote>
+<p>This are some useful links to read more about the actor model</p>
+</blockquote>
+<ul>
+<li><a href="https://www.zartis.com/actor-model-system-with-akka-net/">Actor-Model System with Akka.NET</a></li>
+<li><strong>When and How to Use the Actor Model An Introduction to Akka NET Actors</strong></li>
+</ul>
+<iframe width="1083" height="609" src="https://www.youtube.com/embed/0KnIMDoJpZs" title="When and How to Use the Actor Model An Introduction to Akka NET Actors" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<hr />
+<h3 id="swytch-actor-pool">Swytch Actor Pool</h3>
+<p>Swytch makes it easy to use the <em>Actor Model</em> through a static utility class called <code>ActorPool</code>.
+This class provides methods for initializing the pool, registering your actor types, and sending messages to them.</p>
+<p>Swytch internally leverages Akka.NET to implement its actor pool(Actor System). It wraps around some of the Akka.NET complexity and
+exposes methods on a  utility class called <code>ActorPool</code> that allows you to initialize and interact with the actor
+infrastructure seamlessly.</p>
+<p><em>Let's explore how to use it...</em></p>
+<p>Before using the actor pool, you must initialize it with your application's <code>IServiceProvider</code>.</p>
+<h3 id="initializeactorpool">InitializeActorPool</h3>
+<p>The <code>InitializeActorPool</code> method is used to initialize the actor pool for your Swytch application.
+This method requires the <code>IServiceProvider</code> parameter to set up the actor pool in such a way that your actors can
+leverage dependency injection (DI).
+By passing the service provider to this method, you enable your actors to automatically resolve and use any services
+registered in the DI container. This simplifies the implementation of actors because you don't have to manually manage
+dependencies within them. Instead, you register all the services an actor might need in the service provider and pass
+that
+provider when initializing the actor pool. The pool ensures that each actor is properly constructed with its
+dependencies
+injected when executed.</p>
+<p>This method is essential and <strong>must</strong> be called first. If you attempt to use the actor pool or any related methods
+before
+calling this method, an <code>InvalidOperationException</code> will be thrown.</p>
+<h4 id="example">Example</h4>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="c1">// Create a service collection and register the services that you inject into your actor classes</span>
+<span class="w">   </span><span class="kt">var</span><span class="w"> </span><span class="n">serviceCollection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServiceCollection</span><span class="p">();</span>
+<span class="w">   </span><span class="n">serviceCollection</span><span class="p">.</span><span class="n">AddSingleton</span><span class="o">&lt;</span><span class="n">MyService</span><span class="o">&gt;</span><span class="p">();</span>
+
+<span class="w"> </span><span class="c1">// Build the service provider</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">serviceProvider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serviceCollection</span><span class="p">.</span><span class="n">BuildServiceProvider</span><span class="p">();</span>
+
+<span class="w"> </span><span class="c1">// Initialize the actor pool with the service provider</span>
+<span class="w"> </span><span class="n">ActorPool</span><span class="p">.</span><span class="n">InitializeActorPool</span><span class="p">(</span><span class="n">serviceProvider</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="register">Register</h3>
+<p>After initializing your actor pool using the <code>InitializeActorPool</code> method, you can register your custom actor implementations into the pool. The <code>Register&lt;T&gt;</code> method allows you to register an actor that will be used for future executions.</p>
+<p>This method takes a class of type <code>T</code> that must inherit from <code>ActorBase</code>, which marks it as a valid actor in Swytch. By doing this, Swytch adds your actor to its internal actor pool, where it is equipped with routers to manage and execute tasks concurrently.</p>
+<p>Swytch automatically adjusts the number of actor instances in the pool based on demand, with an upper limit of one million instances. This ensures that the system dynamically scales by creating more actor instances when necessary to improve throughput and execution speed, while also preventing resource wastage by maintaining a manageable number of instances when demand is low.</p>
+<p>You can pass an optional <code>instances</code> parameter to specify the minimum number of actor instances you want to be available in the pool at all times. This allows you to ensure that a certain number of actor instances are ready to handle tasks, even during low-demand periods.</p>
+<p><strong>Important</strong>: You cannot register the same actor type multiple times. If you attempt to do so, an <code>InvalidOperationException</code> will be thrown.</p>
+<p>Once an actor is registered, you can send messages to it using the <code>Tell</code> method to trigger actions in the actor.</p>
+<h4 id="example_1">Example</h4>
+<p>Let's look at a simple example of how you would write  an actor that receives a message and logs it:</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LoggingActor</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ReceiveActor</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="n">ILogger</span><span class="o">&lt;</span><span class="n">LoggingActor</span><span class="o">&gt;</span><span class="w"> </span><span class="n">_logger</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="nf">LoggingActor</span><span class="p">(</span><span class="n">ILogger</span><span class="o">&lt;</span><span class="n">LoggingActor</span><span class="o">&gt;</span><span class="w"> </span><span class="n">logger</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">_logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// Define how the actor will handle messages of type string</span>
+<span class="w">        </span><span class="n">Receive</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">_logger</span><span class="p">.</span><span class="n">LogInformation</span><span class="p">(</span><span class="s">$&quot;Logging Actor recieved message = {message}&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The <code>LoggingActor</code> class inherits from the <code>ReceiveActor</code> base class, which is a base class provided by Akka.NET to indicate that
+this is actor that is meant to receive messages  and react to them.</p>
+<p>It uses dependency injection to receive an ILogger<LoggingActor>, which allows it to log messages. In the actor's constructor,
+the logger is injected, and the actor is set up to handle messages of type string. </p>
+<p>When a message of this type is received,
+the actor logs the message using the injected logger. This shows how actors in Swytch can use dependency injection for
+external services and perform specific actions, such as logging, upon receiving messages.</p>
+<p><strong>Register the actor</strong></p>
+<p>You will register the above actor like this
+<div class="highlight"><pre><span></span><code><span class="n">ActorPool</span><span class="p">.</span><span class="n">Register</span><span class="o">&lt;</span><span class="n">LogActor</span><span class="o">&gt;</span><span class="p">(</span><span class="n">instances</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="c1">// Register LogActor with a minimum of 2 instances</span>
+</code></pre></div>
+This registeres and ensures that there will always be at least 2 instances of the LogActor available to process messages. 
+Swytch will handle scaling the number of actor instances based on the system's demand.</p>
+<h3 id="tell">Tell</h3>
+<p>Once registered, you can send a message to the actor using the <code>Tell</code> method.
+The <code>Tell</code> method is used to send a message to a registered actor in the actor pool. 
+This is a generic method takes two parameters.</p>
+<p><em>T</em> specifies the type of the actor that will receive the message.</p>
+<p><em>TM</em> is the type of the message being sent to the actor.</p>
+<p>When a message is sent using this method, Swytch identifies the actor in the pool by the actor type T, and it sends 
+the specified message of type TM to it. </p>
+<p>The actor must be set up to receive and  process messages of type TM. </p>
+<p>If an actor is not registered in the pool or if the actor does not have a handler for the provided message type,
+nothing happens(the message is dropped), and in the case of an unregistered actor, an <code>InvalidOperationException</code> will be thrown.</p>
+<p>This method allows for flexible message passing to actors, ensuring that the actor processes messages of
+the correct type, while also ensuring that only valid actors in the pool handle the incoming messages</p>
+<h4 id="example_2">Example</h4>
+<div class="highlight"><pre><span></span><code><span class="n">ActorPool</span><span class="p">.</span><span class="n">Tell</span><span class="o">&lt;</span><span class="n">LogActor</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Hello, Actor!&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>In this example, the Tell method sends the message "Hello, Actor!" to one of the available LogActor instances,
+which will then log the message to the console.</p>
+<p>By registering your actors and sending messages, you can easily build fast, concurrent, scalable applications using the actor model.</p>
+<h3 id="complete-example">Complete Example</h3>
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.Extensions.DependencyInjection</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Swytch.ActorSystem</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.Extensions.Logging</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">System.Threading.Tasks</span><span class="p">;</span>
+
+<span class="c1">// Define the actor class that inherits from ReceiveActor</span>
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LoggingActor</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ReceiveActor</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="n">ILogger</span><span class="o">&lt;</span><span class="n">LoggingActor</span><span class="o">&gt;</span><span class="w"> </span><span class="n">_logger</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Constructor that takes in the injected logger</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="nf">LoggingActor</span><span class="p">(</span><span class="n">ILogger</span><span class="o">&lt;</span><span class="n">LoggingActor</span><span class="o">&gt;</span><span class="w"> </span><span class="n">logger</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">_logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// Define how the actor should handle messages of type string</span>
+<span class="w">        </span><span class="n">Receive</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">_logger</span><span class="p">.</span><span class="n">LogInformation</span><span class="p">(</span><span class="s">$&quot;Logging Actor received message: {message}&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Program</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Step 1: Set up the service container and register necessary services</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">serviceProvider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServiceCollection</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="n">AddLogging</span><span class="p">(</span><span class="n">builder</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">AddConsole</span><span class="p">())</span><span class="w"> </span><span class="c1">// Register logging service</span>
+<span class="w">            </span><span class="p">.</span><span class="n">BuildServiceProvider</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Step 2: Initialize the actor pool using the service provider</span>
+<span class="w">        </span><span class="n">ActorPool</span><span class="p">.</span><span class="n">InitializeActorPool</span><span class="p">(</span><span class="n">serviceProvider</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Step 3: Register the LoggingActor with the actor pool</span>
+<span class="w">        </span><span class="n">ActorPool</span><span class="p">.</span><span class="n">Register</span><span class="o">&lt;</span><span class="n">LoggingActor</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="c1">// Registering 2 instances of LoggingActor</span>
+
+<span class="w">        </span><span class="c1">// Step 4: Send a message to the registered LoggingActor</span>
+<span class="w">        </span><span class="c1">// This will invoke the Receive method inside LoggingActor and log the message</span>
+<span class="w">        </span><span class="n">ActorPool</span><span class="p">.</span><span class="n">Tell</span><span class="o">&lt;</span><span class="n">LoggingActor</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Hello, Actor!&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// This sends the message to the LoggingActor</span>
+
+<span class="w">        </span><span class="c1">// Ensure that the actor pool is properly cleaned up if necessary (e.g., if using a real application setup)</span>
+<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">Delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span><span class="c1">// Wait for the log to be written before application exits</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

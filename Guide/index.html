@@ -1,0 +1,1710 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://gwali-1.github.io/Swytch/Guide/">
+      
+      
+        <link rel="prev" href="../Quickstart/">
+      
+      
+        <link rel="next" href="../SwytchTemplates/">
+      
+      
+      <link rel="icon" href="../Img/logo-5.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.13">
+    
+    
+      
+        <title>General - Swytch Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Open Sans";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Swytch Docs" class="md-header__button md-logo" aria-label="Swytch Docs" data-md-component="logo">
+      
+  <img src="../Img/logo-5.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Swytch Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              General
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="grey" data-md-color-accent="green"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Gwali-1/Swytch/blob/main/Notes/notes.md" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Swytch Docs" class="md-nav__button md-logo" aria-label="Swytch Docs" data-md-component="logo">
+      
+  <img src="../Img/logo-5.png" alt="logo">
+
+    </a>
+    Swytch Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Gwali-1/Swytch/blob/main/Notes/notes.md" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quickstart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guide
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    General
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    General
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Routing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Routing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      AddAction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-http-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple HTTP Methods
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route-matching-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Matching Order
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Middleware
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Middleware">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      AuthResponse
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-a-authhandler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add A AuthHandler
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accessing-claims-and-authentication-status-in-a-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accessing Claims and Authentication Status in a Handler
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serving-static-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serving Static Content
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Serving Static Content">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#swytch-static-file-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Swytch Static File Server
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Swytch Static File Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabling-the-static-file-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enabling the Static File Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-static-file-server-in-html" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Static File Server in HTML
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serving-dynamic-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serving Dynamic Templates
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Serving Dynamic Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template-precompilation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template Precompilation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods-for-rendering-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Methods for Rendering Templates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generatetemplatestring-key-t-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      GenerateTemplate(string key, T model)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-file-naming-and-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template File Naming and Directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-content-with-razor-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template Content with Razor Syntax
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rendertemplaterequestcontext-context-string-key-t-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      RenderTemplate(RequestContext context, string key, T? model)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#working-with-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Working with Databases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registering-a-database-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Registering a Database Source
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retrieving-a-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retrieving a Connection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SwytchTemplates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Swytch templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RequestContext/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RequestContext
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AuthUtility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Authentication Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ActorPool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Swytch ActorPool
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ReleaseNotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Release Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Help/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Help
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Routing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Routing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      AddAction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-http-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple HTTP Methods
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route-matching-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Matching Order
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Middleware
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Middleware">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      AuthResponse
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-a-authhandler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add A AuthHandler
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accessing-claims-and-authentication-status-in-a-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accessing Claims and Authentication Status in a Handler
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serving-static-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serving Static Content
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Serving Static Content">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#swytch-static-file-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Swytch Static File Server
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Swytch Static File Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabling-the-static-file-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enabling the Static File Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-static-file-server-in-html" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Static File Server in HTML
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serving-dynamic-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serving Dynamic Templates
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Serving Dynamic Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template-precompilation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template Precompilation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods-for-rendering-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Methods for Rendering Templates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generatetemplatestring-key-t-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      GenerateTemplate(string key, T model)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-file-naming-and-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template File Naming and Directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-content-with-razor-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template Content with Razor Syntax
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rendertemplaterequestcontext-context-string-key-t-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      RenderTemplate(RequestContext context, string key, T? model)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#working-with-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Working with Databases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registering-a-database-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Registering a Database Source
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retrieving-a-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retrieving a Connection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="guide">Guide</h1>
+<p>This section explores Swytch's core features and how to use them effectively. You'll learn how to define
+routes, write handler methods, use middleware, serve static files, configure your application etc. 
+Each topic is explained with examples to help you get started quickly.
+Whether you're building a simple API, a full web app or even a static site, this section will expose to you everything
+you need to know to make the most of Swytch.</p>
+<h2 id="routing">Routing</h2>
+<p>Swytch routes incoming requests by identifying its HTTP method and request path, and matching it against already registered routes.
+It considers both the HTTP request method and the exact path that came with the request. If no match is found, a <strong>405 Method Not Allowed</strong> 
+response is returned. Swytch also supports dynamic path parameters, which you can define using curly braces like this <code>{name}</code> in
+the route path when registering or adding an action to your application. These parameters capture values from the URL as strings, with no automatic type conversion. 
+For example, a route like <code>/users/{id}</code> will match requests paths such as <code>/users/42</code>, where <code>42</code> is parsed, retrieved and
+provided(as the value of <code>id</code>) to you as a string. These captured path values, along with all query parameters, are made available 
+in the <code>RequestContext</code> type in the  <code>PathParams</code> and <code>QueryParams</code> collection properties, allowing easy access.</p>
+<h4 id="addaction">AddAction</h4>
+<p>Routes in Swytch are registered using the <code>AddAction</code> method, which defines how requests should be handled.
+It takes three parameters:</p>
+<ol>
+<li><strong>HTTP Methods</strong> – A capitalized string representing one or more HTTP methods (e.g., <code>"GET"</code>, <code>"POST"</code>, or <code>"GET,POST"</code>).</li>
+<li><strong>Request Path</strong> – A path relative to the root (e.g., <code>"/users/{id}"</code>).</li>
+<li><strong>Action Method</strong> – A method that can processes an incoming request.</li>
+</ol>
+<blockquote>
+<p>Note that routes are matched <strong>exactly</strong>, meaning <code>"/about/"</code> is
+<strong>not the same</strong> as <code>"/about"</code>.</p>
+</blockquote>
+<p>An action method, also known as a handler, is a method that processes an incoming request. For a method to be valid and qualify to
+process an incoming request, it must match the <code>Action&lt;Task, RequestContext&gt;</code> delegate, meaning it accepts a <code>RequestContext</code>type parameter
+and returns a <code>Task</code>. Note that instead inline lambdas like we have been doing all this while, we can also structure the code 
+differently by defining handler methods in a class and passing them by reference because remember a valid action method just has to
+satisfy an <code>Action&lt;Task, RequestContext&gt;</code> delegate . For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">UserController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">GetUser</span><span class="p">(</span><span class="n">RequestContext</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Handle request</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">//usage </span>
+<span class="kt">var</span><span class="w">  </span><span class="n">userController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w">  </span><span class="n">UserController</span><span class="p">();</span>
+<span class="n">swytchApp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/users/{id}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">userController</span><span class="p">.</span><span class="n">GetUser</span><span class="p">);</span>
+</code></pre></div>
+<p>This approach offers an alternative code organization approach by keeping route definitions clean while keeping handlers
+separate.</p>
+<h4 id="multiple-http-methods">Multiple HTTP Methods</h4>
+<p><div class="highlight"><pre><span></span><code><span class="n">swytchApp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="s">&quot;GET,POST&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{...});</span>
+</code></pre></div>
+This ensures that both <code>GET</code> and <code>POST</code> requests to <code>"/"</code> are handled by the same action/handler method.</p>
+<h4 id="route-matching-order">Route Matching Order</h4>
+<p>Routes are <strong>matched in the order they are registered</strong>. If you register the same path separately for different HTTP methods,
+the first one will always take precedence.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">swytchApp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{...}));</span>
+<span class="n">swytchApp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="s">&quot;POST&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{...}));</span>
+</code></pre></div>
+<p>In this case, a <code>POST</code> request to <code>"/about"</code> will still match the first <code>GET</code> route,
+resulting in a <strong>405 Method Not Allowed</strong> response.</p>
+<p>To prevent this, define both methods in a single <code>AddAction</code> and make a decision how you handle
+a request based on what HTTP method it came with:</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">app</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="s">&quot;GET,POST&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/submit&quot;</span><span class="p">,</span><span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">HttpMethod</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;POST&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">   </span><span class="c1">//handle POST request</span>
+<span class="w">   </span><span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">//handle GET request</span>
+<span class="k">await</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="n">ServeFile</span><span class="p">(</span><span class="s">&quot;SubmitPage.html&quot;</span><span class="p">,</span><span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">OK</span><span class="p">);</span>
+
+<span class="p">});</span>
+</code></pre></div>
+By doing this, both <code>GET</code> and <code>POST</code> requests will correctly match the intended handler.</p>
+<h2 id="middleware">Middleware</h2>
+<p>Middleware concept in Swytch is simple and straightforward. Each middleware is queued for execution 
+before the request reaches the intended handler method. This allows you to do cool stuff like  modify the <code>RequestContext</code>,
+inspect, transform the request payload or enforce custom logic before the request is processed by the main handler.</p>
+<p>For example, Swytch's <a href="#authentication">AddAuthentication</a> method works by registering a middleware that will execute a user provided
+authentication method. This ensures that authentication checks are performed before the request reaches the actual 
+handler.</p>
+<p>To add custom middleware, you use the <code>AddMiddleware</code> method, which takes a single parameter, a method 
+matching the <code>Action&lt;RequestContext,Task&gt;</code> delegate. <strong>The order in which middlewares are registered 
+determines the order in which they execute.</strong></p>
+<h3 id="example">Example</h3>
+<div class="highlight"><pre><span></span><code><span class="n">swytchApp</span><span class="p">.</span><span class="n">AddMiddleware</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Headers</span><span class="p">[</span><span class="s">&quot;X-Custom-Header&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Middleware Added&quot;</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>In this example, the middleware adds a custom header to every response before the request reaches its
+handler. Since middlewares execute in the order they are registered, later middlewares or the final 
+handler can rely on modifications made by earlier ones.</p>
+<h2 id="authentication">Authentication</h2>
+<p>Swytch provides a mechanism to add authentication across your entire application or leave it completely
+open. Authentication is added using the <code>AddAuthentication</code> method on an instance of <code>SwytchApp</code>.</p>
+<p>By default, authentication is disabled. Calling <code>AddAuthentication</code> enables authentication, requiring 
+each request to pass an authentication check before reaching its intended handler.</p>
+<h3 id="how-it-works">How It Works?</h3>
+<p>The <code>AddAuthentication</code> method takes a delegate of type <code>Action&lt;RequestContext, Task&lt;AuthResponse&gt;&gt;</code>,
+referred to as the <em>AuthHandler</em>. This method can be simply described an asynchronous method
+receives the <code>RequestContext</code> and must return an
+<code>AuthResponse</code>, which determines whether the request is authenticated or not.</p>
+<h4 id="authresponse">AuthResponse</h4>
+<p>The AuthResponse struct represents the outcome of a request authentication in Swytch.Your 
+authentication logic should return an instance of AuthResponse, setting the <code>IsAuthenticated</code> property to true or false 
+based on whether the request is authenticated.</p>
+<p>Additionally, you can attach a ClaimsPrincipal to the AuthResponse instance using the <code>ClaimsPrincipal</code> property 
+which contains any claims related to 
+the authenticated user. These claims can be accessed downstream in your handler via <code>context.User</code>, 
+which is of type ClaimsPrincipal.</p>
+<p>When authentication is enabled, Swytch automatically queues the <em>AuthHandler</em> as middleware, meaning
+it executes on every incoming request. If authentication succeeds, the <code>IsAuthenticated</code> flag is set to
+<code>true</code>, allowing the request to proceed. If authentication fails, Swytch blocks the request before it 
+reaches any handler, ensuring unauthorized requests never reach protected resources.</p>
+<h3 id="example_1">Example</h3>
+<h4 id="add-a-authhandler">Add A AuthHandler</h4>
+<div class="highlight"><pre><span></span><code><span class="n">swytchApp</span><span class="p">.</span><span class="n">AddAuthentication</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">Headers</span><span class="p">[</span><span class="s">&quot;Authorization&quot;</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c1">// Simulate an async token validation</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">Delay</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w">  </span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">token</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;valid-token&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">claims</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Claim</span><span class="o">&gt;</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="nf">Claim</span><span class="p">(</span><span class="n">ClaimTypes</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;JohnDoe&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="nf">Claim</span><span class="p">(</span><span class="n">ClaimTypes</span><span class="p">.</span><span class="n">Role</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Admin&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">};</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">identity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ClaimsIdentity</span><span class="p">(</span><span class="n">claims</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bearer&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">principal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ClaimsPrincipal</span><span class="p">(</span><span class="n">identity</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AuthResponse</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">IsAuthenticated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">,</span>
+<span class="w">            </span><span class="n">ClaimsPrincipal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">principal</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AuthResponse</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">IsAuthenticated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="p">};</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>In this example, the authentication handler checks for an <code>Authorization</code> header and validates it against a known token.
+If the token is valid, the request is authenticated and can proceed, otherwise it is blocked.
+With authentication enabled, every request must pass this check before reaching a registered route handler.
+If authentication fails, the request will not be processed further.</p>
+<h4 id="accessing-claims-and-authentication-status-in-a-handler">Accessing Claims and Authentication Status in a Handler</h4>
+<p><div class="highlight"><pre><span></span><code><span class="n">swytchApp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/profile&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctx</span><span class="p">.</span><span class="n">User</span><span class="o">?.</span><span class="n">FindFirst</span><span class="p">(</span><span class="n">ClaimTypes</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="o">?.</span><span class="n">Value</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s">&quot;Unknown&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="n">ToOK</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$&quot;Welcome, {username}!&quot;</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+Note that there is no explicit authentication status check in the handler code. 
+This is because Swytch performs the authentication validation internally.If a request fails authentication,
+the handler method will not even be executed. This ensures that only authenticated requests reach your handler.
+Within your handler, you can directly access any claims set in the AuthResponse.</p>
+<h2 id="serving-static-content">Serving Static Content</h2>
+<p>Swytch provides an extension method on <code>RequestContext</code> to serve static files from the <code>Statics</code> directory.
+This directory must be located in the <strong>root of the application's execution path</strong>, meaning it should be
+placed in the same directory where your application is running.</p>
+<p>The method takes in two parameters:</p>
+<ol>
+<li><strong>File name</strong>  – The name of the file, including its extension.</li>
+<li><strong>HTTP status code</strong> – The response status code, using <code>System.Net.HttpStatusCode</code>.</li>
+</ol>
+<p>If the specified file is not found in the <code>Statics</code> directory, a <code>FileNotFoundException</code> is thrown, caught, and logged. 
+Swytch then responds with a <code>404 Not Found</code> status code and the message <code>"NOT FOUND (404)"</code>.</p>
+<h3 id="example_2">Example</h3>
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="n">ServeFile</span><span class="p">(</span><span class="s">&quot;logo.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">OK</span><span class="p">);</span>
+</code></pre></div>
+<h2 id="swytch-static-file-server">Swytch Static File Server</h2>
+<p>When enabled through the <code>SwytchConfig</code> type when creating an instance of <code>SwytchApp</code>, a built-in static 
+file handler is registered automatically for you. This handler intercepts and serves static files from
+the <code>Statics</code> directory without requiring you to write a custom handler that does this.</p>
+<h3 id="how-it-works_1">How It Works?</h3>
+<p>Once the static file server is enabled, any request to the path: <code>/swytchserver/static/{filename}</code></p>
+<p>will be intercepted, and the requested file will be retrieved from the <code>Statics</code> directory and served automatically.
+The response will include a <code>Cache-Control</code> header, with the cache duration set to either the default 
+value or the one specified in <code>SwytchConfig</code>.</p>
+<p>This is very useful because it makes it easy to serve static files such as images, stylesheets, and JavaScript files without
+manually handling the request.Let's look at an example.</p>
+<h3 id="example_3">Example</h3>
+<h4 id="enabling-the-static-file-server">Enabling the Static File Server</h4>
+<p>To enable the static file server, configure it when creating an instance of <code>SwytchApp</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">var</span><span class="w"> </span><span class="n">swytchApp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SwytchApp</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SwytchConfig</span><span class="w"> </span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">EnableStaticFileServer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">,</span>
+<span class="w">    </span><span class="n">StaticFileCacheMaxAge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7200</span><span class="w"> </span><span class="c1">// Cache files for 2 hours</span>
+<span class="p">});</span>
+</code></pre></div>
+<h4 id="using-static-file-server-in-html">Using Static File Server in HTML</h4>
+<p><div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;/swytchserver/static/logo.png&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;Logo&quot;</span><span class="p">&gt;</span>
+</code></pre></div>
+This allows your Swytch application to serve static files seamlessly, making it practical for
+hosting images, scripts, and stylesheets without additional configuration.</p>
+<h2 id="serving-dynamic-templates">Serving Dynamic  Templates</h2>
+<p>Swytch provides built-in support for dynamic content rendering using <a href="https://github.com/toddams/RazorLight">RazorLight</a>.
+Templates are stored in the <code>Templates</code> directory, where Swytch automatically locates and renders them.</p>
+<h3 id="template-precompilation">Template Precompilation</h3>
+<p>Template precompilation can be configured using the <code>SwytchConfig</code> class.When </p>
+<ul>
+<li><strong>Enabled:</strong> Increases startup time relatively but ensures that all template page loads are instantaneous.</li>
+<li><strong>Disabled (Default):</strong> Results in a relatively faster startup time, but the first request that renders a template page is 
+ slower. However, all other subsequent loads will be  instantaneous.</li>
+</ul>
+<h3 id="methods-for-rendering-templates">Methods for Rendering Templates</h3>
+<p>Swytch offers two methods for working with templates on the <code>SwytchApp</code> class:</p>
+<h3 id="generatetemplatestring-key-t-model">GenerateTemplate<T>(string key, T model)</h3>
+<p>This method generates a template and returns the result as a string.</p>
+<ul>
+<li><strong>Parameters:</strong><ul>
+<li><code>key</code> <em>(string)</em> – The filename of the template (without extension) located in the <code>Templates</code> directory.</li>
+<li><code>model</code> <em>(T)</em> – A model to be passed into the template for dynamic content rendering.Pass null if no dynamic data 
+  need to be inserted.</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<h3 id="template-file-naming-and-directory">Template File Naming and Directory</h3>
+<p>All template files must be placed inside a directory named <code>Templates</code> located in the root of your application.<br />
+Each template should have the <code>.cshtml</code> extension.</p>
+<p>For example, a template named <code>welcome</code> must be saved as <code>/Templates/welcome.cshtml</code></p>
+<h3 id="template-content-with-razor-syntax">Template Content with Razor Syntax</h3>
+<p>Inside the <code>welcome.cshtml</code> file, you can write standard Razor syntax to bind and display data passed to it.</p>
+<div class="highlight"><pre><span></span><code>&lt;h1&gt;Welcome, @Model.Name!&lt;/h1&gt;
+&lt;p&gt;We’re glad to have you here.&lt;/p&gt;
+</code></pre></div>
+<blockquote>
+<p>You can check out the official Razor syntax documentation to learn how to write and structure your template files using <a href="https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-9.0">Razor</a></p>
+</blockquote>
+<p>You can render the above template from a route handler like indicated in the examples:</p>
+<ul>
+<li><strong>Example Usage:</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kt">var</span><span class="w"> </span><span class="n">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">swytchApp</span><span class="p">.</span><span class="n">GenerateTemplate</span><span class="p">(</span><span class="s">&quot;welcome&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;John Doe&quot;</span><span class="w"> </span><span class="p">});</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">content</span><span class="p">);</span><span class="w"> </span>
+</code></pre></div>
+<p>This will generate a string content with the welcome.cshtml template with the Name property
+dynamically inserted.</p>
+<h3 id="rendertemplaterequestcontext-context-string-key-t-model">RenderTemplate<T>(RequestContext context, string key, T? model)</h3>
+<p>This method works like the <code>GenerateTemplate</code> method but instead of returning the generated contect , it 
+directly sends it as an HTTP response to the client.</p>
+<ul>
+<li><strong>Parameters:</strong><ul>
+<li><code>context</code> <em>(RequestContext)</em> – The current request context.</li>
+<li><code>key</code> <em>(string)</em> – The filename of the template (without extension) located in the <code>Templates</code> directory.</li>
+<li><code>model</code> <em>(T)</em> – A model to be passed into the template for rendering.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Example Usage:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">swytchApp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/welcome&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">ctx</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="n">swytchApp</span><span class="p">.</span><span class="n">RenderTemplate</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;welcome&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;John Doe&quot;</span><span class="w"> </span><span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>When a client requests <code>/welcome</code>, Swytch will fetch the contexts of <code>welcome.cshml</code>, bind it with the provided model and return 
+the generated content as an HTTP response.</p>
+<h2 id="database">Database</h2>
+<h3 id="working-with-databases">Working with Databases</h3>
+<p>Swytch includes built-in support for relational databases through the powerful and lightweight
+<a href="https://github.com/DapperLib/Dapper">Dapper</a> micro-ORM. Dapper was chosen for its simplicity, lightweight footprint, 
+and easy-to-use APIs, making it a great fit for Swytch’s minimalistic approach.
+Dapper allows you to execute SQL queries directly while taking care of parameter
+mapping, making it ideal for building data-driven applications without the overhead of a full ORM.</p>
+<h3 id="registering-a-database-source">Registering a Database Source</h3>
+<p>To begin working with a database in Swytch, you must first register it using the <code>AddDatastore</code> method available on your
+<code>ISwytchApp</code>(SwychApp) instance. This method stores the connection string along with the type of database provider, so Swytch can 
+later retrieve and create a proper connection when needed.</p>
+<p>The <code>AddDatastore</code> method accepts two parameters:</p>
+<ul>
+<li><code>connectionString</code> (string): The connection string used to connect to the database.</li>
+<li><code>provider</code> (<code>DatabaseProviders</code> enum): The type of database provider being registered.</li>
+</ul>
+<p>Swytch currently supports the following database providers through the <code>Swytch.Structures.DatabaseProviders</code> enum:</p>
+<ul>
+<li><code>DatabaseProviders.SqlServer</code> – <em>Microsoft SQL Server</em></li>
+<li><code>DatabaseProviders.MySql</code> – <em>MySQL</em></li>
+<li><code>DatabaseProviders.PostgreSql</code> – <em>PostgreSQL</em></li>
+<li><code>DatabaseProviders.SQLite</code> – <em>SQLite</em></li>
+<li><code>DatabaseProviders.Oracle</code> – <em>Oracle</em></li>
+</ul>
+<p>When you call <code>AddDatastore</code>, Swytch will associate the provided connection string with the selected database provider
+internally. This registration must occur before attempting to use that provider or perform any database operations 
+in your app logic.</p>
+<h3 id="retrieving-a-connection">Retrieving a Connection</h3>
+<p>Once a datastore has been registered, you can obtain a connection to it using the <code>GetConnection</code> method. This method is also 
+defined on the <code>ISwytchApp</code> interface and is your main entry point for executing SQL commands via Dapper.</p>
+<p>The <code>GetConnection</code> method takes one parameter:</p>
+<ul>
+<li><code>provider</code> (<code>DatabaseProviders</code>): The type of database you want to connect to.</li>
+</ul>
+<p>It returns a raw connection object (e.g., <code>SqlConnection</code>, <code>NpgsqlConnection</code>, etc.) depending on the database provider you
+registered earlier.</p>
+<p>Some important notes:</p>
+<ul>
+<li>
+<p>If you call <code>GetConnection</code> with a provider that has <strong>not</strong> been registered using <code>AddDatastore</code>, a <code>KeyNotFoundException</code> 
+will be thrown.</p>
+</li>
+<li>
+<p>The returned connection <strong>implements <code>IDisposable</code></strong>, meaning you should <strong>always dispose of it</strong> after use to avoid connection 
+leaks.</p>
+</li>
+</ul>
+<p>You can dispose of the connection using:</p>
+<ul>
+<li>A <code>using</code> block (<code>using var conn = ...</code>)</li>
+<li>Or calling <code>conn.Dispose()</code> manually</li>
+</ul>
+<h3 id="example_4">Example</h3>
+<p>Here's an example showing how to register a PostgreSQL database and use it to retrieve a list of users.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Register the PostgreSQL database</span>
+<span class="n">swytchApp</span><span class="p">.</span><span class="n">AddDatastore</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;Host=localhost;Port=5432;Database=mydb;Username=myuser;Password=mypassword;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">DatabaseProviders</span><span class="p">.</span><span class="n">PostgreSql</span>
+<span class="p">);</span>
+
+<span class="c1">// Define a route that retrieves data from the database</span>
+<span class="n">swytchApp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/users&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">swytchApp</span><span class="p">.</span><span class="n">GetConnection</span><span class="p">(</span><span class="n">DatabaseProviders</span><span class="p">.</span><span class="n">PostgreSql</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="n">QueryAsync</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;SELECT * FROM users&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="n">ToOk</span><span class="p">(</span><span class="n">users</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

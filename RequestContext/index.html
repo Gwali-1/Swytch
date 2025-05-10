@@ -1,0 +1,1445 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://gwali-1.github.io/Swytch/RequestContext/">
+      
+      
+        <link rel="prev" href="../SwytchTemplates/">
+      
+      
+        <link rel="next" href="../AuthUtility/">
+      
+      
+      <link rel="icon" href="../Img/logo-5.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.13">
+    
+    
+      
+        <title>RequestContext - Swytch Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Open Sans";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#properties" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Swytch Docs" class="md-header__button md-logo" aria-label="Swytch Docs" data-md-component="logo">
+      
+  <img src="../Img/logo-5.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Swytch Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RequestContext
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="grey" data-md-color-accent="green"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Gwali-1/Swytch/blob/main/Notes/notes.md" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Swytch Docs" class="md-nav__button md-logo" aria-label="Swytch Docs" data-md-component="logo">
+      
+  <img src="../Img/logo-5.png" alt="logo">
+
+    </a>
+    Swytch Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Gwali-1/Swytch/blob/main/Notes/notes.md" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quickstart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guide
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    General
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SwytchTemplates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Swytch templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    RequestContext
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    RequestContext
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      Properties
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httplistenerrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      HttpListenerRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httplistenerresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      HttpListenerResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user" class="md-nav__link">
+    <span class="md-ellipsis">
+      User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pathparams" class="md-nav__link">
+    <span class="md-ellipsis">
+      PathParams
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#queryparams" class="md-nav__link">
+    <span class="md-ellipsis">
+      QueryParams
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isauthenticated" class="md-nav__link">
+    <span class="md-ellipsis">
+      IsAuthenticated
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contextbag" class="md-nav__link">
+    <span class="md-ellipsis">
+      ContextBag
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-is-requestcontext-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why is RequestContext Important?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instance-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instance Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Instance Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#readjsonbody" class="md-nav__link">
+    <span class="md-ellipsis">
+      ReadJsonBody
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readjsonbodyt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ReadJsonBody&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readrawbody" class="md-nav__link">
+    <span class="md-ellipsis">
+      ReadRawBody
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readformbody" class="md-nav__link">
+    <span class="md-ellipsis">
+      ReadFormBody
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extension-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extension Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extension Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#writetexttostream" class="md-nav__link">
+    <span class="md-ellipsis">
+      WriteTextToStream
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writehtmltostream" class="md-nav__link">
+    <span class="md-ellipsis">
+      WriteHtmlToStream
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writejsontostreamt" class="md-nav__link">
+    <span class="md-ellipsis">
+      WriteJsonToStream&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      ServeFile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tookt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToOk&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tocreatedt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToCreated&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toacceptedt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToAccepted&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toredirect" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToRedirect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topermanentredirect" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToPermanentRedirect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobadrequestt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToBadRequest&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tounauthorizedt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToUnauthorized&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toforbiddent" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToForbidden&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tonotfoundt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToNotFound&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tointernalerror" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToInternalError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tonotimplemented" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToNotImplemented
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toresponset" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToResponse&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AuthUtility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Authentication Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ActorPool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Swytch ActorPool
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ReleaseNotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Release Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Help/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Help
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      Properties
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httplistenerrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      HttpListenerRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httplistenerresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      HttpListenerResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user" class="md-nav__link">
+    <span class="md-ellipsis">
+      User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pathparams" class="md-nav__link">
+    <span class="md-ellipsis">
+      PathParams
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#queryparams" class="md-nav__link">
+    <span class="md-ellipsis">
+      QueryParams
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isauthenticated" class="md-nav__link">
+    <span class="md-ellipsis">
+      IsAuthenticated
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contextbag" class="md-nav__link">
+    <span class="md-ellipsis">
+      ContextBag
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-is-requestcontext-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why is RequestContext Important?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instance-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instance Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Instance Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#readjsonbody" class="md-nav__link">
+    <span class="md-ellipsis">
+      ReadJsonBody
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readjsonbodyt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ReadJsonBody&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readrawbody" class="md-nav__link">
+    <span class="md-ellipsis">
+      ReadRawBody
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readformbody" class="md-nav__link">
+    <span class="md-ellipsis">
+      ReadFormBody
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extension-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extension Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extension Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#writetexttostream" class="md-nav__link">
+    <span class="md-ellipsis">
+      WriteTextToStream
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writehtmltostream" class="md-nav__link">
+    <span class="md-ellipsis">
+      WriteHtmlToStream
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writejsontostreamt" class="md-nav__link">
+    <span class="md-ellipsis">
+      WriteJsonToStream&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      ServeFile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tookt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToOk&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tocreatedt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToCreated&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toacceptedt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToAccepted&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toredirect" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToRedirect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topermanentredirect" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToPermanentRedirect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobadrequestt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToBadRequest&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tounauthorizedt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToUnauthorized&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toforbiddent" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToForbidden&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tonotfoundt" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToNotFound&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tointernalerror" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToInternalError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tonotimplemented" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToNotImplemented
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toresponset" class="md-nav__link">
+    <span class="md-ellipsis">
+      ToResponse&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>RequestContext</h1>
+
+<p>The <code>RequestContext</code> class in Swytch is designed to encapsulate all relevant information about an HTTP request being
+handled,
+providing convenient access to details of the request and the response. Here you will find an overview of the key
+properties, methods, extensions and their roles.</p>
+<blockquote>
+<p>RequestContext class is a custom type that essentially wraps desired members of the HttpListenerContext class
+which in this case is the HttpListenerRequest, HttpListenerResponse, the ClaimsPrincipal object which represents the
+current
+client whose request is being handled. Some additional members include the query and path parameters properties which
+will
+hold all query and path parameters supplied
+in a request</p>
+</blockquote>
+<h3 id="properties">Properties</h3>
+<h4 id="httplistenerrequest"><code>HttpListenerRequest</code></h4>
+<p>This property holds the incoming HTTP request. It contains essential information about the request made by the client,
+including the HTTP method (such as GET, POST, etc.), headers, and the body content. You can use this property to access
+raw
+data about the client's request and handle it appropriately.</p>
+<h4 id="httplistenerresponse"><code>HttpListenerResponse</code></h4>
+<p>The <code>Response</code> property represents the HTTP response that will be sent back to the client. With this, you can modify
+the response by setting the status code, adding headers, and writing the response body. This is essential for shaping
+what
+the client will receive after the request is processed.</p>
+<h4 id="user"><code>User</code></h4>
+<p>The <code>User</code> property represents the client who made the request. It is an instance of <code>ClaimsPrincipal</code> and contains
+information about the user's identity, including any claims they may have (such as roles, permissions, or other
+authentication data).
+If authentication has failed, this property can be <code>null</code>, indicating there is no authenticated user. This is
+particularly useful for handling authentication and authorization in your application.</p>
+<h4 id="pathparams"><code>PathParams</code></h4>
+<p>The <code>PathParams</code> property holds a collection of path parameters extracted from the URL. For instance, if the route is
+<code>/user/{id}</code>,
+and the incoming request is <code>/user/123</code>, this dictionary will contain the pair <code>{"id": "123"}</code>.
+These parameters are crucial for handling dynamic parts of a route, allowing your application to adapt to different
+requests based on the URL structure.</p>
+<h4 id="queryparams"><code>QueryParams</code></h4>
+<p>This property stores the query parameters from the URL's query string. For example, a request to
+<code>/search?query=test&amp;page=2</code>
+will populate the <code>QueryParams</code> dictionary with the values <code>{"query": "test", "page": "2"}</code>. This makes it easy to
+work with
+parameters passed in the query string, which are often used to filter or paginate results in web applications.</p>
+<h4 id="isauthenticated"><code>IsAuthenticated</code></h4>
+<p>The <code>IsAuthenticated</code> property is a boolean flag indicating whether the request has passed the authentication logic.
+If this value is <code>true</code>, it means the request has been authenticated successfully. If it is <code>false</code>, the request has
+not been
+authenticated. This property is useful when you need to ensure that a request is valid and from an authenticated user
+before
+processing it further.</p>
+<h4 id="contextbag"><code>ContextBag</code></h4>
+<p>This dictionary allows middleware and handlers to attach or retrieve contextual information during request processing.
+It acts as a shared space for passing data between components without requiring tight coupling.</p>
+<h3 id="why-is-requestcontext-important">Why is <code>RequestContext</code> Important?</h3>
+<p>The <code>RequestContext</code> is crucial because it bundles all the essential information about the HTTP request and the
+response. T
+his makes it easy for your application to interact with both the request and the response without needing to repeatedly
+access lower-level data
+structures. Since most response extension methods are provided through <code>RequestContext</code>, it serves as the central point
+for working with HTTP
+requests and responses.
+By passing the <code>RequestContext</code> to your handler methods, you ensure that each method can access the relevant details
+specific to the
+current request, such as parameters, headers, and authentication status. This not only simplifies request handling but
+also makes
+your code more maintainable and modular.</p>
+<h3 id="instance-methods">Instance Methods</h3>
+<p>The <code>RequestContext</code> class provides several important instance methods that allow you to easily process incoming request
+data,
+making it simpler for your application to handle various types of HTTP requests. These methods help you interact with
+the request
+body and extract data in formats such as JSON, raw text, or form-encoded data. Below are the key methods provided by the
+<code>RequestContext</code> instance.</p>
+<h4 id="readjsonbody"><code>ReadJsonBody</code></h4>
+<p>This method reads the JSON-formatted body of the HTTP request and returns it as a string. It expects the
+<code>Content-Type</code> header to be set to <code>application/json</code>. If the content type does not match, an <code>InvalidDataException</code>
+is thrown. This method is useful when the request body is expected to be in JSON format and you need to process it as
+a raw string.</p>
+<h4 id="readjsonbodyt"><code>ReadJsonBody&lt;T&gt;</code></h4>
+<p>Similar to the <code>ReadJsonBody()</code> method, this one reads the JSON-formatted body of the HTTP request but deserializes it
+directly into the specified type <code>T</code>. The <code>Content-Type</code> header must be set to <code>application/json</code>. This method is
+convenient when you want to work with strongly-typed objects and parse the request body into a specific class or data
+structure.</p>
+<h4 id="readrawbody"><code>ReadRawBody</code></h4>
+<p>This method reads the raw content of the request body as a string, without any parsing or transformation. It is ideal
+when you want to handle arbitrary data formats or need to process the body without any assumptions about its
+structure. This method provides a flexible way to retrieve the entire content as-is.</p>
+<h4 id="readformbody"><code>ReadFormBody</code></h4>
+<p>This method reads the request body when the <code>Content-Type</code> header is set to <code>application/x-www-form-urlencoded</code>. It
+returns the body content as a <code>NameValueCollection</code>, which contains the form fields and their associated values. This
+is particularly useful for handling traditional form submissions, where data is encoded as key-value pairs.</p>
+<hr />
+<h3 id="extension-methods">Extension Methods</h3>
+<p>The <code>IRequestContext</code> interface provides several  extension methods that allow you to easily send HTTP responses
+back to the client. These methods are useful because they provide an easy interface to write to the response stream, set
+appropriate status codes, and format the response content as needed. The methods are designed to work seamlessly with
+the <code>RequestContext</code> since it already holds all the necessary information about the current request.</p>
+<h4 id="writetexttostream"><code>WriteTextToStream</code></h4>
+<p>This method writes a plain text response with the specified payload and status code. You can use it to return
+  string-based content, such as error messages or success messages, to the client.</p>
+<h4 id="writehtmltostream"><code>WriteHtmlToStream</code></h4>
+<p>Similar to the text response, this method writes an HTML response to the client. You can pass HTML content as a
+  string,
+  and it will be returned with the appropriate status code. This is useful for returning web pages or HTML-based
+  content.
+  Be sure to excape html content if they are from users to avoid injection as the method does no escaping and
+  sends the html content as-is.</p>
+<h4 id="writejsontostreamt"><code>WriteJsonToStream&lt;T&gt;</code></h4>
+<p>This method serializes an object of type <code>T</code> into a JSON format and writes it to the response body. It also sets the
+  status code for the response. This is typically used for API responses where JSON is the expected format.</p>
+<h4 id="servefile"><code>ServeFile</code></h4>
+<p>This method serves static files from the server. It reads a file from the <code>/statics</code> directory (inside the
+  application's base directory) and streams it to the client. This is useful for serving assets like images, CSS files,
+  JavaScript files, etc.</p>
+<h4 id="tookt"><code>ToOk&lt;T&gt;</code></h4>
+<p>This method returns an HTTP response with a status code of <code>200 OK</code> and the provided payload. It's often used for
+  successful responses where you return data in the body of the response.</p>
+<h4 id="tocreatedt"><code>ToCreated&lt;T&gt;</code></h4>
+<p>This method responds with a <code>201 Created</code> status code and the provided payload. </p>
+<h4 id="toacceptedt"><code>ToAccepted&lt;T&gt;</code></h4>
+<p>This method returns a <code>202 Accepted</code> status code, indicating that the request has been accepted for processing, but
+  the actual processing may not be completed yet. It includes a payload, which may contain additional information or the
+  state of the request.</p>
+<h4 id="toredirect"><code>ToRedirect</code></h4>
+<p>This method issues a <code>302 Found</code> redirect response, redirecting the client to the specified path. Optionally, query
+  parameters can be included in the redirect URL.</p>
+<h4 id="topermanentredirect"><code>ToPermanentRedirect</code></h4>
+<p>Similar to <code>ToRedirect</code>, but this method issues a <code>301 Moved Permanently</code> response, indicating that the resource has
+  permanently moved to the new location specified in the <code>path</code>.</p>
+<h4 id="tobadrequestt"><code>ToBadRequest&lt;T&gt;</code></h4>
+<p>This method returns a <code>400 Bad Request</code> status code, typically used when the client sends invalid data. The <code>payload</code>
+  provides more context about the error.</p>
+<h4 id="tounauthorizedt"><code>ToUnauthorized&lt;T&gt;</code></h4>
+<p>This method sends a <code>401 Unauthorized</code> status code, used when authentication is required but not provided or invalid.
+  The <code>payload</code> contains information about the authentication failure.</p>
+<h4 id="toforbiddent"><code>ToForbidden&lt;T&gt;</code></h4>
+<p>This method sends a <code>403 Forbidden</code> status code, indicating that the client is authenticated but does not have
+  permission to access the requested resource.</p>
+<h4 id="tonotfoundt"><code>ToNotFound&lt;T&gt;</code></h4>
+<p>This method sends a <code>404 Not Found</code> status code when the requested resource cannot be found. The <code>payload</code> can contain
+  details or a message explaining the error.</p>
+<h4 id="tointernalerror"><code>ToInternalError</code></h4>
+<p>This method sends a <code>500 Internal Server Error</code> status code along with a meaningful message. It's typically used when
+  there is an error on the server-side that prevents the request from being fulfilled.</p>
+<h4 id="tonotimplemented"><code>ToNotImplemented</code></h4>
+<p>This method returns a <code>501 Not Implemented</code> status code, indicating that the requested functionality is not supported
+  by the server.</p>
+<h4 id="toresponset"><code>ToResponse&lt;T&gt;</code></h4>
+<p>This method allows you to manually specify the HTTP status code and response data (<code>payload</code>). It's a flexible method
+  for sending any type of response, with the status code and content of your choice.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
